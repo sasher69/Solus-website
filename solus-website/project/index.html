@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solus Sport — Endurance Carbohydrate Mix</title>
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=neue-montreal@300,400,500,600,700&display=swap" rel="stylesheet" />
+
+  <script>
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "teal": "#17807E",
+      "navy": "#002060",
+      "amber": "#CC6600"
+    }/*EDITMODE-END*/;
+  </script>
+
+  <style>
+    :root {
+      --ink:   #040d1f;
+      --navy:  #002060;
+      --chalk: #F5F5F0;
+      --teal:  #17807E;
+      --amber: #CC6600;
+      --dim:   rgba(245,245,240,0.45);
+      --rule:  rgba(245,245,240,0.07);
+      --font:  'Neue Montreal', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font);
+      background: var(--ink);
+      color: var(--chalk);
+      overflow-x: hidden;
+    }
+
+    /* ══════════ NAV ══════════ */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 60px; height: 72px;
+      transition: background 0.5s ease, border-bottom 0.5s ease;
+    }
+    #nav.scrolled {
+      background: rgba(4,13,31,0.94);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-logo {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.36em; text-transform: uppercase;
+      color: var(--chalk); text-decoration: none;
+    }
+    .nav-logo em { color: var(--teal); font-style: normal; }
+    .nav-r { display: flex; align-items: center; gap: 40px; }
+    .nav-link {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--chalk); }
+    .nav-shop {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--chalk);
+      background: transparent;
+      border: 1px solid rgba(245,245,240,0.22);
+      padding: 10px 24px; cursor: pointer; text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-shop:hover { background: rgba(245,245,240,0.07); border-color: rgba(245,245,240,0.45); }
+
+    /* ══════════ HERO ══════════ */
+    #hero {
+      height: 100vh; min-height: 720px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: var(--ink);
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 70% at 50% 40%, rgba(0,32,96,0.55) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(0,0,0,0.4) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* Subtle grid */
+    #hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--rule) 1px, transparent 1px),
+        linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+      background-size: 96px 96px;
+      pointer-events: none;
+    }
+
+    /* TUB */
+    .hero-tub { position: relative; z-index: 2; will-change: transform; }
+    .tub { position: relative; }
+    .tub-lid {
+      width: 320px; height: 34px; margin: 0 auto;
+      background: linear-gradient(180deg, #0d3494 0%, #002575 60%, #001e5c 100%);
+      border-radius: 10px 10px 0 0;
+      border: 1px solid rgba(255,255,255,0.08); border-bottom: none;
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+    }
+    .tub-lid::before {
+      content: '';
+      display: block; margin: 0 auto;
+      width: 60px; height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 0 0 4px 4px;
+    }
+    .tub-body {
+      width: 298px; height: 400px;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.045) 0%, transparent 22%),
+        linear-gradient(240deg, rgba(255,255,255,0.02) 0%, transparent 22%),
+        linear-gradient(180deg, #003090 0%, #002060 30%, #001640 65%, #000c28 100%);
+      border-radius: 0 0 20px 20px;
+      border: 1px solid rgba(255,255,255,0.07); border-top: none;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      box-shadow:
+        0 80px 180px rgba(0,0,0,0.75),
+        0 32px 64px rgba(0,0,0,0.5),
+        inset 5px 0 16px rgba(255,255,255,0.02),
+        inset -5px 0 16px rgba(0,0,0,0.35);
+    }
+    /* Matte lines */
+    .tub-body::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 4px,
+        rgba(255,255,255,0.004) 4px, rgba(255,255,255,0.004) 5px
+      );
+      pointer-events: none;
+    }
+    /* Left specular highlight */
+    .tub-body::after {
+      content: '';
+      position: absolute; left: 0; top: 15%; bottom: 15%; width: 4px;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.06), transparent);
+    }
+    .tub-rule { width: 216px; height: 1.5px; background: var(--teal); flex-shrink: 0; }
+    .tub-center {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+      padding: 20px 0; z-index: 1; position: relative;
+    }
+    .tub-name {
+      font-size: 46px; font-weight: 700;
+      letter-spacing: 0.26em; color: var(--chalk); line-height: 1;
+    }
+    .tub-sport {
+      font-size: 8px; font-weight: 600;
+      letter-spacing: 0.55em; text-transform: uppercase;
+      color: var(--teal);
+    }
+    .tub-desc {
+      font-size: 7px; font-weight: 500;
+      letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(245,245,240,0.35);
+      margin-top: 14px;
+    }
+    .tub-wt {
+      font-size: 8px; letter-spacing: 0.14em;
+      color: rgba(245,245,240,0.18); margin-top: 5px;
+    }
+    .tub-glow {
+      position: absolute; bottom: -56px; left: 50%;
+      transform: translateX(-50%);
+      width: 260px; height: 56px;
+      background: radial-gradient(ellipse, rgba(23,128,126,0.22) 0%, transparent 70%);
+      filter: blur(14px); pointer-events: none;
+    }
+    .tub-badge {
+      position: absolute; top: -12px; right: -20px;
+      background: var(--amber); color: #fff;
+      font-size: 8px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 5px 11px;
+    }
+
+    .hero-text {
+      position: relative; z-index: 2;
+      text-align: center; margin-top: 60px;
+    }
+    .hero-h1 {
+      font-size: clamp(32px, 4.5vw, 68px);
+      font-weight: 700; letter-spacing: -0.02em;
+      color: var(--chalk); line-height: 1.05;
+      opacity: 0; transform: translateY(22px);
+      animation: fadeUp 0.9s ease 0.35s forwards;
+    }
+    .hero-sub {
+      font-size: 14px; font-weight: 300;
+      color: var(--dim); letter-spacing: 0.04em;
+      margin-top: 16px;
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp 0.9s ease 0.55s forwards;
+    }
+
+    .scroll-cue {
+      position: absolute; bottom: 36px; left: 50%;
+      transform: translateX(-50%); z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      opacity: 0; animation: fadeUp 1s ease 1s forwards;
+    }
+    .scroll-bar {
+      width: 1px; height: 52px;
+      background: linear-gradient(to bottom, rgba(245,245,240,0.5), transparent);
+      animation: scPulse 2.5s ease-in-out infinite;
+    }
+    .scroll-lbl {
+      font-size: 8px; font-weight: 600;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--dim); writing-mode: vertical-lr;
+    }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes scPulse { 0%,100% { opacity: 0.35; } 50% { opacity: 1; } }
+
+    /* ══════════ MARQUEE ══════════ */
+    #ticker {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 22px 0;
+      overflow: hidden;
+    }
+    .ticker-track {
+      display: flex; gap: 60px;
+      white-space: nowrap; width: max-content;
+      animation: tickerMove 28s linear infinite;
+    }
+    .ticker-item {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(245,245,240,0.25); flex-shrink: 0;
+    }
+    .ticker-item.hi { color: var(--teal); }
+    @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ══════════ PINNED CHAPTERS ══════════ */
+    #chapters { height: 300vh; position: relative; }
+    .chapters-sticky {
+      position: sticky; top: 0; height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      background: var(--ink); overflow: hidden;
+    }
+
+    /* Left */
+    .ch-left {
+      display: flex; align-items: center;
+      padding: 80px 80px 80px 96px;
+      position: relative;
+    }
+    .ch-panel {
+      position: absolute;
+      left: 96px; right: 60px;
+      opacity: 0; transform: translateY(52px);
+      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
+      pointer-events: none;
+    }
+    .ch-panel.active {
+      opacity: 1; transform: translateY(0); pointer-events: auto;
+    }
+    .ch-panel.past {
+      opacity: 0; transform: translateY(-52px);
+    }
+    .ch-num {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 36px;
+    }
+    .ch-h {
+      font-size: clamp(48px, 5.5vw, 88px);
+      font-weight: 700; letter-spacing: -0.025em;
+      color: var(--chalk); line-height: 1.0; margin-bottom: 36px;
+    }
+    .ch-p {
+      font-size: 16px; font-weight: 300;
+      line-height: 1.78; color: var(--dim); max-width: 420px;
+    }
+    .ch-p strong { color: var(--chalk); font-weight: 500; }
+
+    .ch-dots {
+      position: absolute; bottom: 52px; left: 96px;
+      display: flex; gap: 8px;
+    }
+    .ch-dot {
+      width: 28px; height: 2px;
+      background: rgba(245,245,240,0.12);
+      transition: background 0.4s, width 0.4s;
+    }
+    .ch-dot.on { background: var(--teal); width: 48px; }
+
+    /* Right */
+    .ch-right {
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.22);
+      border-left: 1px solid var(--rule);
+      position: relative;
+    }
+    .ch-right::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0,32,96,0.5) 0%, transparent 70%);
+    }
+    .ch-tub-wrap { position: relative; z-index: 1; }
+    .pulse-ring {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%; pointer-events: none;
+      border: 1px solid rgba(23,128,126,0.12);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    .pulse-ring:nth-child(1) { width: 280px; height: 280px; }
+    .pulse-ring:nth-child(2) { width: 380px; height: 380px; animation-delay: 1.3s; border-color: rgba(23,128,126,0.07); }
+    .pulse-ring:nth-child(3) { width: 480px; height: 480px; animation-delay: 2.6s; border-color: rgba(23,128,126,0.04); }
+    @keyframes pulse {
+      0%,100% { opacity: 0.5; transform: translate(-50%,-50%) scale(0.96); }
+      50% { opacity: 1; transform: translate(-50%,-50%) scale(1.04); }
+    }
+
+    /* Small tub for chapters right */
+    .tub-s .tub-lid { width: 228px; height: 24px; border-radius: 7px 7px 0 0; }
+    .tub-s .tub-body { width: 212px; height: 280px; border-radius: 0 0 14px 14px; }
+    .tub-s .tub-name { font-size: 32px; }
+    .tub-s .tub-sport { font-size: 6px; }
+    .tub-s .tub-rule { width: 150px; }
+    .tub-s .tub-desc { font-size: 6px; margin-top: 10px; }
+    .tub-s .tub-wt { font-size: 6px; }
+    .tub-s .tub-glow { width: 180px; bottom: -40px; }
+
+    /* ══════════ RATIO ══════════ */
+    #ratio {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 120px 60px;
+      text-align: center;
+      position: relative; overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    #ratio::before {
+      content: '';
+      position: absolute;
+      width: 1000px; height: 1000px;
+      background: radial-gradient(circle, rgba(23,128,126,0.07) 0%, transparent 65%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+    }
+    .ratio-labels {
+      display: flex; align-items: center; gap: 80px;
+      margin-bottom: 8px;
+    }
+    .ratio-ilabel {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--teal);
+    }
+    .ratio-clabel {
+      font-size: 11px; letter-spacing: 0.12em;
+      color: rgba(245,245,240,0.15);
+    }
+    .ratio-num {
+      font-size: clamp(96px, 16vw, 200px);
+      font-weight: 700; letter-spacing: -0.04em;
+      color: var(--chalk); line-height: 0.88;
+      position: relative; z-index: 1;
+    }
+    .ratio-num .sep { color: var(--teal); }
+    .ratio-caption {
+      font-size: 16px; font-weight: 300;
+      line-height: 1.75; color: var(--dim);
+      max-width: 500px; margin: 48px auto 0;
+    }
+    .ratio-caption strong { color: var(--chalk); font-weight: 500; }
+
+    .transport-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--rule);
+      max-width: 460px; width: 100%;
+      margin: 56px auto 0;
+    }
+    .tc {
+      background: rgba(255,255,255,0.02);
+      padding: 24px 28px; text-align: left;
+    }
+    .tc-lbl {
+      font-size: 9px; font-weight: 600;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 8px;
+    }
+    .tc-name { font-size: 15px; font-weight: 600; color: var(--chalk); margin-bottom: 4px; }
+    .tc-path { font-size: 12px; color: var(--dim); }
+
+    /* ══════════ RESEARCH ══════════ */
+    #research {
+      background: #fff; color: #111;
+      padding: 120px 80px;
+    }
+    .res-top {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 100px; margin-bottom: 80px; align-items: end;
+    }
+    .res-eye {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 16px;
+    }
+    .res-h2 {
+      font-size: clamp(36px, 4vw, 58px);
+      font-weight: 700; letter-spacing: -0.02em;
+      color: var(--navy); line-height: 1.1;
+    }
+    .res-intro {
+      font-size: 16px; font-weight: 300;
+      line-height: 1.78; color: #666;
+    }
+    .res-studies { border-top: 1px solid #e5e5e5; }
+    .study {
+      display: grid; grid-template-columns: 100px 1fr 180px;
+      gap: 48px; align-items: start;
+      padding: 44px 0; border-bottom: 1px solid #e5e5e5;
+    }
+    .s-year {
+      font-size: 52px; font-weight: 700;
+      letter-spacing: -0.04em; color: var(--navy); line-height: 1;
+    }
+    .s-title {
+      font-size: 16px; font-weight: 600;
+      color: var(--navy); margin-bottom: 10px; line-height: 1.35;
+    }
+    .s-body {
+      font-size: 14px; font-weight: 300;
+      line-height: 1.75; color: #666;
+    }
+    .s-finding {
+      font-size: 13px; font-weight: 500;
+      color: var(--teal); line-height: 1.55;
+      text-align: right; padding-top: 4px;
+    }
+
+    /* ══════════ PHILOSOPHY ══════════ */
+    #philosophy {
+      background: var(--navy);
+      padding: 160px 96px;
+      position: relative; overflow: hidden;
+    }
+    #philosophy::before {
+      content: '\201C';
+      position: absolute; top: -60px; left: 80px;
+      font-size: 480px; font-weight: 700;
+      color: rgba(245,245,240,0.022); line-height: 1;
+      pointer-events: none;
+    }
+    .phil-eye {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 52px;
+    }
+    .phil-q {
+      font-size: clamp(22px, 3vw, 40px);
+      font-weight: 300; line-height: 1.65;
+      color: rgba(245,245,240,0.82);
+      max-width: 860px; letter-spacing: -0.01em;
+    }
+    .phil-q strong { color: var(--chalk); font-weight: 600; }
+    .phil-sig {
+      display: flex; align-items: center; gap: 20px;
+      margin-top: 64px;
+    }
+    .phil-line { width: 40px; height: 2px; background: var(--teal); }
+    .phil-name {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(245,245,240,0.28);
+    }
+
+    /* ══════════ SHOP ══════════ */
+    #shop {
+      background: var(--ink);
+      padding: 120px 80px;
+      border-top: 1px solid var(--rule);
+    }
+    .shop-hdr { margin-bottom: 80px; }
+    .shop-eye {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 16px;
+    }
+    .shop-h2 {
+      font-size: clamp(44px, 6vw, 88px);
+      font-weight: 700; letter-spacing: -0.025em;
+      color: var(--chalk); line-height: 1;
+    }
+    .shop-cards {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px; background: var(--rule);
+    }
+    .shop-card {
+      background: rgba(255,255,255,0.025);
+      padding: 60px 52px;
+      display: flex; flex-direction: column;
+      border: 1px solid var(--rule);
+      transition: background 0.35s;
+    }
+    .shop-card:hover { background: rgba(255,255,255,0.04); }
+    .shop-card.feat { border-color: rgba(23,128,126,0.28); }
+
+    /* Card tub mini */
+    .ctm {
+      width: 90px; height: 118px;
+      background: linear-gradient(155deg, #003090 0%, #001848 60%, #000c24 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 3px 3px 9px 9px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 4px;
+      margin-bottom: 44px; position: relative;
+      box-shadow: 0 20px 56px rgba(0,0,0,0.55);
+    }
+    .ctm::before, .ctm::after {
+      content: ''; position: absolute;
+      left: 10px; right: 10px; height: 1px; background: var(--teal); opacity: 0.65;
+    }
+    .ctm::before { top: 19px; }
+    .ctm::after  { bottom: 19px; }
+    .ctm-n { font-size: 14px; font-weight: 700; letter-spacing: 0.22em; color: var(--chalk); }
+    .ctm-s { font-size: 5px; font-weight: 700; letter-spacing: 0.5em; text-transform: uppercase; color: var(--teal); }
+
+    .card-pop {
+      display: inline-block;
+      background: var(--teal); color: #fff;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 4px 12px; margin-bottom: 16px;
+    }
+    .card-sku {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 10px;
+    }
+    .card-name {
+      font-size: 28px; font-weight: 700;
+      letter-spacing: -0.01em; color: var(--chalk); margin-bottom: 4px;
+    }
+    .card-serves { font-size: 13px; color: var(--dim); margin-bottom: 24px; }
+    .card-desc {
+      font-size: 14px; font-weight: 300;
+      line-height: 1.78; color: var(--dim);
+      flex: 1; margin-bottom: 44px;
+    }
+    .card-price-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+    .card-price { font-size: 48px; font-weight: 700; letter-spacing: -0.03em; color: var(--chalk); }
+    .card-cur { font-size: 13px; color: var(--dim); }
+    .card-pps { font-size: 12px; font-weight: 500; color: var(--teal); letter-spacing: 0.06em; margin-bottom: 36px; }
+
+    .btn-buy {
+      font-family: var(--font); font-size: 12px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 16px 32px; border: none; cursor: pointer; width: 100%;
+      transition: opacity 0.2s;
+    }
+    .btn-teal { background: var(--teal); color: #fff; }
+    .btn-teal:hover { opacity: 0.85; }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--rule); color: var(--chalk);
+      transition: border-color 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(245,245,240,0.3); }
+
+    .trust-row { display: flex; gap: 48px; margin-top: 52px; flex-wrap: wrap; }
+    .trust-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(245,245,240,0.3);
+    }
+    .trust-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+
+    /* ══════════ FOOTER ══════════ */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid var(--rule);
+      padding: 52px 80px 44px;
+    }
+    .footer-r {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 44px; flex-wrap: wrap; gap: 24px;
+    }
+    .f-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
+    .f-logo em { color: var(--teal); font-style: normal; }
+    .f-nav { display: flex; gap: 32px; list-style: none; flex-wrap: wrap; }
+    .f-nav a { font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-nav a:hover { color: var(--chalk); }
+    .f-ig { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-ig:hover { color: var(--chalk); }
+    .f-btm { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid var(--rule); flex-wrap: wrap; gap: 12px; }
+    .f-copy { font-size: 11px; color: rgba(245,245,240,0.18); letter-spacing: 0.06em; }
+    .f-hasta { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); }
+
+    /* ══════════ REVEAL ══════════ */
+    .reveal {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; }
+    .d4 { transition-delay: 0.4s; }
+
+    /* ══════════ TWEAKS ══════════ */
+    #tweaks-panel {
+      display: none; position: fixed;
+      bottom: 24px; right: 24px; z-index: 9000;
+      background: rgba(4,13,31,0.97);
+      border: 1px solid var(--rule);
+      padding: 22px; width: 220px;
+    }
+    #tweaks-panel.open { display: block; }
+    .tw-title { font-size: 9px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); margin-bottom: 16px; }
+    .tw-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+    .tw-lbl { font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,245,240,0.35); }
+    .tw-row input[type="color"] { width: 100%; height: 30px; border: 1px solid var(--rule); background: rgba(255,255,255,0.03); cursor: pointer; padding: 2px; }
+
+    /* ══════════ RESPONSIVE ══════════ */
+    @media (max-width: 960px) {
+      #nav { padding: 0 24px; }
+      .nav-link { display: none; }
+      .tub-lid { width: 240px; }
+      .tub-body { width: 224px; height: 300px; }
+      .tub-name { font-size: 36px; }
+      .tub-rule { width: 160px; }
+      .chapters-sticky { grid-template-columns: 1fr; }
+      .ch-right { display: none; }
+      .ch-left { padding: 40px 28px; }
+      .ch-panel { left: 28px; right: 28px; }
+      .ch-dots { left: 28px; }
+      #ratio { padding: 80px 28px; min-height: auto; }
+      #research { padding: 80px 28px; }
+      .res-top { grid-template-columns: 1fr; gap: 28px; }
+      .study { grid-template-columns: 72px 1fr; gap: 24px; }
+      .s-finding { display: none; }
+      #philosophy { padding: 80px 28px; }
+      #shop { padding: 80px 28px; }
+      .shop-cards { grid-template-columns: 1fr; }
+      footer { padding: 40px 28px 32px; }
+      .footer-r { flex-direction: column; align-items: flex-start; }
+      .f-btm { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a class="nav-logo" href="#"><em>S</em>olus Sport</a>
+  <div class="nav-r">
+    <a class="nav-link" href="#ratio">Science</a>
+    <a class="nav-link" href="#philosophy">Story</a>
+    <a class="nav-shop" href="#shop">Shop</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-tub" id="hero-tub">
+    <div class="tub">
+      <div class="tub-badge">HASTA Certified</div>
+      <div class="tub-lid"></div>
+      <div class="tub-body">
+        <div class="tub-rule"></div>
+        <div class="tub-center">
+          <span class="tub-name">SOLUS</span>
+          <span class="tub-sport">Sport</span>
+        </div>
+        <div class="tub-rule"></div>
+        <span class="tub-desc">Endurance Carbohydrate Mix</span>
+        <span class="tub-wt">2,250g &middot; 25 serves</span>
+        <div class="tub-glow"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-text">
+    <h1 class="hero-h1">Fuel built for the distance.</h1>
+    <p class="hero-sub">Australian-made &middot; Two ingredients &middot; Up to 90g of carbs per hour</p>
+  </div>
+
+  <div class="scroll-cue">
+    <div class="scroll-bar"></div>
+    <span class="scroll-lbl">Scroll</span>
+  </div>
+</section>
+
+<!-- ══ TICKER ══ -->
+<div id="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Maltodextrin</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Fructose</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">1&nbsp;:&nbsp;0.8</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Up to 90g per hour</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">HASTA Batch Certified</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Made in Queensland</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Gluten Free</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Vegan</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Two Ingredients. Nothing More.</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">Maltodextrin</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Fructose</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">1&nbsp;:&nbsp;0.8</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Up to 90g per hour</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">HASTA Batch Certified</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Made in Queensland</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Gluten Free</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Vegan</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+    <span class="ticker-item">Two Ingredients. Nothing More.</span><span class="ticker-item hi">&nbsp;&middot;&nbsp;</span>
+  </div>
+</div>
+
+<!-- ══ PINNED CHAPTERS ══ -->
+<section id="chapters">
+  <div class="chapters-sticky">
+
+    <div class="ch-left">
+      <div class="ch-panel" id="cp0">
+        <p class="ch-num">01 &mdash; 03</p>
+        <h2 class="ch-h">Two<br>ingredients.</h2>
+        <p class="ch-p">Maltodextrin. Fructose. The formula in full — <strong>nothing added, nothing hidden.</strong> A clean two-ingredient product is harder to make well than a twenty-ingredient one. Every component has to earn its place.</p>
+      </div>
+      <div class="ch-panel" id="cp1">
+        <p class="ch-num">02 &mdash; 03</p>
+        <h2 class="ch-h">One<br>ratio.</h2>
+        <p class="ch-p"><strong>1&nbsp;:&nbsp;0.8.</strong> Maltodextrin to fructose. Not a marketing claim — the ratio that four independent peer-reviewed studies converged on as optimal for carbohydrate absorption with minimal gastrointestinal distress.</p>
+      </div>
+      <div class="ch-panel" id="cp2">
+        <p class="ch-num">03 &mdash; 03</p>
+        <h2 class="ch-h">90 grams<br>per hour.</h2>
+        <p class="ch-p">By activating two separate intestinal transporters simultaneously, Solus delivers <strong>up to 90 grams of carbohydrate per hour</strong> — 50% more than single-source glucose. The ceiling lifted by science, not marketing.</p>
+      </div>
+      <div class="ch-dots">
+        <div class="ch-dot on" id="dot0"></div>
+        <div class="ch-dot" id="dot1"></div>
+        <div class="ch-dot" id="dot2"></div>
+      </div>
+    </div>
+
+    <div class="ch-right">
+      <div class="ch-tub-wrap">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="tub tub-s">
+          <div class="tub-lid"></div>
+          <div class="tub-body">
+            <div class="tub-rule"></div>
+            <div class="tub-center">
+              <span class="tub-name">SOLUS</span>
+              <span class="tub-sport">Sport</span>
+            </div>
+            <div class="tub-rule"></div>
+            <span class="tub-desc">Endurance Carbohydrate Mix</span>
+            <span class="tub-wt">2,250g &middot; 25 serves</span>
+            <div class="tub-glow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ RATIO ══ -->
+<section id="ratio">
+  <div class="ratio-labels reveal">
+    <span class="ratio-ilabel">Maltodextrin</span>
+    <span class="ratio-clabel">ratio</span>
+    <span class="ratio-ilabel">Fructose</span>
+  </div>
+  <div class="ratio-num reveal d1">1<span class="sep">&nbsp;:&nbsp;</span>0.8</div>
+  <p class="ratio-caption reveal d2">The ratio that maximises carbohydrate oxidation with the lowest gastrointestinal distress. Confirmed across <strong>four independent peer-reviewed studies</strong> spanning twenty years of endurance science.</p>
+  <div class="transport-grid reveal d3">
+    <div class="tc">
+      <p class="tc-lbl">Transporter</p>
+      <p class="tc-name">Maltodextrin</p>
+      <p class="tc-path">&rarr; SGLT1</p>
+    </div>
+    <div class="tc">
+      <p class="tc-lbl">Transporter</p>
+      <p class="tc-name">Fructose</p>
+      <p class="tc-path">&rarr; GLUT5</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ RESEARCH ══ -->
+<section id="research">
+  <div class="res-top">
+    <div>
+      <p class="res-eye reveal">The research</p>
+      <h2 class="res-h2 reveal d1">Peer-reviewed.<br>Independently verified.</h2>
+    </div>
+    <p class="res-intro reveal d2">The 1&nbsp;:&nbsp;0.8 ratio is not a Solus invention. It is the conclusion that multiple independent research teams reached — separately, consistently, over two decades. We chose it because the evidence pointed to it.</p>
+  </div>
+  <div class="res-studies">
+    <div class="study reveal">
+      <div class="s-year">2011</div>
+      <div>
+        <p class="s-title">Rowlands et al. &mdash; American Journal of Physiology</p>
+        <p class="s-body">Compared fructose-maltodextrin ratios of 0.5:1, 0.8:1 and 1.25:1 in cyclists over 150 minutes. The 0.8:1 ratio delivered the highest exogenous carbohydrate oxidation rate and the lowest reported stomach fullness, cramping and nausea of any ratio tested.</p>
+      </div>
+      <p class="s-finding">Highest oxidation rate.<br>Lowest GI distress.</p>
+    </div>
+    <div class="study reveal d1">
+      <div class="s-year">2013</div>
+      <div>
+        <p class="s-title">Rowlands et al. &mdash; Medicine and Science in Sports and Exercise</p>
+        <p class="s-body">Cyclists ingesting 0.5, 0.8 and 1.25 ratios during a 2-hour ride followed by a sprint test. The 0.8:1 ratio produced oxidation rates 18% higher than the 0.5 ratio and 5.2% higher than the 1.25 ratio.</p>
+      </div>
+      <p class="s-finding">18% higher oxidation<br>vs. lower ratio.</p>
+    </div>
+    <div class="study reveal d2">
+      <div class="s-year">2015</div>
+      <div>
+        <p class="s-title">Rowlands et al. &mdash; Sports Medicine (critical review, 14 studies)</p>
+        <p class="s-body">At 1.5–1.8g/min ingestion rates, ratios between 0.7:1 and 1.0:1 were absorbed fastest and conveyed the highest exogenous carbohydrate energy. The 0.8:1 ratio delivered peak performance at the threshold.</p>
+      </div>
+      <p class="s-finding">Optimal absorption<br>window confirmed.</p>
+    </div>
+    <div class="study reveal d3">
+      <div class="s-year">2022</div>
+      <div>
+        <p class="s-title">Podlogar et al. &mdash; European Journal of Applied Physiology</p>
+        <p class="s-body">High-dose 0.8:1 ratio (120g/hr) vs. traditional 90g/hr over 3 hours of cycling. Significantly higher exogenous carbohydrate oxidation without significant GI discomfort — validating high-dose dual-transport fuelling for serious athletes.</p>
+      </div>
+      <p class="s-finding">High-dose protocol<br>independently validated.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PHILOSOPHY ══ -->
+<section id="philosophy">
+  <p class="phil-eye reveal">Our philosophy</p>
+  <p class="phil-q reveal d1">
+    Endurance nutrition has been made more complicated than it needs to be. <strong>The science of fuelling settled years ago.</strong> Two ingredients, one ratio, nothing else. We built Solus because we wanted a product that reflected that &mdash; clean, honest, and priced to be used every day. The only carbohydrate fuel you need, with only the ingredients that matter.
+  </p>
+  <div class="phil-sig reveal d2">
+    <div class="phil-line"></div>
+    <span class="phil-name">The Solus Sport team &mdash; Brisbane, QLD</span>
+  </div>
+</section>
+
+<!-- ══ SHOP ══ -->
+<section id="shop">
+  <div class="shop-hdr">
+    <p class="shop-eye reveal">Shop</p>
+    <h2 class="shop-h2 reveal d1">One formula.<br>Two sizes.</h2>
+  </div>
+
+  <div class="shop-cards">
+    <div class="shop-card reveal">
+      <div class="ctm"><span class="ctm-n">SOLUS</span><span class="ctm-s">Sport</span></div>
+      <span class="card-sku">Standard</span>
+      <h3 class="card-name">2,250g Tub</h3>
+      <p class="card-serves">25 &times; 90g serves &middot; Two 45g scoops included</p>
+      <p class="card-desc">For athletes training three to five sessions per week. The same two-ingredient formula, the same ratio, the same results. Identical to the Bulk tub in every way except size.</p>
+      <div class="card-price-row">
+        <span class="card-price">$57.50</span>
+        <span class="card-cur">AUD</span>
+      </div>
+      <p class="card-pps">$2.30 per serve</p>
+      <button class="btn-buy btn-ghost">Add to Cart</button>
+    </div>
+
+    <div class="shop-card feat reveal d1">
+      <div class="ctm"><span class="ctm-n">SOLUS</span><span class="ctm-s">Sport</span></div>
+      <div class="card-pop">Most popular</div>
+      <span class="card-sku">Bulk</span>
+      <h3 class="card-name">3,825g Tub</h3>
+      <p class="card-serves">42 &times; 90g serves &middot; Two 45g scoops included</p>
+      <p class="card-desc">For athletes training daily or who prefer fewer orders. Best value per serve. The choice for high-volume training blocks, Ironman build phases, or fuelling multiple sessions per day.</p>
+      <div class="card-price-row">
+        <span class="card-price">$95.00</span>
+        <span class="card-cur">AUD</span>
+      </div>
+      <p class="card-pps">$2.26 per serve</p>
+      <button class="btn-buy btn-teal">Add to Cart</button>
+    </div>
+  </div>
+
+  <div class="trust-row reveal d2">
+    <div class="trust-item"><span class="trust-dot"></span>HASTA batch certified</div>
+    <div class="trust-item"><span class="trust-dot"></span>Made in Queensland</div>
+    <div class="trust-item"><span class="trust-dot"></span>Free shipping over $120</div>
+    <div class="trust-item"><span class="trust-dot"></span>Gluten free &middot; Vegan</div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-r">
+    <a class="f-logo" href="#"><em>S</em>olus Sport</a>
+    <ul class="f-nav">
+      <li><a href="#">Ingredients</a></li>
+      <li><a href="#">Shipping</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul>
+    <a class="f-ig" href="#">Instagram</a>
+  </div>
+  <div class="f-btm">
+    <span class="f-copy">&copy; 2026 Solus Sport Pty Ltd. Made in Queensland.</span>
+    <span class="f-hasta">HASTA Batch Certified</span>
+  </div>
+</footer>
+
+<!-- ══ TWEAKS ══ -->
+<div id="tweaks-panel">
+  <p class="tw-title">Tweaks</p>
+  <div class="tw-row">
+    <label class="tw-lbl">Teal</label>
+    <input type="color" id="tw-teal" value="#17807E" />
+  </div>
+  <div class="tw-row">
+    <label class="tw-lbl">Navy</label>
+    <input type="color" id="tw-navy" value="#002060" />
+  </div>
+  <div class="tw-row">
+    <label class="tw-lbl">Amber</label>
+    <input type="color" id="tw-amber" value="#CC6600" />
+  </div>
+</div>
+
+<script>
+// ── PINNED CHAPTERS ──
+const chapSection = document.getElementById('chapters');
+const panels = [document.getElementById('cp0'), document.getElementById('cp1'), document.getElementById('cp2')];
+const dots   = [document.getElementById('dot0'), document.getElementById('dot1'), document.getElementById('dot2')];
+let curChap = -1;
+panels[0].classList.add('active');
+
+// ── LERP PARALLAX ──
+let lerpY = 0, tY = 0;
+const heroTub = document.getElementById('hero-tub');
+const isMob = () => window.innerWidth < 960;
+
+window.addEventListener('scroll', () => { tY = window.scrollY; }, { passive: true });
+
+function raf() {
+  lerpY += (tY - lerpY) * 0.07;
+  if (heroTub && !isMob()) heroTub.style.transform = `translateY(${lerpY * 0.2}px)`;
+  updateChapters();
+  requestAnimationFrame(raf);
+}
+raf();
+
+function updateChapters() {
+  if (!chapSection) return;
+  const top = chapSection.getBoundingClientRect().top;
+  const h   = chapSection.offsetHeight - window.innerHeight;
+  const p   = Math.max(0, Math.min(1, -top / h));
+  const idx = Math.min(2, Math.floor(p * 3));
+  if (idx === curChap) return;
+  curChap = idx;
+  panels.forEach((pn, i) => {
+    pn.classList.remove('active', 'past');
+    if (i === idx) pn.classList.add('active');
+    else if (i < idx) pn.classList.add('past');
+  });
+  dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+}
+
+// ── SCROLL REVEAL ──
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1 });
+reveals.forEach(el => io.observe(el));
+
+// ── NAV ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.6);
+}, { passive: true });
+
+// ── TWEAKS ──
+window.addEventListener('message', e => {
+  if (e.data?.type === '__activate_edit_mode')   document.getElementById('tweaks-panel').classList.add('open');
+  if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').classList.remove('open');
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+function applyTweaks(t) {
+  if (t.teal)  { document.documentElement.style.setProperty('--teal',  t.teal);  document.getElementById('tw-teal').value  = t.teal; }
+  if (t.navy)  { document.documentElement.style.setProperty('--navy',  t.navy);  document.getElementById('tw-navy').value  = t.navy; }
+  if (t.amber) { document.documentElement.style.setProperty('--amber', t.amber); document.getElementById('tw-amber').value = t.amber; }
+}
+
+try { const s = localStorage.getItem('solus3'); if (s) applyTweaks(JSON.parse(s)); else applyTweaks(TWEAK_DEFAULTS); } catch(e) { applyTweaks(TWEAK_DEFAULTS); }
+
+function saveTweak(k, v) {
+  let c = {}; try { c = JSON.parse(localStorage.getItem('solus3') || '{}'); } catch(e) {}
+  c[k] = v; localStorage.setItem('solus3', JSON.stringify(c));
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: c }, '*');
+}
+
+document.getElementById('tw-teal').addEventListener('input',  e => { document.documentElement.style.setProperty('--teal',  e.target.value); saveTweak('teal',  e.target.value); });
+document.getElementById('tw-navy').addEventListener('input',  e => { document.documentElement.style.setProperty('--navy',  e.target.value); saveTweak('navy',  e.target.value); });
+document.getElementById('tw-amber').addEventListener('input', e => { document.documentElement.style.setProperty('--amber', e.target.value); saveTweak('amber', e.target.value); });
+</script>
+
+</body>
+</html>
