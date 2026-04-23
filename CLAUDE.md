@@ -132,11 +132,15 @@ Floating pill-style nav — always frosted glass, never full-width.
 | z-index | `50` (above hero video, below any modal) |
 
 - `.scrolled` class is toggled by JS scroll handler but is a visual no-op — pill is always frosted
-- Mobile `≤ 640px`: `.nav-r` hides, `.nav-burger` (2-line → X) appears
-- `#nav-mobile` dropdown panel (`border-radius: 20px`) appears below the pill when burger is open; closes on any link click
+- Mobile `≤ 640px`: `.nav-r` hides, `.nav-burger` (2-line → X) appears, padded to 44×44px touch target
+- Tablet `641px–1024px`: full nav links visible, pill slightly smaller (46px height)
+- Large desktop `1441px+`: pill scales up (52px height, wider gap, larger logo/link text)
+- `#nav-mobile` dropdown panel (`border-radius: 20px`) appears below the pill when burger is open; closes on any link click **or tap outside**
 - Burger toggle JS is at the bottom of the main `<script>` block — **no scroll listeners added**
+- Outside-tap close: `document.addEventListener('click', ...)` checks `burger.contains` / `mobileNav.contains` — added after burger toggle code
 
 > **Session 2026-04-21:** Replaced full-width edge nav with floating pill nav. Added hamburger + `#nav-mobile` panel for mobile. No scroll logic touched.
+> **Session 2026-04-23:** Added outside-tap hamburger close. Added 44×44px touch target on burger. Nav scales for tablet and large desktop.
 
 ## Page Sections (DOM order)
 
@@ -145,6 +149,25 @@ Floating pill-style nav — always frosted glass, never full-width.
 **Pinned chapters** (`#chapters`): sticky container, 3 panels (`#cp0–cp2`) + dot indicators (`#dot0–dot2`). Active panel derived from scroll progress each animation frame.
 
 **Scroll reveal**: `.reveal` elements use `IntersectionObserver` to add `.in`. Delay variants: `.d1`, `.d2`, `.d3`.
+
+## Responsive Breakpoints
+
+All responsive styles are **additive-only** — no existing desktop styles were modified. New `@media` blocks appended at the end of the `<style>` tag.
+
+| Breakpoint | Range | Key behaviour |
+|---|---|---|
+| Extra-small mobile | `≤ 375px` | Tighter padding, smaller fonts, 44px nav |
+| Mobile | `≤ 640px` | Hamburger shown, 44×44px touch target |
+| Tablet (2-col restore) | `641px–1024px` | Chapters 2-col restored, tub visible, shop 2-col |
+| Tablet portrait | `641px–834px` | Tub at ~168×208px, medium padding |
+| Tablet landscape | `835px–1024px` | Tub at ~200×248px, larger padding |
+| Desktop | `1025px–1440px` | **Unchanged — original styles** |
+| Large desktop | `1441px–1920px` | 52px nav, 120px horizontal section padding |
+| Ultra-wide | `1921px+` | Hero capped at 1920px, sections padded to avoid full-bleed text |
+| Touch devices | `hover: none` + `pointer: coarse` | All hover effects disabled; active-state feedback added |
+| Reduced motion | `prefers-reduced-motion: reduce` | Reveals instant, ticker slower, pulse rings static |
+
+> **Session 2026-04-23:** Full responsive pass added. All changes are new media query blocks only — desktop (1025px+) confirmed unchanged.
 
 ## Rules
 
