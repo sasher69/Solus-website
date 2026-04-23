@@ -132,15 +132,15 @@ Floating pill-style nav — always frosted glass, never full-width.
 | z-index | `50` (above hero video, below any modal) |
 
 - `.scrolled` class is toggled by JS scroll handler but is a visual no-op — pill is always frosted
-- Mobile `≤ 640px`: `.nav-r` hides, `.nav-burger` (2-line → X) appears, padded to 44×44px touch target
+- Mobile `≤ 640px`: `.nav-r` hides, `.nav-burger` (2-line → X) appears, padded to 44×44px touch target, z-index raised to 200
+- Mobile nav: **full-screen frosted overlay** (`opacity`/`visibility` animated, `display: flex !important` overrides base `display: none`). Large tap targets (66px min-height links). Body gets `nav-open` class → `overflow: hidden` scroll lock via `MutationObserver` on burger class.
 - Tablet `641px–1024px`: full nav links visible, pill slightly smaller (46px height)
 - Large desktop `1441px+`: pill scales up (52px height, wider gap, larger logo/link text)
-- `#nav-mobile` dropdown panel (`border-radius: 20px`) appears below the pill when burger is open; closes on any link click **or tap outside**
-- Burger toggle JS is at the bottom of the main `<script>` block — **no scroll listeners added**
-- Outside-tap close: `document.addEventListener('click', ...)` checks `burger.contains` / `mobileNav.contains` — added after burger toggle code
+- Outside-tap close: `document.addEventListener('click', ...)` checks `burger.contains` / `mobileNav.contains`
 
 > **Session 2026-04-21:** Replaced full-width edge nav with floating pill nav. Added hamburger + `#nav-mobile` panel for mobile. No scroll logic touched.
-> **Session 2026-04-23:** Added outside-tap hamburger close. Added 44×44px touch target on burger. Nav scales for tablet and large desktop.
+> **Session 2026-04-23 (pass 1):** Added outside-tap hamburger close. Added 44×44px touch target on burger. Nav scales for tablet and large desktop.
+> **Session 2026-04-23 (pass 2):** Upgraded mobile nav to full-screen overlay. Added body scroll lock via MutationObserver.
 
 ## Page Sections (DOM order)
 
@@ -157,7 +157,7 @@ All responsive styles are **additive-only** — no existing desktop styles were 
 | Breakpoint | Range | Key behaviour |
 |---|---|---|
 | Extra-small mobile | `≤ 375px` | Tighter padding, smaller fonts, 44px nav |
-| Mobile | `≤ 640px` | Hamburger shown, 44×44px touch target |
+| Mobile | `≤ 640px` | Full-screen overlay nav, hero CTA, shop carousel, progress bar, safe areas, 17px+ body text |
 | Tablet (2-col restore) | `641px–1024px` | Chapters 2-col restored, tub visible, shop 2-col |
 | Tablet portrait | `641px–834px` | Tub at ~168×208px, medium padding |
 | Tablet landscape | `835px–1024px` | Tub at ~200×248px, larger padding |
@@ -167,7 +167,20 @@ All responsive styles are **additive-only** — no existing desktop styles were 
 | Touch devices | `hover: none` + `pointer: coarse` | All hover effects disabled; active-state feedback added |
 | Reduced motion | `prefers-reduced-motion: reduce` | Reveals instant, ticker slower, pulse rings static |
 
-> **Session 2026-04-23:** Full responsive pass added. All changes are new media query blocks only — desktop (1025px+) confirmed unchanged.
+## Mobile-Specific Features (≤640px)
+
+| Feature | Implementation |
+|---|---|
+| Scroll progress bar | `#scroll-progress` — fixed 2px `#3B82F6` bar at top, updated by `window.scroll` listener |
+| Hero floating CTA | `.hero-cta` — teal pill at bottom of hero, fades in after 1500ms, respects `env(safe-area-inset-bottom)` |
+| Shop carousel | `#shop .shop-cards` → `flex + scroll-snap-type: x mandatory`; cards `flex: 0 0 calc(100% - 16px)` |
+| Carousel dots | `.shop-carousel-dots` / `.scd` — synced to carousel scroll via IIFE at bottom of script |
+| Safe area insets | `env(safe-area-inset-top/bottom)` on nav, hero CTA, scroll cue, footer |
+| Body scroll lock | `body.nav-open { overflow: hidden }` toggled by `MutationObserver` watching burger class |
+| Viewport meta | `viewport-fit=cover` added for notch/home-indicator handling |
+
+> **Session 2026-04-23 (pass 1):** Full responsive pass — all breakpoints, touch/motion/hover media queries.
+> **Session 2026-04-23 (pass 2):** Premium mobile enhancements — overlay nav, hero CTA, shop carousel, progress bar, safe areas, typography floor.
 
 ## Rules
 
