@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Privacy Policy — Solus Sport</title>
+  <meta name="description" content="How Solus Sports Nutrition collects, uses, and protects your personal information." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+  <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --ink:   #040d1f;
+      --navy:  #002060;
+      --chalk: #F5F5F0;
+      --teal:  #17807E;
+      --amber: #CC6600;
+      --dim:   rgba(245,245,240,0.45);
+      --rule:  rgba(245,245,240,0.07);
+      --font:  'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font);
+      background: var(--ink);
+      color: var(--chalk);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ══════════ NAV ══════════ */
+    #nav { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 50; display: inline-flex; align-items: center; gap: 32px; padding: 0 24px; height: 48px; border-radius: 9999px; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06); white-space: nowrap; }
+    .nav-logo { font-size: 11px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
+    .nav-logo em { color: var(--teal); font-style: normal; }
+    .nav-r { display: flex; align-items: center; gap: 28px; }
+    .nav-link { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.is-active { color: var(--chalk); }
+    .nav-shop { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--chalk); background: transparent; border: 1px solid rgba(245,245,240,0.22); border-radius: 9999px; padding: 8px 18px; cursor: pointer; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
+    .nav-shop:hover { background: rgba(245,245,240,0.07); border-color: rgba(245,245,240,0.45); }
+    .nav-burger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; width: 28px; }
+    .nav-burger span { display: block; width: 20px; height: 1.5px; background: var(--chalk); border-radius: 2px; transition: transform 0.22s ease, opacity 0.22s ease; transform-origin: center; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { transform: translateY(-6.5px) rotate(-45deg); }
+    #nav-mobile { display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 49; flex-direction: column; align-items: center; min-width: 220px; background: rgba(4,13,31,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 8px 0; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+    #nav-mobile.open { display: flex; }
+    .nm-link { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); text-decoration: none; padding: 14px 40px; width: 100%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color 0.2s; }
+    .nm-link:hover, .nm-link.is-active { color: var(--chalk); }
+    .nm-shop { color: var(--chalk); border-bottom: none; padding-top: 14px; }
+
+    /* ══════════ DOCUMENT PAGE ══════════ */
+    main { flex: 1; }
+
+    .doc-hero { max-width: 880px; margin: 0 auto; padding: 180px 80px 56px; }
+    .doc-eye { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--teal); margin-bottom: 24px; }
+    .doc-h1  { font-size: clamp(40px, 5vw, 68px); font-weight: 700; letter-spacing: -0.025em; color: var(--chalk); line-height: 1.04; margin-bottom: 28px; }
+    .doc-meta { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
+
+    .doc-toc {
+      max-width: 880px; margin: 0 auto;
+      padding: 0 80px 32px;
+    }
+    .doc-toc-eye { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); margin-bottom: 18px; }
+    .doc-toc-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 32px;
+      padding-top: 14px;
+      border-top: 1px solid var(--rule);
+    }
+    .doc-toc-list a {
+      display: flex; align-items: baseline; gap: 12px;
+      font-size: 13px; font-weight: 400; color: rgba(245,245,240,0.62);
+      text-decoration: none; padding: 8px 0;
+      transition: color 0.2s;
+      letter-spacing: -0.005em;
+    }
+    .doc-toc-list a:hover { color: var(--chalk); }
+    .doc-toc-list a span { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; color: var(--teal); min-width: 20px; }
+
+    .doc-body-wrap { max-width: 880px; margin: 0 auto; padding: 32px 80px 120px; }
+    .doc-section { padding: 56px 0; border-top: 1px solid var(--rule); scroll-margin-top: 100px; }
+    .doc-section:first-of-type { border-top: 1px solid rgba(245,245,240,0.12); padding-top: 56px; }
+    .doc-num { font-size: 10px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--teal); margin-bottom: 18px; }
+    .doc-h2  { font-size: clamp(24px, 2.8vw, 36px); font-weight: 700; letter-spacing: -0.015em; color: var(--chalk); line-height: 1.15; margin-bottom: 28px; }
+
+    .doc-body { font-size: 16px; font-weight: 300; line-height: 1.78; color: rgba(245,245,240,0.78); max-width: 65ch; }
+    .doc-body p { margin-bottom: 18px; }
+    .doc-body p:last-child { margin-bottom: 0; }
+    .doc-body strong { color: var(--chalk); font-weight: 500; }
+    .doc-body a { color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(23,128,126,0.4); padding-bottom: 1px; transition: color 0.2s, border-color 0.2s; }
+    .doc-body a:hover { color: var(--chalk); border-bottom-color: var(--chalk); }
+    .doc-body ul { list-style: none; padding: 6px 0 8px; }
+    .doc-body li {
+      position: relative;
+      padding: 6px 0 6px 22px;
+      line-height: 1.7;
+    }
+    .doc-body li::before {
+      content: ''; position: absolute;
+      left: 0; top: 17px;
+      width: 8px; height: 1px;
+      background: var(--teal);
+    }
+    .doc-body li + li { padding-top: 6px; }
+
+    .doc-footnote { font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--dim); margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--rule); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.08s; }
+    .d2 { transition-delay: 0.16s; }
+
+    /* Footer */
+    footer { background: var(--navy); border-top: 1px solid var(--rule); padding: 52px 80px 44px; }
+    .footer-r { display: flex; align-items: center; justify-content: space-between; margin-bottom: 44px; flex-wrap: wrap; gap: 24px; }
+    .f-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
+    .f-logo em { color: var(--teal); font-style: normal; }
+    .f-nav { display: flex; gap: 32px; list-style: none; flex-wrap: wrap; }
+    .f-nav a { font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-nav a:hover { color: var(--chalk); }
+    .f-ig { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-ig:hover { color: var(--chalk); }
+    .f-btm { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid var(--rule); flex-wrap: wrap; gap: 12px; }
+    .f-copy { font-size: 11px; color: rgba(245,245,240,0.18); letter-spacing: 0.06em; }
+    .f-hasta { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .doc-hero { padding: 140px 28px 40px; }
+      .doc-toc { padding: 0 28px 24px; }
+      .doc-body-wrap { padding: 24px 28px 80px; }
+      .doc-section { padding: 44px 0; }
+      .doc-toc-list { grid-template-columns: 1fr; gap: 0; }
+    }
+    @media (max-width: 640px) {
+      .nav-r { display: none; }
+      .nav-burger { display: flex; }
+      .doc-hero { padding: 130px 22px 36px; }
+      .doc-toc, .doc-body-wrap { padding-left: 22px; padding-right: 22px; }
+      .doc-body { font-size: 17px; }
+      .doc-section { padding: 36px 0; }
+      footer { padding: 40px 28px 32px; }
+      .footer-r { flex-direction: column; align-items: flex-start; }
+      .f-btm { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a class="nav-logo" href="/index.html"><em>S</em>olus Sport</a>
+  <div class="nav-r">
+    <a class="nav-link" href="/index.html#ratio">Science</a>
+    <a class="nav-link" href="/index.html#philosophy">Story</a>
+    <a class="nav-link" href="/athletes.html">Athletes</a>
+    <a class="nav-link" href="/calculator.html">Calculator</a>
+    <a class="nav-link" href="/contact.html">Contact</a>
+    <a class="nav-shop" href="/index.html#shop">Shop</a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Open menu">
+    <span></span><span></span>
+  </button>
+</nav>
+<div id="nav-mobile" role="menu">
+  <a class="nm-link" href="/index.html#ratio">Science</a>
+  <a class="nm-link" href="/index.html#philosophy">Story</a>
+  <a class="nm-link" href="/athletes.html">Athletes</a>
+  <a class="nm-link" href="/calculator.html">Calculator</a>
+  <a class="nm-link" href="/contact.html">Contact</a>
+  <a class="nm-link nm-shop" href="/index.html#shop">Shop</a>
+</div>
+
+<!-- ══ MAIN ══ -->
+<main>
+  <header class="doc-hero">
+    <p class="doc-eye reveal">Legal</p>
+    <h1 class="doc-h1 reveal d1">Privacy policy.</h1>
+    <p class="doc-meta reveal d2">Last updated: April 2026</p>
+  </header>
+
+  <nav class="doc-toc" aria-label="On this page">
+    <p class="doc-toc-eye">Contents</p>
+    <ol class="doc-toc-list">
+      <li><a href="#s1"><span>01</span>Introduction</a></li>
+      <li><a href="#s2"><span>02</span>What information we collect</a></li>
+      <li><a href="#s3"><span>03</span>How we use your information</a></li>
+      <li><a href="#s4"><span>04</span>How we protect your information</a></li>
+      <li><a href="#s5"><span>05</span>Cookies</a></li>
+      <li><a href="#s6"><span>06</span>Third party services</a></li>
+      <li><a href="#s7"><span>07</span>Your rights</a></li>
+      <li><a href="#s8"><span>08</span>Marketing communications</a></li>
+      <li><a href="#s9"><span>09</span>Changes to this policy</a></li>
+      <li><a href="#s10"><span>10</span>Contact us</a></li>
+    </ol>
+  </nav>
+
+  <div class="doc-body-wrap">
+
+    <section id="s1" class="doc-section">
+      <p class="doc-num">01 &mdash; 10</p>
+      <h2 class="doc-h2">Introduction.</h2>
+      <div class="doc-body">
+        <p>We're <strong>SOLUS Sports Nutrition</strong>, a small endurance-fuel company based in Brisbane, Queensland. This page explains, in plain English, how we collect, use and protect your personal information when you visit our website, contact us, or place an order.</p>
+        <p>We comply with the <strong>Australian Privacy Principles</strong> under the <em>Privacy Act 1988</em> (Cth). If anything below isn't clear, or you have a question about your data, write to us &mdash; details are at the bottom of this page.</p>
+      </div>
+    </section>
+
+    <section id="s2" class="doc-section">
+      <p class="doc-num">02 &mdash; 10</p>
+      <h2 class="doc-h2">What information we collect.</h2>
+      <div class="doc-body">
+        <p>We only collect what we genuinely need:</p>
+        <ul>
+          <li>Your <strong>name, email and phone number</strong> when you fill in our contact form.</li>
+          <li>Your <strong>shipping address</strong> if you place an order, so we can send your tub to the right place.</li>
+          <li><strong>Payment information</strong> when you check out. Card details are processed securely by Shopify &mdash; we never see or store them.</li>
+          <li><strong>Website usage data</strong> via cookies and analytics &mdash; what pages you visit, what device you're on, roughly where in the world you are.</li>
+          <li>Your <strong>email address</strong> if you choose to subscribe to our newsletter.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="s3" class="doc-section">
+      <p class="doc-num">03 &mdash; 10</p>
+      <h2 class="doc-h2">How we use your information.</h2>
+      <div class="doc-body">
+        <p>We use what you give us to:</p>
+        <ul>
+          <li>Reply to enquiries you've sent us.</li>
+          <li>Process and fulfil your orders.</li>
+          <li>Send order updates and shipping information so you know where your tub is.</li>
+          <li>Send marketing emails &mdash; <strong>only if you've opted in</strong>.</li>
+          <li>Improve the website and customer experience.</li>
+        </ul>
+        <p>We don't use your information for any other purpose without telling you first.</p>
+      </div>
+    </section>
+
+    <section id="s4" class="doc-section">
+      <p class="doc-num">04 &mdash; 10</p>
+      <h2 class="doc-h2">How we protect your information.</h2>
+      <div class="doc-body">
+        <ul>
+          <li>All data is transmitted over <strong>SSL encryption</strong>.</li>
+          <li>Payment processing is handled by <strong>PCI-compliant third parties</strong> (Shopify) &mdash; your card details never sit on our servers.</li>
+          <li>We <strong>do not sell or share</strong> your personal information with third parties for their own marketing.</li>
+          <li>Access to personal data is restricted to authorised personnel only.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="s5" class="doc-section">
+      <p class="doc-num">05 &mdash; 10</p>
+      <h2 class="doc-h2">Cookies.</h2>
+      <div class="doc-body">
+        <p>We use cookies for website analytics (Google Analytics or similar). Cookies are small text files that help us understand how visitors use our site &mdash; which pages are read, where people drop off, what we should improve.</p>
+        <p>You can <strong>disable cookies in your browser settings</strong> at any time. Doing so won't stop you using the site, but it does mean we won't see your visit in our analytics.</p>
+      </div>
+    </section>
+
+    <section id="s6" class="doc-section">
+      <p class="doc-num">06 &mdash; 10</p>
+      <h2 class="doc-h2">Third party services.</h2>
+      <div class="doc-body">
+        <p>To run the site we work with a small handful of third-party services. Each has its own privacy policy:</p>
+        <ul>
+          <li><strong>Shopify</strong> &mdash; payment processing and order management.</li>
+          <li><strong>Formspree</strong> &mdash; contact form submissions.</li>
+          <li><strong>Google Analytics</strong> &mdash; website analytics.</li>
+          <li><strong>Email marketing platform</strong> (e.g. Mailchimp) &mdash; newsletter delivery.</li>
+        </ul>
+        <p>We don't pass on more information than each service genuinely needs to do its job.</p>
+      </div>
+    </section>
+
+    <section id="s7" class="doc-section">
+      <p class="doc-num">07 &mdash; 10</p>
+      <h2 class="doc-h2">Your rights.</h2>
+      <div class="doc-body">
+        <p>Under Australian privacy law you can:</p>
+        <ul>
+          <li>Request <strong>access</strong> to the personal data we hold about you.</li>
+          <li>Request that we <strong>correct or delete</strong> it.</li>
+          <li><strong>Opt out of marketing emails</strong> at any time via the unsubscribe link in any email we send.</li>
+        </ul>
+        <p>To make any privacy request, get in touch using the details in section 10.</p>
+      </div>
+    </section>
+
+    <section id="s8" class="doc-section">
+      <p class="doc-num">08 &mdash; 10</p>
+      <h2 class="doc-h2">Marketing communications.</h2>
+      <div class="doc-body">
+        <p>We only send marketing emails if you've explicitly opted in. Every email includes an unsubscribe link &mdash; one click and you're out, no questions asked.</p>
+      </div>
+    </section>
+
+    <section id="s9" class="doc-section">
+      <p class="doc-num">09 &mdash; 10</p>
+      <h2 class="doc-h2">Changes to this policy.</h2>
+      <div class="doc-body">
+        <p>We may update this policy from time to time. When we do, we'll post the changes on this page and update the date at the top.</p>
+        <p><strong>Last updated: April 2026</strong></p>
+      </div>
+    </section>
+
+    <section id="s10" class="doc-section">
+      <p class="doc-num">10 &mdash; 10</p>
+      <h2 class="doc-h2">Contact us.</h2>
+      <div class="doc-body">
+        <p>For any privacy question or request:</p>
+        <ul>
+          <!-- TODO: Replace hello@solus.com.au with the real privacy inbox once the domain is configured. -->
+          <li>Email: <a href="mailto:hello@solus.com.au">hello@solus.com.au</a></li>
+          <li>Or via the contact form on our website.</li>
+        </ul>
+        <p class="doc-footnote">SOLUS Sports Nutrition &middot; Brisbane, Queensland, Australia.</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-r">
+    <a class="f-logo" href="/index.html"><em>S</em>olus Sport</a>
+    <ul class="f-nav">
+      <li><a href="/batch.html">Verify Batch</a></li>
+      <li><a href="#">Ingredients</a></li>
+      <li><a href="#">Shipping</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+      <li><a href="/privacy.html">Privacy</a></li>
+      <li><a href="/terms.html">Terms</a></li>
+    </ul>
+    <a class="f-ig" href="#">Instagram</a>
+  </div>
+  <div class="f-btm">
+    <span class="f-copy">&copy; 2026 Solus Sport Pty Ltd. Made in Queensland.</span>
+    <span class="f-hasta">HASTA Batch Certified</span>
+  </div>
+</footer>
+
+<script>
+  // Lenis smooth scroll
+  const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 1.4, smoothWheel: true });
+  function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  // Reveal observer
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // Mobile nav
+  const burger = document.getElementById('nav-burger');
+  const mobileNav = document.getElementById('nav-mobile');
+  burger.addEventListener('click', () => { burger.classList.toggle('open'); mobileNav.classList.toggle('open'); });
+  document.addEventListener('click', (e) => {
+    if (!burger.contains(e.target) && !mobileNav.contains(e.target) && mobileNav.classList.contains('open')) {
+      burger.classList.remove('open'); mobileNav.classList.remove('open');
+    }
+  });
+
+  // Smooth scroll for in-page TOC links
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const target = id && document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -80 });
+    });
+  });
+</script>
+
+</body>
+</html>
