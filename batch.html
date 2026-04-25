@@ -71,6 +71,58 @@
     .nm-link:hover { color: var(--chalk); }
     .nm-shop { color: var(--chalk); border-bottom: none; padding-top: 14px; }
 
+    /* ══════════ NAV "MENU" DROPDOWN (desktop) ══════════ */
+    .nav-more {
+      font-family: var(--font);
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dim);
+      background: none; border: none; padding: 0;
+      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-more:hover, .nav-more.is-active, .nav-more[aria-expanded="true"] { color: var(--chalk); }
+    .nav-more-chev {
+      width: 6px; height: 6px;
+      border-right: 1.4px solid currentColor;
+      border-bottom: 1.4px solid currentColor;
+      transform: rotate(45deg) translateY(-1px);
+      transition: transform 0.25s ease;
+      margin-left: 2px;
+    }
+    .nav-more[aria-expanded="true"] .nav-more-chev { transform: rotate(-135deg) translateY(2px); }
+    .nav-dropdown {
+      position: fixed; top: 80px; left: 50%;
+      transform: translate(-50%, -8px);
+      z-index: 49;
+      min-width: 220px;
+      display: flex; flex-direction: column;
+      background: rgba(4,13,31,0.92);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 6px 0;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+    }
+    .nav-dropdown.open { opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, 0); }
+    .nav-dd-link {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none;
+      padding: 12px 32px; text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-dd-link:last-child { border-bottom: none; }
+    .nav-dd-link:hover, .nav-dd-link.is-active { color: var(--chalk); background: rgba(255,255,255,0.03); }
+    @media (max-width: 640px) {
+      .nav-more { display: none; }
+      .nav-dropdown { display: none !important; }
+    }
+
     /* ══════════ PAGE BODY ══════════ */
     main { flex: 1; padding: 160px 28px 120px; display: flex; flex-direction: column; align-items: center; }
     .bv-wrap { width: 100%; max-width: 640px; text-align: center; }
@@ -207,9 +259,9 @@
   <div class="nav-r">
     <a class="nav-link" href="/index.html#ratio">Science</a>
     <a class="nav-link" href="/index.html#philosophy">Story</a>
-    <a class="nav-link" href="/athletes.html">Athletes</a>
-    <a class="nav-link" href="/calculator.html">Calculator</a>
-    <a class="nav-link" href="/contact.html">Contact</a>
+    <button class="nav-more" id="nav-more" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="nav-dropdown">
+      Menu<span class="nav-more-chev" aria-hidden="true"></span>
+    </button>
     <a class="nav-shop" href="/index.html#shop">Shop</a>
   </div>
   <button class="nav-burger" id="nav-burger" aria-label="Open menu">
@@ -223,6 +275,13 @@
   <a class="nm-link" href="/calculator.html">Calculator</a>
   <a class="nm-link" href="/contact.html">Contact</a>
   <a class="nm-link nm-shop" href="/index.html#shop">Shop</a>
+</div>
+
+<!-- Desktop "Menu" dropdown -->
+<div class="nav-dropdown" id="nav-dropdown" role="menu" aria-labelledby="nav-more">
+  <a class="nav-dd-link" role="menuitem" href="/athletes.html">Athletes</a>
+  <a class="nav-dd-link" role="menuitem" href="/calculator.html">Calculator</a>
+  <a class="nav-dd-link" role="menuitem" href="/contact.html">Contact</a>
 </div>
 
 <!-- ══ MAIN ══ -->
@@ -389,6 +448,27 @@
     input.value = input.value.toUpperCase();
     input.setSelectionRange(start, end);
   });
+
+  // ── NAV "MENU" DROPDOWN (desktop) ────────────────────
+  (function() {
+    var more = document.getElementById('nav-more');
+    var dd = document.getElementById('nav-dropdown');
+    if (!more || !dd) return;
+    function close() { dd.classList.remove('open'); more.setAttribute('aria-expanded', 'false'); }
+    function open()  { dd.classList.add('open');    more.setAttribute('aria-expanded', 'true');  }
+    more.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (dd.classList.contains('open')) close(); else open();
+    });
+    document.addEventListener('click', function(e) {
+      if (!dd.classList.contains('open')) return;
+      if (more.contains(e.target) || dd.contains(e.target)) return;
+      close();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && dd.classList.contains('open')) { close(); more.focus(); }
+    });
+  })();
 </script>
 
 </body>
