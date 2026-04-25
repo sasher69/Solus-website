@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>CARB MIX — SOLUS Sport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+  <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --ink:   #040d1f;
+      --navy:  #002060;
+      --chalk: #F5F5F0;
+      --teal:  #17807E;
+      --blue:  #3B82F6;
+      --amber: #CC6600;
+      --dim:   rgba(245,245,240,0.45);
+      --rule:  rgba(245,245,240,0.07);
+      --font:  'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font);
+      background: var(--ink);
+      color: var(--chalk);
+      overflow-x: hidden;
+    }
+
+    /* ══════════ NAV ══════════ */
+    #nav {
+      position: fixed;
+      top: calc(20px + env(safe-area-inset-top, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      display: inline-flex;
+      align-items: center;
+      gap: 32px;
+      padding: 0 24px;
+      height: 48px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+      white-space: nowrap;
+    }
+    .nav-logo {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.36em; text-transform: uppercase;
+      color: var(--chalk); text-decoration: none;
+    }
+    .nav-logo em { color: var(--blue); font-style: normal; }
+    .nav-r { display: flex; align-items: center; gap: 28px; }
+    .nav-link {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--chalk); }
+    .nav-shop {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--chalk);
+      background: transparent;
+      border: 1px solid rgba(245,245,240,0.22);
+      border-radius: 9999px;
+      padding: 8px 18px; cursor: pointer; text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-shop:hover { background: rgba(245,245,240,0.07); border-color: rgba(245,245,240,0.45); }
+    .nav-burger {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      background: none; border: none; cursor: pointer;
+      padding: 4px; width: 28px;
+    }
+    .nav-burger span {
+      display: block; width: 20px; height: 1.5px;
+      background: var(--chalk); border-radius: 2px;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+      transform-origin: center;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    #nav-mobile {
+      display: none;
+      position: fixed;
+      top: 80px; left: 50%; transform: translateX(-50%);
+      z-index: 49;
+      flex-direction: column; align-items: center;
+      min-width: 200px;
+      background: rgba(4,13,31,0.92);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 8px 0;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    #nav-mobile.open { display: flex; }
+    .nm-link {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none;
+      padding: 14px 40px; width: 100%; text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: color 0.2s;
+    }
+    .nm-link:hover, .nm-link:active { color: var(--chalk); }
+    .nm-shop { color: var(--chalk); border-bottom: none; padding-top: 14px; }
+
+    /* ══════════ HERO / PRODUCT GALLERY ══════════ */
+    .pd-hero {
+      padding: clamp(96px,12vw,160px) clamp(24px,5vw,80px) clamp(60px,8vw,100px);
+      max-width: 1400px; margin: 0 auto;
+    }
+    @media (min-width: 1025px) {
+      .pd-hero {
+        display: grid;
+        grid-template-columns: 55fr 45fr;
+        gap: clamp(40px,5vw,80px);
+        align-items: start;
+      }
+    }
+
+    .pd-gallery { display: flex; flex-direction: column; gap: 20px; }
+
+    .pd-main-img {
+      background: rgba(0,26,80,0.45);
+      border: 1px solid var(--rule);
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 48px 24px 56px;
+      position: relative; overflow: hidden;
+      min-height: 440px;
+    }
+    .pd-main-img::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0,32,96,0.5) 0%, transparent 70%);
+    }
+    .pd-angle-label {
+      position: absolute; top: 16px; left: 20px;
+      font-size: 9px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(245,245,240,0.28);
+    }
+
+    /* XL tub for product page */
+    .tub-xl { position: relative; z-index: 1; }
+    .tub-xl .tub-lid {
+      width: min(340px, 80vw); height: 38px; margin: 0 auto;
+      background: linear-gradient(180deg, #0d3494 0%, #002575 60%, #001e5c 100%);
+      border-radius: 11px 11px 0 0;
+      border: 1px solid rgba(255,255,255,0.08); border-bottom: none;
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+    }
+    .tub-xl .tub-lid::before {
+      content: ''; display: block; margin: 0 auto;
+      width: 66px; height: 5px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 0 0 4px 4px;
+    }
+    .tub-xl .tub-body {
+      width: min(316px, 75vw); height: 440px;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.045) 0%, transparent 22%),
+        linear-gradient(240deg, rgba(255,255,255,0.02)  0%, transparent 22%),
+        linear-gradient(180deg, #003090 0%, #002060 30%, #001640 65%, #000c28 100%);
+      border-radius: 0 0 22px 22px;
+      border: 1px solid rgba(255,255,255,0.07); border-top: none;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      box-shadow:
+        0 80px 180px rgba(0,0,0,0.75),
+        0 32px 64px  rgba(0,0,0,0.5),
+        inset  5px 0 16px rgba(255,255,255,0.02),
+        inset -5px 0 16px rgba(0,0,0,0.35);
+    }
+    .tub-xl .tub-body::before {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255,255,255,0.004) 4px, rgba(255,255,255,0.004) 5px);
+    }
+    .tub-xl .tub-body::after {
+      content: ''; position: absolute;
+      left: 0; top: 15%; bottom: 15%; width: 4px;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.06), transparent);
+    }
+    .tub-xl .tub-rule  { width: 230px; height: 1.5px; background: var(--teal); flex-shrink: 0; }
+    .tub-xl .tub-center {
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+      padding: 22px 0; z-index: 1; position: relative;
+    }
+    .tub-xl .tub-name  { font-size: 50px; font-weight: 700; letter-spacing: 0.26em; color: var(--chalk); line-height: 1; }
+    .tub-xl .tub-sport { font-size: 8px; font-weight: 600; letter-spacing: 0.55em; text-transform: uppercase; color: var(--teal); }
+    .tub-xl .tub-desc  { font-size: 7px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: rgba(245,245,240,0.35); margin-top: 14px; }
+    .tub-xl .tub-wt    { font-size: 8px; letter-spacing: 0.14em; color: rgba(245,245,240,0.18); margin-top: 5px; }
+    .tub-xl .tub-glow  {
+      position: absolute; bottom: -56px; left: 50%; transform: translateX(-50%);
+      width: 260px; height: 56px;
+      background: radial-gradient(ellipse, rgba(23,128,126,0.22) 0%, transparent 70%);
+      filter: blur(14px); pointer-events: none;
+    }
+
+    /* Thumbnails */
+    .pd-thumbs { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+    .pd-thumbs::-webkit-scrollbar { display: none; }
+    .thumb {
+      flex-shrink: 0; width: 74px;
+      background: rgba(0,26,80,0.35);
+      border: 1.5px solid var(--rule);
+      border-radius: 10px; padding: 10px 6px 8px;
+      cursor: pointer; transition: border-color 0.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+    }
+    .thumb:hover { border-color: rgba(59,130,246,0.4); }
+    .thumb.thumb-active { border-color: var(--blue); }
+    .thumb-tub {
+      width: 44px; height: 62px;
+      background: linear-gradient(180deg, #002575 0%, #001640 100%);
+      border-radius: 3px 3px 8px 8px;
+      border: 1px solid rgba(255,255,255,0.07);
+      position: relative;
+    }
+    .thumb-tub::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 10px;
+      background: linear-gradient(180deg, #0d3494, #002575);
+      border-radius: 2px 2px 0 0;
+    }
+    .thumb-lbl { font-size: 7px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,245,240,0.3); }
+    .thumb.thumb-active .thumb-lbl { color: var(--blue); }
+
+    /* ══════════ PRODUCT INFO PANEL ══════════ */
+    .pd-info { display: flex; flex-direction: column; gap: 24px; }
+    @media (min-width: 1025px) { .pd-info { position: sticky; top: 88px; } }
+
+    .pd-brand { font-size: 11px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--blue); }
+    .pd-name  {
+      font-family: 'Big Shoulders Display', 'Arial Black', sans-serif;
+      font-size: clamp(52px,7vw,88px); font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--chalk); line-height: 0.9;
+    }
+
+    .pd-stars { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .stars-icons { color: #FBBF24; letter-spacing: 2px; font-size: 15px; }
+    .stars-score { font-size: 13px; font-weight: 600; color: var(--chalk); }
+    .stars-count { font-size: 13px; color: var(--dim); }
+    .stars-count a { color: var(--blue); text-decoration: none; }
+    .stars-count a:hover { text-decoration: underline; }
+
+    .pd-price-row { display: flex; align-items: baseline; gap: 8px; }
+    .pd-price { font-size: clamp(36px,4vw,52px); font-weight: 700; letter-spacing: -0.02em; color: var(--chalk); }
+    .pd-currency { font-size: 14px; color: var(--dim); }
+
+    .pd-divider { height: 1px; background: var(--rule); }
+
+    .selector-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase;
+      color: rgba(245,245,240,0.35); margin-bottom: 10px;
+    }
+    .pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      font-family: var(--font);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 9px 18px; border-radius: 9999px; cursor: pointer;
+      border: 1px solid rgba(245,245,240,0.15);
+      background: transparent; color: var(--dim);
+      transition: all 0.2s;
+    }
+    .pill:hover { border-color: rgba(245,245,240,0.35); color: var(--chalk); }
+    .pill.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .pill-save {
+      font-size: 9px; font-weight: 700;
+      background: rgba(59,130,246,0.2); color: var(--blue);
+      padding: 2px 7px; border-radius: 4px;
+      vertical-align: middle; display: inline-block; margin-left: 4px;
+    }
+
+    .qty-row { display: flex; align-items: center; }
+    .qty-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase;
+      color: rgba(245,245,240,0.35); margin-right: 16px;
+    }
+    .qty-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--rule); color: var(--chalk);
+      font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .qty-btn:hover { background: rgba(255,255,255,0.1); }
+    #qty-val { font-size: 16px; font-weight: 600; color: var(--chalk); width: 48px; text-align: center; }
+
+    .btn-atc {
+      font-family: var(--font);
+      font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      width: 100%; padding: 18px;
+      background: var(--blue); color: #fff;
+      border: none; border-radius: 6px; cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      min-height: 56px;
+    }
+    .btn-atc:hover { opacity: 0.88; }
+    .btn-atc:active { transform: scale(0.98); opacity: 0.82; }
+
+    .trust-row-pd { display: flex; flex-wrap: wrap; gap: 10px 18px; padding-top: 4px; }
+    .trust-pd {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
+      color: rgba(245,245,240,0.32);
+    }
+
+    /* ══════════ SECTION SHARED ══════════ */
+    .section-eye {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 16px; display: block;
+    }
+    .section-h2 {
+      font-size: clamp(36px,4.5vw,62px); font-weight: 700;
+      letter-spacing: -0.02em; color: var(--chalk);
+      line-height: 1.0; margin-bottom: 36px;
+    }
+    .section-body {
+      font-size: 16px; font-weight: 300; line-height: 1.82;
+      color: var(--dim); margin-bottom: 24px;
+    }
+    .section-body:last-child { margin-bottom: 0; }
+    .section-body strong { color: var(--chalk); font-weight: 500; }
+
+    /* ══════════ SHORT DESCRIPTION ══════════ */
+    #pd-desc {
+      background: var(--ink);
+      padding: clamp(52px,7vw,88px) clamp(24px,5vw,80px);
+      border-top: 1px solid var(--rule);
+      text-align: center;
+    }
+    .pd-desc-inner {
+      max-width: 680px; margin: 0 auto;
+      font-size: clamp(17px,2vw,21px); font-weight: 300;
+      line-height: 1.8; color: var(--dim);
+    }
+    .pd-desc-inner strong { color: var(--chalk); font-weight: 500; }
+
+    /* ══════════ BENEFITS ══════════ */
+    #benefits {
+      background: var(--navy);
+      padding: clamp(60px,7vw,96px) clamp(24px,5vw,80px);
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .benefits-grid {
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 2px; background: var(--rule); max-width: 960px; margin: 0 auto;
+    }
+    @media (min-width: 641px) { .benefits-grid { grid-template-columns: repeat(4,1fr); } }
+    .benefit { background: var(--navy); padding: 32px 24px; text-align: center; }
+    .benefit-icon  { font-size: 28px; margin-bottom: 12px; display: block; }
+    .benefit-heading { font-size: 13px; font-weight: 700; color: var(--chalk); margin-bottom: 6px; }
+    .benefit-sub { font-size: 11px; color: var(--dim); line-height: 1.55; }
+
+    /* ══════════ STORY ══════════ */
+    #pd-story {
+      background: var(--navy);
+      padding: clamp(80px,10vw,140px) clamp(24px,5vw,80px);
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .pd-story-inner { max-width: 720px; }
+
+    /* ══════════ INGREDIENTS ══════════ */
+    #ingredients {
+      background: var(--ink);
+      padding: clamp(80px,10vw,120px) clamp(24px,5vw,80px);
+      border-top: 1px solid var(--rule);
+    }
+    .ing-inner { max-width: 640px; }
+    .ing-list { list-style: none; margin: 32px 0; }
+    .ing-list li {
+      padding: 16px 0; border-bottom: 1px solid var(--rule);
+      font-size: 16px; font-weight: 300; color: var(--dim);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .ing-list li:last-child { border-bottom: none; }
+    .ing-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+    .ing-name { font-weight: 500; color: var(--chalk); }
+    .ing-note { font-size: 12px; color: rgba(245,245,240,0.28); margin-left: auto; white-space: nowrap; }
+    .ing-badge {
+      display: inline-block;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+      color: var(--teal); margin-top: 8px; line-height: 1.7;
+    }
+
+    /* ══════════ HOW TO USE ══════════ */
+    #how-to-use {
+      background: var(--navy);
+      padding: clamp(80px,10vw,120px) clamp(24px,5vw,80px);
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .htu-inner { max-width: 680px; }
+    .steps { list-style: none; margin: 32px 0; }
+    .step {
+      display: flex; gap: 24px; align-items: flex-start;
+      padding: 24px 0; border-bottom: 1px solid var(--rule);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: var(--blue); padding-top: 3px; flex-shrink: 0; width: 24px; }
+    .step-text { font-size: 16px; font-weight: 300; line-height: 1.72; color: var(--dim); }
+    .step-text strong { color: var(--chalk); font-weight: 500; }
+    .scenarios-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(245,245,240,0.28); margin: 32px 0 14px; display: block;
+    }
+    .scenario-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 8px 16px; border-radius: 9999px;
+      border: 1px solid rgba(245,245,240,0.1); color: var(--dim);
+    }
+
+    /* ══════════ IN THE BOX ══════════ */
+    #in-the-box {
+      background: var(--ink);
+      padding: clamp(80px,10vw,120px) clamp(24px,5vw,80px);
+      border-top: 1px solid var(--rule);
+    }
+    .box-inner { max-width: 640px; }
+    .box-list { list-style: none; margin: 32px 0; }
+    .box-item {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 0; border-bottom: 1px solid var(--rule);
+      font-size: 15px; font-weight: 300; color: var(--dim);
+    }
+    .box-item:last-child { border-bottom: none; }
+    .box-icon { font-size: 22px; width: 32px; text-align: center; flex-shrink: 0; }
+
+    /* ══════════ NUTRITION ══════════ */
+    #nutrition {
+      background: var(--ink);
+      padding: clamp(60px,7vw,100px) clamp(24px,5vw,80px);
+      border-top: 1px solid var(--rule);
+    }
+    .nf-wrap { max-width: 680px; }
+    .nutrition-label {
+      background: #fff; color: #111;
+      border: 2px solid #000; border-radius: 4px;
+      overflow: hidden; font-family: Arial, Helvetica, sans-serif;
+      max-width: 360px; margin-top: 40px;
+    }
+    .nf-title { font-size: 26px; font-weight: 900; padding: 8px 12px 2px; border-bottom: 8px solid #000; }
+    .nf-servings { font-size: 11px; padding: 4px 12px; border-bottom: 1px solid #000; }
+    .nf-cal-row {
+      padding: 4px 12px; border-bottom: 8px solid #000;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .nf-cal-lbl { font-size: 11px; font-weight: 700; }
+    .nf-cal-val { font-size: 30px; font-weight: 900; }
+    .nf-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 3px 12px; border-bottom: 1px solid #ccc; font-size: 12px;
+    }
+    .nf-row.thick { border-bottom: 4px solid #000; }
+    .nf-row.bold  { font-weight: 700; }
+    .nf-row.indent  { padding-left: 28px; }
+    .nf-row.indent2 { padding-left: 44px; }
+    .nf-footer { font-size: 10px; padding: 6px 12px; border-top: 4px solid #000; line-height: 1.5; }
+
+    /* ══════════ FAQ ══════════ */
+    #faq {
+      background: var(--navy);
+      padding: clamp(80px,10vw,120px) clamp(24px,5vw,80px);
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .faq-inner { max-width: 720px; }
+    .faq-list { margin-top: 40px; }
+    .faq-item { border-bottom: 1px solid var(--rule); }
+    .faq-q {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 22px 0; text-align: left; gap: 16px;
+    }
+    .faq-q-text { font-size: 15px; font-weight: 500; color: var(--chalk); line-height: 1.45; font-family: var(--font); }
+    .faq-chevron {
+      width: 20px; height: 20px; flex-shrink: 0;
+      color: rgba(245,245,240,0.3);
+      transition: transform 0.3s ease, color 0.2s;
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--blue); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.36s ease; }
+    .faq-item.open .faq-a { max-height: 400px; }
+    .faq-a-inner {
+      font-size: 14px; font-weight: 300; line-height: 1.78;
+      color: var(--dim); padding-bottom: 20px;
+    }
+    .faq-a-inner strong { color: var(--chalk); font-weight: 500; }
+
+    /* ══════════ REVIEWS ══════════ */
+    #reviews {
+      background: var(--ink);
+      padding: clamp(80px,10vw,120px) clamp(24px,5vw,80px);
+      border-top: 1px solid var(--rule);
+    }
+    .reviews-summary {
+      display: flex; gap: 48px; align-items: center;
+      margin-bottom: 52px; flex-wrap: wrap;
+    }
+    .rv-score { text-align: center; }
+    .rv-score-num { font-size: clamp(56px,8vw,80px); font-weight: 700; letter-spacing: -0.04em; color: var(--chalk); line-height: 1; }
+    .rv-score-stars { color: #FBBF24; font-size: 22px; letter-spacing: 3px; }
+    .rv-score-count { font-size: 12px; color: var(--dim); margin-top: 4px; }
+    .rv-bars { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 7px; }
+    .rv-bar-row { display: flex; align-items: center; gap: 10px; }
+    .rv-bar-lbl { font-size: 11px; color: var(--dim); width: 12px; text-align: right; }
+    .rv-bar-track { flex: 1; height: 6px; background: rgba(245,245,240,0.08); border-radius: 3px; overflow: hidden; }
+    .rv-bar-fill { height: 100%; background: #FBBF24; border-radius: 3px; }
+    .rv-bar-pct { font-size: 11px; color: var(--dim); width: 32px; }
+
+    .reviews-grid { display: grid; gap: 16px; }
+    @media (min-width: 641px) { .reviews-grid { grid-template-columns: repeat(3,1fr); } }
+    .review-card {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--rule); border-radius: 12px; padding: 24px;
+    }
+    .rv-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .rv-name { font-size: 13px; font-weight: 600; color: var(--chalk); }
+    .rv-date { font-size: 11px; color: var(--dim); }
+    .rv-stars { color: #FBBF24; font-size: 13px; letter-spacing: 2px; margin-bottom: 10px; }
+    .rv-text { font-size: 14px; font-weight: 300; line-height: 1.7; color: var(--dim); }
+    .rv-text strong { color: var(--chalk); font-weight: 500; }
+    .btn-load-more {
+      font-family: var(--font); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 14px 32px; margin-top: 40px;
+      background: transparent; border: 1px solid var(--rule);
+      color: var(--dim); cursor: pointer; border-radius: 9999px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-load-more:hover { border-color: rgba(245,245,240,0.3); color: var(--chalk); }
+
+    /* ══════════ COMPARISON TABLE ══════════ */
+    #compare {
+      background: var(--navy);
+      padding: clamp(80px,10vw,120px) clamp(24px,5vw,80px);
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .compare-wrap { overflow-x: auto; max-width: 900px; }
+    .compare-table {
+      width: 100%; border-collapse: collapse; min-width: 500px; margin-top: 40px;
+    }
+    .compare-table th {
+      padding: 14px 20px; text-align: center;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--chalk); border-bottom: 1px solid var(--rule);
+    }
+    .compare-table th:first-child { text-align: left; font-size: 10px; }
+    .compare-table td {
+      padding: 13px 20px; text-align: center;
+      font-size: 13px; color: var(--dim);
+      border-bottom: 1px solid var(--rule);
+    }
+    .compare-table td:first-child {
+      text-align: left; font-size: 12px; font-weight: 500;
+      color: rgba(245,245,240,0.42); letter-spacing: 0.04em;
+    }
+    .col-solus      { background: rgba(59,130,246,0.06); color: var(--chalk) !important; font-weight: 500 !important; }
+    .col-solus-head { background: rgba(59,130,246,0.12); color: var(--blue) !important; border-top: 2px solid var(--blue); }
+    .check { color: #4ADE80; font-weight: 600; }
+    .cross { color: rgba(245,245,240,0.18); }
+
+    /* ══════════ RELATED ══════════ */
+    #related {
+      background: var(--ink);
+      padding: clamp(80px,10vw,120px) clamp(24px,5vw,80px);
+      border-top: 1px solid var(--rule);
+    }
+    .related-grid { display: grid; gap: 2px; background: var(--rule); margin-top: 40px; }
+    @media (min-width: 641px) { .related-grid { grid-template-columns: repeat(3,1fr); } }
+    .related-card {
+      background: rgba(255,255,255,0.015);
+      padding: 40px 32px;
+      display: flex; flex-direction: column; gap: 12px;
+      opacity: 0.55;
+    }
+    .related-icon { font-size: 28px; }
+    .coming-soon-badge {
+      display: inline-block;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(245,245,240,0.25); border: 1px solid rgba(245,245,240,0.1);
+      padding: 4px 10px; border-radius: 4px;
+    }
+    .related-name { font-size: 18px; font-weight: 700; color: var(--chalk); }
+    .related-desc { font-size: 13px; color: var(--dim); line-height: 1.6; }
+    .related-notify { display: flex; margin-top: 4px; }
+    .related-email {
+      flex: 1; padding: 10px 14px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--rule); border-right: none;
+      border-radius: 6px 0 0 6px; color: var(--chalk); font-family: var(--font); font-size: 12px; outline: none;
+    }
+    .related-email::placeholder { color: rgba(245,245,240,0.22); }
+    .related-btn {
+      font-family: var(--font); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 10px 16px;
+      background: rgba(245,245,240,0.07); border: 1px solid var(--rule); border-left: none;
+      border-radius: 0 6px 6px 0; color: var(--chalk); cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* ══════════ FOOTER ══════════ */
+    footer { background: var(--navy); border-top: 1px solid var(--rule); padding: 52px 80px 44px; }
+    .footer-r { display: flex; align-items: center; justify-content: space-between; margin-bottom: 44px; flex-wrap: wrap; gap: 24px; }
+    .f-logo   { font-size: 12px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
+    .f-logo em { color: var(--blue); font-style: normal; }
+    .f-nav    { display: flex; gap: 32px; list-style: none; flex-wrap: wrap; }
+    .f-nav a  { font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-nav a:hover { color: var(--chalk); }
+    .f-ig     { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-ig:hover { color: var(--chalk); }
+    .f-btm    { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid var(--rule); flex-wrap: wrap; gap: 12px; }
+    .f-copy   { font-size: 11px; color: rgba(245,245,240,0.18); letter-spacing: 0.06em; }
+    .f-hasta  { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); }
+
+    /* ══════════ TOAST ══════════ */
+    .toast {
+      position: fixed; bottom: calc(80px + env(safe-area-inset-bottom,0px));
+      left: 50%; transform: translateX(-50%);
+      background: rgba(10,20,52,0.96); backdrop-filter: blur(20px);
+      border: 1px solid rgba(59,130,246,0.35); border-radius: 9999px;
+      padding: 14px 28px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--chalk); z-index: 400; white-space: nowrap;
+      animation: toastIn 0.28s ease, toastOut 0.28s ease 2.72s forwards;
+    }
+    @keyframes toastIn  { from { opacity:0; transform:translateX(-50%) translateY(10px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+    @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+    /* ══════════ MOBILE STICKY BUY BAR ══════════ */
+    #sticky-buy {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+      background: rgba(4,13,31,0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 20px calc(12px + env(safe-area-inset-bottom,0px));
+      align-items: center; gap: 14px;
+      transform: translateY(100%); transition: transform 0.3s ease;
+    }
+    #sticky-buy.visible { transform: translateY(0); }
+    @media (max-width: 640px) { #sticky-buy { display: flex; } }
+    .sb-tub {
+      width: 34px; height: 46px; flex-shrink: 0;
+      background: linear-gradient(180deg,#002575 0%,#001640 100%);
+      border-radius: 2px 2px 6px 6px; border: 1px solid rgba(255,255,255,0.07);
+    }
+    .sb-info { flex: 1; min-width: 0; }
+    .sb-name  { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--chalk); }
+    .sb-price { font-size: 13px; font-weight: 700; color: var(--chalk); }
+    .sb-btn {
+      font-family: var(--font); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 12px 20px; background: var(--blue); color: #fff;
+      border: none; border-radius: 6px; cursor: pointer;
+      min-height: 44px; white-space: nowrap;
+    }
+
+    /* ══════════ SCROLL REVEAL ══════════ */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; }
+
+    /* ══════════ RESPONSIVE ══════════ */
+    @media (max-width: 640px) {
+      #nav { z-index: 200; top: calc(16px + env(safe-area-inset-top,0px)); }
+      .nav-r { display: none; }
+      .nav-burger { display: flex; width: 44px; height: 44px; padding: 10px 8px; }
+
+      #nav-mobile {
+        display: flex !important;
+        top: 0; left: 0; right: 0; bottom: 0;
+        min-width: unset; width: 100%; height: 100%;
+        transform: none; border-radius: 0; border: none;
+        padding: calc(96px + env(safe-area-inset-top,0px)) 48px calc(48px + env(safe-area-inset-bottom,0px));
+        flex-direction: column; justify-content: center; gap: 0;
+        opacity: 0; pointer-events: none; visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 150; box-shadow: none;
+      }
+      #nav-mobile.open { opacity: 1; pointer-events: auto; visibility: visible; }
+      .nm-link {
+        font-size: clamp(22px,6vw,32px); font-weight: 700; letter-spacing: 0.04em;
+        padding: 22px 0; min-height: 66px; border-bottom: 1px solid rgba(255,255,255,0.07);
+        display: flex; align-items: center; justify-content: center;
+      }
+      .nm-shop { margin-top: 20px; color: var(--blue); border-bottom: none; min-height: 56px; }
+      body.nav-open { overflow: hidden; }
+
+      .pd-hero { padding-top: calc(80px + env(safe-area-inset-top,0px)); }
+      .pd-info { margin-top: 32px; }
+      .pd-name { font-size: 52px; }
+
+      footer { padding: 40px 24px calc(32px + env(safe-area-inset-bottom,0px)); }
+      .footer-r { flex-direction: column; align-items: flex-start; }
+      .f-btm { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 375px) {
+      .pd-name { font-size: 42px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .btn-atc:hover  { opacity: 1; }
+      .pill:hover     { border-color: rgba(245,245,240,0.15); color: var(--dim); }
+      .thumb:hover    { border-color: var(--rule); }
+      .nav-link:hover { color: var(--dim); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .toast  { animation: none; opacity: 1; }
+      .faq-a  { transition: none; }
+      #sticky-buy { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="../index.html" aria-label="Back to SOLUS homepage"><em>S</em>olus Sport</a>
+  <div class="nav-r">
+    <a class="nav-link" href="../index.html">← Home</a>
+    <a class="nav-link" href="../index.html#ratio">Science</a>
+    <a class="nav-link" href="../index.html#philosophy">Story</a>
+    <a class="nav-shop" href="../index.html#shop">Shop</a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Open menu">
+    <span></span><span></span>
+  </button>
+</nav>
+<div id="nav-mobile" role="menu">
+  <a class="nm-link" href="../index.html">← Home</a>
+  <a class="nm-link" href="../index.html#ratio">Science</a>
+  <a class="nm-link" href="../index.html#philosophy">Story</a>
+  <a class="nm-link nm-shop" href="../index.html#shop">Shop</a>
+</div>
+
+<!-- PRODUCT HERO -->
+<section class="pd-hero" id="pd-hero">
+
+  <!-- Gallery left -->
+  <div class="pd-gallery">
+    <div class="pd-main-img">
+      <span class="pd-angle-label" id="angle-label">FRONT</span>
+      <div class="tub-xl">
+        <div class="tub-lid"></div>
+        <div class="tub-body">
+          <div class="tub-rule"></div>
+          <div class="tub-center">
+            <span class="tub-name">SOLUS</span>
+            <span class="tub-sport">Sport</span>
+          </div>
+          <div class="tub-rule"></div>
+          <span class="tub-desc">Endurance Carbohydrate Mix</span>
+          <span class="tub-wt">1,000g &middot; 20 serves</span>
+          <div class="tub-glow"></div>
+        </div>
+      </div>
+    </div>
+    <div class="pd-thumbs">
+      <div class="thumb thumb-active" data-angle="FRONT">
+        <div class="thumb-tub"></div>
+        <span class="thumb-lbl">Front</span>
+      </div>
+      <div class="thumb" data-angle="BACK">
+        <div class="thumb-tub" style="background:linear-gradient(180deg,#001848 0%,#000d26 100%)"></div>
+        <span class="thumb-lbl">Back</span>
+      </div>
+      <div class="thumb" data-angle="TOP">
+        <div class="thumb-tub" style="background:linear-gradient(180deg,#0d3494 0%,#002060 100%);border-radius:8px"></div>
+        <span class="thumb-lbl">Top</span>
+      </div>
+      <div class="thumb" data-angle="LIFESTYLE">
+        <div class="thumb-tub" style="background:linear-gradient(180deg,#1a2472 0%,#080f30 100%)"></div>
+        <span class="thumb-lbl">Lifestyle</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info right -->
+  <div class="pd-info" data-product-id="solus-carb-mix" data-sku="SCM-1KG-TROPICAL" data-price="59.00">
+    <div>
+      <p class="pd-brand">Solus</p>
+      <h1 class="pd-name">Carb<br>Mix</h1>
+    </div>
+
+    <div class="pd-stars">
+      <span class="stars-icons">★★★★★</span>
+      <span class="stars-score">4.9</span>
+      <span class="stars-count">&middot; <a href="#reviews">127 reviews</a></span>
+    </div>
+
+    <div class="pd-price-row">
+      <span class="pd-price" id="pd-price">$59.00</span>
+      <span class="pd-currency">AUD</span>
+    </div>
+
+    <div class="pd-divider"></div>
+
+    <div>
+      <p class="selector-label">Flavour</p>
+      <div class="pill-group" id="flavour-group">
+        <button class="pill active" data-flavour-sku="TROPICAL">Tropical Burst</button>
+        <button class="pill" data-flavour-sku="UNFLAVOURED">Unflavoured</button>
+        <button class="pill" data-flavour-sku="LEMON">Lemon Lime</button>
+      </div>
+    </div>
+
+    <div>
+      <p class="selector-label">Size</p>
+      <div class="pill-group" id="size-group">
+        <button class="pill active" data-size="1KG" data-price="59.00">1kg &middot; 20 serves</button>
+        <button class="pill" data-size="2KG" data-price="99.00">2kg &middot; 40 serves <span class="pill-save">Save 15%</span></button>
+      </div>
+    </div>
+
+    <div class="qty-row">
+      <span class="qty-label">Qty</span>
+      <button class="qty-btn" id="qty-minus" aria-label="Decrease quantity">&minus;</button>
+      <span id="qty-val" aria-live="polite">1</span>
+      <button class="qty-btn" id="qty-plus"  aria-label="Increase quantity">+</button>
+    </div>
+
+    <button class="btn-atc" id="btn-atc">Add to Cart</button>
+
+    <div class="trust-row-pd">
+      <span class="trust-pd">🚚 Free shipping over $100</span>
+      <span class="trust-pd">🇦🇺 Made in Australia</span>
+      <span class="trust-pd">🧪 HASTA certified</span>
+      <span class="trust-pd">🔄 30-day guarantee</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- SHORT DESCRIPTION -->
+<section id="pd-desc">
+  <p class="pd-desc-inner reveal">
+    Premium endurance fuel engineered for athletes who demand more.
+    <strong>Up to 90g of carbohydrates per hour,</strong> zero GI distress, unflavoured or naturally flavoured with real fruit.
+    Two ingredients. One ratio. That's the entire formula.
+  </p>
+</section>
+
+<!-- BENEFITS -->
+<section id="benefits">
+  <div class="benefits-grid">
+    <div class="benefit reveal">
+      <span class="benefit-icon">⚡</span>
+      <p class="benefit-heading">90g carbs/hour</p>
+      <p class="benefit-sub">Dual transport oxidation ceiling</p>
+    </div>
+    <div class="benefit reveal d1">
+      <span class="benefit-icon">🧬</span>
+      <p class="benefit-heading">Dual carb blend</p>
+      <p class="benefit-sub">1:0.8 maltodextrin:fructose ratio</p>
+    </div>
+    <div class="benefit reveal d2">
+      <span class="benefit-icon">🧪</span>
+      <p class="benefit-heading">HASTA batch tested</p>
+      <p class="benefit-sub">Banned substance free, every batch</p>
+    </div>
+    <div class="benefit reveal d3">
+      <span class="benefit-icon">🇦🇺</span>
+      <p class="benefit-heading">Made in Australia</p>
+      <p class="benefit-sub">Manufactured in Queensland</p>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="pd-story">
+  <div class="pd-story-inner">
+    <span class="section-eye reveal">About the product</span>
+    <h2 class="section-h2 reveal d1">Engineered<br>for endurance.</h2>
+    <p class="section-body reveal d2">
+      SOLUS CARB MIX is built on one principle: the science of carbohydrate fuelling settled years ago, and most sports nutrition brands ignored it. <strong>The 1:0.8 maltodextrin-to-fructose ratio</strong> activates two separate intestinal transporters simultaneously — SGLT1 and GLUT5 — allowing the body to absorb up to 90 grams of carbohydrate per hour. That's 50% more than single-source glucose products.
+    </p>
+    <p class="section-body reveal d2">
+      We made it unflavoured as the default because we believe your gut should determine what you drink, not your palate. No artificial sweeteners, no colours, no caffeine, no amino acids you don't need mid-race. Just clean, fast-absorbing fuel that works in a bottle, a bidon, or mixed into a homemade gel.
+    </p>
+    <p class="section-body reveal d2">
+      For athletes who want flavour, we've added naturally-derived options using real fruit extracts at concentrations that won't cause gastric upset at high doses. The formula doesn't change. Only the flavour does.
+    </p>
+  </div>
+</section>
+
+<!-- INGREDIENTS -->
+<section id="ingredients">
+  <div class="ing-inner">
+    <span class="section-eye reveal">What's inside</span>
+    <h2 class="section-h2 reveal d1">Ingredients.</h2>
+    <ul class="ing-list reveal d2">
+      <li><span class="ing-dot"></span><span class="ing-name">Cluster Dextrin (HBCD)</span><span class="ing-note">Primary carb source</span></li>
+      <li><span class="ing-dot"></span><span class="ing-name">Fructose</span><span class="ing-note">Secondary carb source</span></li>
+      <li><span class="ing-dot"></span><span class="ing-name">Sodium Chloride</span><span class="ing-note">Electrolyte</span></li>
+      <li><span class="ing-dot"></span><span class="ing-name">Potassium Citrate</span><span class="ing-note">Electrolyte</span></li>
+      <li><span class="ing-dot"></span><span class="ing-name">Magnesium Citrate</span><span class="ing-note">Electrolyte</span></li>
+      <li><span class="ing-dot"></span><span class="ing-name">Natural Flavours</span><span class="ing-note">Flavoured versions only</span></li>
+    </ul>
+    <span class="ing-badge reveal d3">🧪 Third-party batch tested for banned substances by HASTA. Certificate available on request.</span>
+  </div>
+</section>
+
+<!-- HOW TO USE -->
+<section id="how-to-use">
+  <div class="htu-inner">
+    <span class="section-eye reveal">Getting started</span>
+    <h2 class="section-h2 reveal d1">How to use.</h2>
+    <ol class="steps reveal d2">
+      <li class="step"><span class="step-num">01</span><p class="step-text">Mix <strong>1 scoop (50g)</strong> with 500–750ml of water. Shake for 15 seconds until dissolved.</p></li>
+      <li class="step"><span class="step-num">02</span><p class="step-text">Consume <strong>60–90g of carbohydrates per hour</strong> during exercise — 1 to 2 scoops depending on intensity and duration.</p></li>
+      <li class="step"><span class="step-num">03</span><p class="step-text">Best used during sessions <strong>over 90 minutes.</strong> Below that threshold, water and a pre-session meal is typically sufficient.</p></li>
+      <li class="step"><span class="step-num">04</span><p class="step-text">Store in a <strong>cool, dry place</strong> after opening. Reseal lid tightly. Best consumed within 3 months of opening.</p></li>
+    </ol>
+    <span class="scenarios-label reveal">Usage scenarios</span>
+    <div class="scenario-chips reveal d1">
+      <span class="chip">Long rides</span>
+      <span class="chip">Marathon training</span>
+      <span class="chip">Triathlon racing</span>
+      <span class="chip">Ultra-endurance</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHATS IN THE BOX -->
+<section id="in-the-box">
+  <div class="box-inner">
+    <span class="section-eye reveal">In the box</span>
+    <h2 class="section-h2 reveal d1">What you get.</h2>
+    <ul class="box-list reveal d2">
+      <li class="box-item"><span class="box-icon">🫙</span> 1kg tub of SOLUS CARB MIX &mdash; 20 serves</li>
+      <li class="box-item"><span class="box-icon">🥄</span> 50g measuring scoop (included inside tub)</li>
+      <li class="box-item"><span class="box-icon">📱</span> QR code to digital training &amp; usage guide</li>
+    </ul>
+  </div>
+</section>
+
+<!-- NUTRITION -->
+<section id="nutrition">
+  <div class="nf-wrap">
+    <span class="section-eye reveal">Per serve</span>
+    <h2 class="section-h2 reveal d1">Nutrition facts.</h2>
+    <div class="nutrition-label reveal d2">
+      <div class="nf-title">Nutrition Facts</div>
+      <div class="nf-servings">20 servings per container &nbsp;&middot;&nbsp; Serving size <strong>50g</strong></div>
+      <div class="nf-cal-row">
+        <span class="nf-cal-lbl">Calories</span>
+        <span class="nf-cal-val">180</span>
+      </div>
+      <div class="nf-row bold thick"><span>Total Carbohydrate</span><span>45g &thinsp; <small>16%</small></span></div>
+      <div class="nf-row indent"><span>Dietary Fibre</span><span>0g</span></div>
+      <div class="nf-row indent bold"><span>Total Sugars</span><span>15g</span></div>
+      <div class="nf-row indent2"><span>Incl. Added Sugars</span><span>15g &thinsp; <small>30%</small></span></div>
+      <div class="nf-row bold thick"><span>Sodium</span><span>250mg &thinsp; <small>11%</small></span></div>
+      <div class="nf-row"><span>Potassium</span><span>150mg &thinsp; <small>4%</small></span></div>
+      <div class="nf-row"><span>Magnesium</span><span>40mg &thinsp; <small>10%</small></span></div>
+      <div class="nf-row"><span>Protein</span><span>0g</span></div>
+      <div class="nf-row"><span>Total Fat</span><span>0g</span></div>
+      <div class="nf-footer">* Percent Daily Values based on a 2,000 calorie diet.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-inner">
+    <span class="section-eye reveal">Got questions</span>
+    <h2 class="section-h2 reveal d1">FAQ.</h2>
+    <div class="faq-list reveal d2">
+
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">Will this cause stomach issues?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p class="faq-a-inner">The 1:0.8 ratio is specifically selected to minimise gastrointestinal distress. That said, <strong>gut training matters</strong> — if you haven't used high-dose carbohydrate fuelling before, start at 30–40g per hour and build up over 3–4 weeks.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">How is this different from Maurten or Precision Fuel?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p class="faq-a-inner">SOLUS uses the same peer-reviewed dual-transport ratio. <strong>The primary differences are price and transparency</strong> — every ingredient is listed, there's no proprietary blend, and it's HASTA certified. Maurten uses a hydrogel matrix; SOLUS doesn't. Most athletes find both work equally well — you shouldn't have to pay a premium for science that's been published for 20 years.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">Is it suitable for people with diabetes?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p class="faq-a-inner">SOLUS CARB MIX is a <strong>sports-specific fuel</strong> intended for use during exercise. If you manage diabetes, consult your physician or sports dietitian before use. Blood glucose response during high-intensity exercise is highly individual.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">When should I take it?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p class="faq-a-inner">Start fuelling at <strong>20–30 minutes into exercise</strong>, before glycogen stores begin to deplete. For sessions under 75 minutes, you likely don't need exogenous carbohydrate. For sessions over 90 minutes, consistent fuelling throughout is more effective than playing catch-up late in the effort.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">How long does a 1kg tub last?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p class="faq-a-inner">A 1kg tub provides <strong>20 × 50g serves.</strong> If you fuel one 3-hour session per week at 90g/hr, that's roughly 5–6 weeks per tub. Training daily? The 2kg Bulk option costs less per serve and cuts order frequency in half.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">Is it vegan and gluten free?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p class="faq-a-inner"><strong>Yes to both.</strong> SOLUS CARB MIX contains no animal products or gluten-containing grains, and is manufactured under allergen management protocols. Full traceability is available through our HASTA batch certificate.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">Do you ship internationally?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p class="faq-a-inner">We currently ship within <strong>Australia only.</strong> International shipping is planned for Q3 2026 — sign up on the homepage to be notified when it launches in your country.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <span class="section-eye reveal">Customer reviews</span>
+  <h2 class="section-h2 reveal d1">What athletes say.</h2>
+  <div class="reviews-summary reveal d2">
+    <div class="rv-score">
+      <div class="rv-score-num">4.9</div>
+      <div class="rv-score-stars">★★★★★</div>
+      <div class="rv-score-count">127 reviews</div>
+    </div>
+    <div class="rv-bars">
+      <div class="rv-bar-row"><span class="rv-bar-lbl">5</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:82%"></div></div><span class="rv-bar-pct">82%</span></div>
+      <div class="rv-bar-row"><span class="rv-bar-lbl">4</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:12%"></div></div><span class="rv-bar-pct">12%</span></div>
+      <div class="rv-bar-row"><span class="rv-bar-lbl">3</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:4%"></div></div><span class="rv-bar-pct">4%</span></div>
+      <div class="rv-bar-row"><span class="rv-bar-lbl">2</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:1%"></div></div><span class="rv-bar-pct">1%</span></div>
+      <div class="rv-bar-row"><span class="rv-bar-lbl">1</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:1%"></div></div><span class="rv-bar-pct">1%</span></div>
+    </div>
+  </div>
+  <div class="reviews-grid reveal d2">
+    <div class="review-card">
+      <div class="rv-header"><span class="rv-name">Marcus T.</span><span class="rv-date">March 2026</span></div>
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">Used this through a full Ironman build. <strong>Zero GI issues at 90g/hr,</strong> which I've never managed with any other product. The unflavoured version is a game-changer — mix it with anything without killing the taste.</p>
+    </div>
+    <div class="review-card">
+      <div class="rv-header"><span class="rv-name">Sarah K.</span><span class="rv-date">February 2026</span></div>
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">Switched from a well-known competitor. <strong>Half the price, same result.</strong> Did a 5-hour Gran Fondo on 2 scoops/hr and felt strong at hour 4. Tropical Burst is subtle enough it doesn't get sickly.</p>
+    </div>
+    <div class="review-card">
+      <div class="rv-header"><span class="rv-name">Dean R.</span><span class="rv-date">January 2026</span></div>
+      <div class="rv-stars">★★★★☆</div>
+      <p class="rv-text">Took a few weeks to gut-train up to 80g/hr but <strong>the science is clearly there.</strong> Power output in the final 45 mins of long rides has improved noticeably. Would be 5 stars with more flavour options.</p>
+    </div>
+  </div>
+  <button class="btn-load-more reveal d3">Load more reviews</button>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section id="compare">
+  <span class="section-eye reveal">How we stack up</span>
+  <h2 class="section-h2 reveal d1">The comparison.</h2>
+  <div class="compare-wrap reveal d2">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="col-solus-head">SOLUS</th>
+          <th>Maurten 320</th>
+          <th>Precision PF 90</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Carbs per hour</td><td class="col-solus">Up to 90g</td><td>80g</td><td>90g</td></tr>
+        <tr><td>Price per serve</td><td class="col-solus">$2.95</td><td>$8.00+</td><td>$5.50+</td></tr>
+        <tr><td>GI distress rating</td><td class="col-solus">Very low</td><td>Low</td><td>Low</td></tr>
+        <tr><td>Flavour options</td><td class="col-solus">3</td><td>2</td><td>4</td></tr>
+        <tr><td>Australian made</td><td class="col-solus check">✓</td><td class="cross">✗</td><td class="cross">✗</td></tr>
+        <tr><td>HASTA certified</td><td class="col-solus check">✓</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Full ingredient list</td><td class="col-solus check">✓</td><td class="cross">✗</td><td class="check">✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- RELATED PRODUCTS -->
+<section id="related">
+  <span class="section-eye reveal">Coming soon</span>
+  <h2 class="section-h2 reveal d1">The full range.</h2>
+  <div class="related-grid reveal d2">
+    <div class="related-card">
+      <span class="related-icon">⚡</span>
+      <span class="coming-soon-badge">Coming soon</span>
+      <p class="related-name">Electrolyte Mix</p>
+      <p class="related-desc">Complete sodium, potassium &amp; magnesium blend. Engineered for hot conditions and high sweat rates.</p>
+      <div class="related-notify">
+        <input class="related-email" type="email" placeholder="your@email.com" aria-label="Email for notification" />
+        <button class="related-btn">Notify me</button>
+      </div>
+    </div>
+    <div class="related-card">
+      <span class="related-icon">🔬</span>
+      <span class="coming-soon-badge">Coming soon</span>
+      <p class="related-name">Recovery Blend</p>
+      <p class="related-desc">4:1 carb-to-protein ratio for the 30-minute window after hard training or racing.</p>
+      <div class="related-notify">
+        <input class="related-email" type="email" placeholder="your@email.com" aria-label="Email for notification" />
+        <button class="related-btn">Notify me</button>
+      </div>
+    </div>
+    <div class="related-card">
+      <span class="related-icon">🏃</span>
+      <span class="coming-soon-badge">Coming soon</span>
+      <p class="related-name">Gel Sachets</p>
+      <p class="related-desc">Same formula, same ratio, same HASTA certification — single-serve 50g sachet. No mixing required.</p>
+      <div class="related-notify">
+        <input class="related-email" type="email" placeholder="your@email.com" aria-label="Email for notification" />
+        <button class="related-btn">Notify me</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-r">
+    <a class="f-logo" href="../index.html"><em>S</em>olus Sport</a>
+    <ul class="f-nav">
+      <li><a href="#">Ingredients</a></li>
+      <li><a href="#">Shipping</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul>
+    <a class="f-ig" href="#">Instagram</a>
+  </div>
+  <div class="f-btm">
+    <span class="f-copy">&copy; 2026 Solus Sport Pty Ltd. Made in Queensland.</span>
+    <span class="f-hasta">HASTA Batch Certified</span>
+  </div>
+</footer>
+
+<!-- MOBILE STICKY BUY BAR -->
+<div id="sticky-buy" aria-hidden="true">
+  <div class="sb-tub"></div>
+  <div class="sb-info">
+    <div class="sb-name">Carb Mix</div>
+    <div class="sb-price" id="sb-price">$59.00 AUD</div>
+  </div>
+  <button class="sb-btn" id="sb-btn">Add to Cart</button>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Lenis
+  var lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 1.4, smoothWheel: true });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(function(t) { lenis.raf(t * 1000); });
+  gsap.ticker.lagSmoothing(0);
+
+  // Scroll reveal
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
+
+  // Nav hamburger
+  var burger    = document.getElementById('nav-burger');
+  var mobileNav = document.getElementById('nav-mobile');
+  burger.addEventListener('click', function() {
+    var open = burger.classList.toggle('open');
+    mobileNav.classList.toggle('open', open);
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  mobileNav.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      burger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      burger.setAttribute('aria-label', 'Open menu');
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (burger.classList.contains('open') && !burger.contains(e.target) && !mobileNav.contains(e.target)) {
+      burger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      burger.setAttribute('aria-label', 'Open menu');
+    }
+  });
+  new MutationObserver(function() {
+    document.body.classList.toggle('nav-open', burger.classList.contains('open'));
+  }).observe(burger, { attributes: true, attributeFilter: ['class'] });
+
+  // Thumbnail gallery
+  document.querySelectorAll('.thumb').forEach(function(thumb) {
+    thumb.addEventListener('click', function() {
+      document.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('thumb-active'); });
+      thumb.classList.add('thumb-active');
+      document.getElementById('angle-label').textContent = thumb.dataset.angle;
+    });
+  });
+
+  // Pill selectors
+  function makePillGroup(groupId, onSelect) {
+    document.querySelectorAll('#' + groupId + ' .pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        document.querySelectorAll('#' + groupId + ' .pill').forEach(function(p) { p.classList.remove('active'); });
+        pill.classList.add('active');
+        if (onSelect) onSelect(pill);
+      });
+    });
+  }
+  makePillGroup('flavour-group', null);
+  makePillGroup('size-group', function(pill) {
+    var price = pill.dataset.price;
+    if (price) {
+      var p = parseFloat(price);
+      document.getElementById('pd-price').textContent = '$' + p.toFixed(2);
+      document.getElementById('sb-price').textContent = '$' + p.toFixed(2) + ' AUD';
+      var panel = document.querySelector('[data-product-id]');
+      if (panel) panel.dataset.price = price;
+    }
+  });
+
+  // Quantity
+  var qty = 1;
+  document.getElementById('qty-plus').addEventListener('click', function() {
+    if (qty < 99) { qty++; document.getElementById('qty-val').textContent = qty; }
+  });
+  document.getElementById('qty-minus').addEventListener('click', function() {
+    if (qty > 1)  { qty--; document.getElementById('qty-val').textContent = qty; }
+  });
+
+  // Add to Cart toast
+  function showToast(msg) {
+    var old = document.querySelector('.toast');
+    if (old) old.remove();
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function() { if (t.parentNode) t.remove(); }, 3000);
+  }
+  document.getElementById('btn-atc').addEventListener('click', function() {
+    showToast('Coming soon — available shortly via Shopify');
+  });
+  document.getElementById('sb-btn').addEventListener('click', function() {
+    showToast('Coming soon — available shortly via Shopify');
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item   = btn.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(i) { i.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Mobile sticky buy bar
+  (function() {
+    var bar  = document.getElementById('sticky-buy');
+    var hero = document.getElementById('pd-hero');
+    if (!bar || !hero) return;
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        var show = !e.isIntersecting;
+        bar.classList.toggle('visible', show);
+        bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+      });
+    }, { threshold: 0 });
+    obs.observe(hero);
+  })();
+</script>
+</body>
+</html>

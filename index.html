@@ -505,7 +505,7 @@
       border-radius: 3px 3px 9px 9px;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: 4px;
-      margin-bottom: 44px; position: relative;
+      margin-bottom: 0; position: relative;
       box-shadow: 0 20px 56px rgba(0,0,0,0.55);
     }
     .ctm::before, .ctm::after { content: ''; position: absolute; left: 10px; right: 10px; height: 1px; background: var(--teal); opacity: 0.65; }
@@ -533,6 +533,23 @@
     .btn-ghost { background: transparent; border: 1px solid var(--rule); color: var(--chalk); transition: border-color 0.2s; }
     .btn-ghost:hover { border-color: rgba(245,245,240,0.3); }
     .trust-row { display: flex; gap: 48px; margin-top: 52px; flex-wrap: wrap; }
+
+    /* ── Product page link on shop cards ── */
+    .ctm-link { display: block; text-decoration: none; width: fit-content; margin-bottom: 44px; }
+    .ctm-link .ctm { margin-bottom: 0; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .ctm-link:hover .ctm {
+      transform: translateY(-5px);
+      box-shadow: 0 28px 64px rgba(0,0,0,0.6), 0 0 36px rgba(59,130,246,0.18);
+    }
+    .card-name-link { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .card-name-link:hover { color: #3B82F6; }
+    .btn-view-product {
+      display: inline-block; margin-bottom: 24px;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--teal); text-decoration: none;
+      transition: color 0.2s, letter-spacing 0.2s;
+    }
+    .btn-view-product:hover { color: var(--chalk); letter-spacing: 0.28em; }
     .trust-item { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,245,240,0.3); }
     .trust-dot  { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
 
@@ -1129,10 +1146,13 @@
   </div>
   <div class="shop-cards">
     <div class="shop-card reveal">
-      <div class="ctm"><span class="ctm-n">SOLUS</span><span class="ctm-s">Sport</span></div>
+      <a class="ctm-link" href="/product/carb-mix.html" tabindex="-1" aria-hidden="true">
+        <div class="ctm"><span class="ctm-n">SOLUS</span><span class="ctm-s">Sport</span></div>
+      </a>
       <span class="card-sku">Standard</span>
-      <h3 class="card-name">2,250g Tub</h3>
+      <h3 class="card-name"><a class="card-name-link" href="/product/carb-mix.html">2,250g Tub</a></h3>
       <p class="card-serves">25 &times; 90g serves &middot; Two 45g scoops included</p>
+      <a class="btn-view-product" href="/product/carb-mix.html">View Product &rarr;</a>
       <p class="card-desc">For athletes training three to five sessions per week. The same two-ingredient formula, the same ratio, the same results. Identical to the Bulk tub in every way except size.</p>
       <div class="card-price-row">
         <span class="card-price">$57.50</span>
@@ -1142,11 +1162,14 @@
       <button class="btn-buy btn-ghost">Add to Cart</button>
     </div>
     <div class="shop-card feat reveal d1">
-      <div class="ctm"><span class="ctm-n">SOLUS</span><span class="ctm-s">Sport</span></div>
+      <a class="ctm-link" href="/product/carb-mix.html" tabindex="-1" aria-hidden="true">
+        <div class="ctm"><span class="ctm-n">SOLUS</span><span class="ctm-s">Sport</span></div>
+      </a>
       <div class="card-pop">Most popular</div>
       <span class="card-sku">Bulk</span>
-      <h3 class="card-name">3,825g Tub</h3>
+      <h3 class="card-name"><a class="card-name-link" href="/product/carb-mix.html">3,825g Tub</a></h3>
       <p class="card-serves">42 &times; 90g serves &middot; Two 45g scoops included</p>
+      <a class="btn-view-product" href="/product/carb-mix.html">View Product &rarr;</a>
       <p class="card-desc">For athletes training daily or who prefer fewer orders. Best value per serve. The choice for high-volume training blocks, Ironman build phases, or fuelling multiple sessions per day.</p>
       <div class="card-price-row">
         <span class="card-price">$95.00</span>
