@@ -686,6 +686,11 @@
     /* ══════════ MOBILE: hamburger touch target ══════════ */
     @media (max-width: 640px) {
       .nav-burger { width: 44px; height: 44px; padding: 10px 8px; }
+      /* Stop the four-digit year overflowing the year column on phones */
+      .study { grid-template-columns: 60px 1fr; gap: 18px; padding: 32px 0; align-items: start; }
+      .s-year { font-size: 32px; letter-spacing: -0.03em; line-height: 1.05; }
+      .s-title { font-size: 15px; line-height: 1.4; margin-bottom: 8px; }
+      .s-body  { font-size: 14px; line-height: 1.7; }
     }
 
     /* ══════════ TABLET: restore 2-col layouts (641px–1024px) ══════════ */
