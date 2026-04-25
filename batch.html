@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Verify Batch — Solus Sport</title>
+  <meta name="description" content="HASTA batch lookup. Enter your tub's batch number to view the certificate of analysis and banned-substance test results." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+  <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --ink:   #040d1f;
+      --navy:  #002060;
+      --chalk: #F5F5F0;
+      --teal:  #17807E;
+      --amber: #CC6600;
+      --dim:   rgba(245,245,240,0.45);
+      --rule:  rgba(245,245,240,0.07);
+      --font:  'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font);
+      background: var(--ink);
+      color: var(--chalk);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ══════════ NAV (mirrors index.html) ══════════ */
+    #nav {
+      position: fixed;
+      top: 20px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: inline-flex;
+      align-items: center;
+      gap: 32px;
+      padding: 0 24px;
+      height: 48px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+      white-space: nowrap;
+    }
+    .nav-logo { font-size: 11px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
+    .nav-logo em { color: var(--teal); font-style: normal; }
+    .nav-r { display: flex; align-items: center; gap: 28px; }
+    .nav-link { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.is-active { color: var(--chalk); }
+    .nav-shop { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--chalk); background: transparent; border: 1px solid rgba(245,245,240,0.22); border-radius: 9999px; padding: 8px 18px; cursor: pointer; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
+    .nav-shop:hover { background: rgba(245,245,240,0.07); border-color: rgba(245,245,240,0.45); }
+    .nav-burger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; width: 28px; }
+    .nav-burger span { display: block; width: 20px; height: 1.5px; background: var(--chalk); border-radius: 2px; transition: transform 0.22s ease, opacity 0.22s ease; transform-origin: center; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { transform: translateY(-6.5px) rotate(-45deg); }
+    #nav-mobile { display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 49; flex-direction: column; align-items: center; min-width: 200px; background: rgba(4,13,31,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 8px 0; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+    #nav-mobile.open { display: flex; }
+    .nm-link { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); text-decoration: none; padding: 14px 40px; width: 100%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color 0.2s; }
+    .nm-link:hover { color: var(--chalk); }
+    .nm-shop { color: var(--chalk); border-bottom: none; padding-top: 14px; }
+
+    /* ══════════ PAGE BODY ══════════ */
+    main { flex: 1; padding: 160px 28px 120px; display: flex; flex-direction: column; align-items: center; }
+    .bv-wrap { width: 100%; max-width: 640px; text-align: center; }
+
+    .bv-eye { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px; }
+    .bv-h1  { font-size: clamp(36px, 5vw, 64px); font-weight: 700; letter-spacing: -0.025em; color: var(--chalk); line-height: 1.05; margin-bottom: 28px; }
+    .bv-intro { font-size: 16px; font-weight: 300; line-height: 1.78; color: rgba(245,245,240,0.62); margin: 0 auto 56px; max-width: 540px; }
+
+    /* Form */
+    .bv-form { display: flex; flex-direction: column; align-items: stretch; gap: 16px; max-width: 480px; margin: 0 auto 16px; text-align: left; }
+    .bv-label { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); }
+    .bv-input {
+      font-family: var(--font);
+      font-size: 16px; font-weight: 400;
+      color: var(--chalk);
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(245,245,240,0.22);
+      padding: 12px 0;
+      letter-spacing: 0.04em;
+      outline: none;
+      transition: border-color 0.25s;
+      width: 100%;
+    }
+    .bv-input::placeholder { color: rgba(245,245,240,0.28); letter-spacing: 0.04em; }
+    .bv-input:focus { border-bottom-color: var(--teal); }
+    .bv-submit {
+      font-family: var(--font);
+      font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+      color: #fff; background: var(--teal);
+      border: none; cursor: pointer;
+      padding: 16px 32px;
+      margin-top: 8px;
+      transition: opacity 0.2s;
+    }
+    .bv-submit:hover { opacity: 0.85; }
+    .bv-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Tooltip */
+    .bv-hint { display: inline-flex; align-items: baseline; gap: 8px; margin-top: 12px; position: relative; font-size: 12px; color: rgba(245,245,240,0.42); cursor: help; border-bottom: 1px dotted rgba(245,245,240,0.22); padding-bottom: 1px; }
+    .bv-hint:hover .bv-tip, .bv-hint:focus .bv-tip { opacity: 1; visibility: visible; transform: translate(-50%, -4px); }
+    .bv-tip {
+      position: absolute;
+      bottom: calc(100% + 8px); left: 50%;
+      transform: translate(-50%, 0);
+      width: 280px;
+      padding: 14px 16px;
+      background: rgba(4,13,31,0.96);
+      border: 1px solid rgba(245,245,240,0.12);
+      border-radius: 8px;
+      font-size: 12px; font-weight: 400; line-height: 1.6;
+      color: var(--chalk);
+      letter-spacing: 0;
+      text-transform: none;
+      text-align: left;
+      pointer-events: none;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+      z-index: 5;
+    }
+
+    /* Result panel */
+    .bv-result {
+      margin-top: 56px;
+      padding: 40px 36px;
+      border: 1px solid var(--rule);
+      background: rgba(255,255,255,0.025);
+      text-align: left;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      pointer-events: none;
+    }
+    .bv-result.show { opacity: 1; transform: none; pointer-events: auto; }
+    .bv-result.error { border-color: rgba(204,102,0,0.32); }
+
+    .bv-r-eye { font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+    .bv-result.error .bv-r-eye { color: var(--amber); }
+    .bv-r-batch { font-size: 28px; font-weight: 700; letter-spacing: -0.01em; color: var(--chalk); margin-bottom: 24px; line-height: 1.15; }
+    .bv-rows { border-top: 1px solid var(--rule); }
+    .bv-row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+    .bv-row dt { font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
+    .bv-row dd { font-size: 15px; font-weight: 400; color: var(--chalk); line-height: 1.55; word-break: break-word; }
+    .bv-row dd a { color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(23,128,126,0.4); padding-bottom: 1px; transition: color 0.2s, border-color 0.2s; }
+    .bv-row dd a:hover { color: var(--chalk); border-bottom-color: var(--chalk); }
+
+    .bv-stmt { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--rule); font-size: 14px; font-weight: 300; line-height: 1.7; color: rgba(245,245,240,0.7); }
+    .bv-stmt strong { color: var(--chalk); font-weight: 500; }
+
+    .bv-error-msg { font-size: 16px; font-weight: 300; line-height: 1.7; color: var(--chalk); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.85s ease, transform 0.85s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; }
+
+    /* ══════════ FOOTER (mirrors index.html) ══════════ */
+    footer { background: var(--navy); border-top: 1px solid var(--rule); padding: 52px 80px 44px; }
+    .footer-r { display: flex; align-items: center; justify-content: space-between; margin-bottom: 44px; flex-wrap: wrap; gap: 24px; }
+    .f-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
+    .f-logo em { color: var(--teal); font-style: normal; }
+    .f-nav { display: flex; gap: 32px; list-style: none; flex-wrap: wrap; }
+    .f-nav a { font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-nav a:hover { color: var(--chalk); }
+    .f-ig { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-ig:hover { color: var(--chalk); }
+    .f-btm { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid var(--rule); flex-wrap: wrap; gap: 12px; }
+    .f-copy { font-size: 11px; color: rgba(245,245,240,0.18); letter-spacing: 0.06em; }
+    .f-hasta { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .nav-r { display: none; }
+      .nav-burger { display: flex; }
+      main { padding: 130px 20px 80px; }
+      .bv-result { padding: 28px 22px; }
+      .bv-row { grid-template-columns: 1fr; gap: 4px; }
+      .bv-row dt { font-size: 10px; }
+      footer { padding: 40px 28px 32px; }
+      .footer-r { flex-direction: column; align-items: flex-start; }
+      .f-btm { flex-direction: column; align-items: flex-start; }
+      .bv-tip { width: 240px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a class="nav-logo" href="/index.html"><em>S</em>olus Sport</a>
+  <div class="nav-r">
+    <a class="nav-link" href="/index.html#ratio">Science</a>
+    <a class="nav-link" href="/index.html#philosophy">Story</a>
+    <a class="nav-link" href="/athletes.html">Athletes</a>
+    <a class="nav-link" href="/calculator.html">Calculator</a>
+    <a class="nav-shop" href="/index.html#shop">Shop</a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Open menu">
+    <span></span><span></span>
+  </button>
+</nav>
+<div id="nav-mobile" role="menu">
+  <a class="nm-link" href="/index.html#ratio">Science</a>
+  <a class="nm-link" href="/index.html#philosophy">Story</a>
+  <a class="nm-link" href="/athletes.html">Athletes</a>
+  <a class="nm-link" href="/calculator.html">Calculator</a>
+  <a class="nm-link nm-shop" href="/index.html#shop">Shop</a>
+</div>
+
+<!-- ══ MAIN ══ -->
+<main>
+  <div class="bv-wrap">
+    <p class="bv-eye reveal">Verification</p>
+    <h1 class="bv-h1 reveal d1">HASTA Batch Lookup</h1>
+    <p class="bv-intro reveal d2">
+      HASTA is the Human and Supplement Testing Australia program — independent, accredited testing for substances banned by WADA. Every Solus batch is tested clean before it ships. Enter your tub's batch number below to view its certificate.
+    </p>
+
+    <form class="bv-form reveal d3" id="bv-form" autocomplete="off" novalidate>
+      <label class="bv-label" for="bv-input">Enter batch number</label>
+      <input
+        class="bv-input"
+        id="bv-input"
+        type="text"
+        name="batch"
+        placeholder="e.g. SOL-2026-001"
+        autocapitalize="characters"
+        spellcheck="false"
+        required
+        aria-describedby="bv-result"
+      />
+      <button class="bv-submit" type="submit" id="bv-submit">Verify</button>
+    </form>
+
+    <span class="bv-hint" tabindex="0" role="button" aria-label="Where is the batch number printed">
+      Find your batch number
+      <span class="bv-tip" role="tooltip">Printed on the base of each tub, below the use-by date.</span>
+    </span>
+
+    <div class="bv-result" id="bv-result" role="status" aria-live="polite"></div>
+  </div>
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-r">
+    <a class="f-logo" href="/index.html"><em>S</em>olus Sport</a>
+    <ul class="f-nav">
+      <li><a href="/batch.html">Verify Batch</a></li>
+      <li><a href="#">Ingredients</a></li>
+      <li><a href="#">Shipping</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul>
+    <a class="f-ig" href="#">Instagram</a>
+  </div>
+  <div class="f-btm">
+    <span class="f-copy">&copy; 2026 Solus Sport Pty Ltd. Made in Queensland.</span>
+    <span class="f-hasta">HASTA Batch Certified</span>
+  </div>
+</footer>
+
+<script>
+  // Lenis smooth scroll (no GSAP dependency — just raf loop)
+  const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 1.4, smoothWheel: true });
+  function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  // Reveal observer
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // Mobile nav toggle
+  const burger = document.getElementById('nav-burger');
+  const mobileNav = document.getElementById('nav-mobile');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if (!burger.contains(e.target) && !mobileNav.contains(e.target) && mobileNav.classList.contains('open')) {
+      burger.classList.remove('open');
+      mobileNav.classList.remove('open');
+    }
+  });
+
+  // ── BATCH LOOKUP ──────────────────────────────
+  const form = document.getElementById('bv-form');
+  const input = document.getElementById('bv-input');
+  const submit = document.getElementById('bv-submit');
+  const result = document.getElementById('bv-result');
+
+  let batchesPromise = null;
+  function loadBatches() {
+    if (!batchesPromise) {
+      batchesPromise = fetch('/data/batches.json', { cache: 'no-cache' })
+        .then((r) => { if (!r.ok) throw new Error('Failed to load batch data'); return r.json(); })
+        .then((d) => Array.isArray(d.batches) ? d.batches : []);
+    }
+    return batchesPromise;
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function renderFound(b) {
+    const certNum = escapeHtml(b.hastaCertificateNumber || '—');
+    const certUrl = b.hastaCertificateUrl ? escapeHtml(b.hastaCertificateUrl) : '';
+    const subs = Number.isFinite(b.testedSubstances) ? b.testedSubstances : 200;
+    result.classList.remove('error');
+    result.innerHTML = `
+      <p class="bv-r-eye">Batch verified</p>
+      <p class="bv-r-batch">${escapeHtml(b.batchNumber)}</p>
+      <dl class="bv-rows">
+        <div class="bv-row"><dt>Production date</dt><dd>${escapeHtml(fmtDate(b.productionDate))}</dd></div>
+        <div class="bv-row"><dt>HASTA certificate</dt><dd>${certNum}</dd></div>
+        <div class="bv-row"><dt>Certificate of analysis</dt><dd>${certUrl ? `<a href="${certUrl}" target="_blank" rel="noopener">View PDF</a>` : 'Not available'}</dd></div>
+      </dl>
+      <p class="bv-stmt"><strong>Tested clean</strong> against ${subs}+ banned substances on the WADA list.</p>
+    `;
+    result.classList.add('show');
+  }
+
+  function renderNotFound() {
+    result.classList.add('error');
+    result.innerHTML = `
+      <p class="bv-r-eye">Not found</p>
+      <p class="bv-error-msg">Batch not found. Check the number on your tub label or <a href="mailto:hello@solussport.com" style="color:var(--teal);text-decoration:none;border-bottom:1px solid rgba(23,128,126,0.4);padding-bottom:1px;">contact us</a>.</p>
+    `;
+    result.classList.add('show');
+  }
+
+  function renderError(msg) {
+    result.classList.add('error');
+    result.innerHTML = `<p class="bv-r-eye">Error</p><p class="bv-error-msg">${escapeHtml(msg)}</p>`;
+    result.classList.add('show');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const q = input.value.trim().toUpperCase();
+    if (!q) { input.focus(); return; }
+    submit.disabled = true;
+    submit.textContent = 'Checking…';
+    try {
+      const batches = await loadBatches();
+      const match = batches.find((b) => String(b.batchNumber).toUpperCase() === q);
+      if (match) renderFound(match); else renderNotFound();
+    } catch (err) {
+      renderError('Unable to verify batch right now. Please try again in a moment.');
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'Verify';
+    }
+  });
+
+  // Auto-uppercase as user types (purely visual — submit also uppercases)
+  input.addEventListener('input', () => {
+    const start = input.selectionStart, end = input.selectionEnd;
+    input.value = input.value.toUpperCase();
+    input.setSelectionRange(start, end);
+  });
+</script>
+
+</body>
+</html>

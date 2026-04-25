@@ -1,0 +1,13 @@
+{
+  "_comment": "TODO: Replace SOL-2026-DEMO with real HASTA-certified batches once certification is issued. Each entry must include the printed batchNumber, ISO production date, the HASTA certificate number, a path to the PDF certificate (place files in /certificates/), the substance count tested against, and status ('certified' | 'pending').",
+  "batches": [
+    {
+      "batchNumber": "SOL-2026-DEMO",
+      "productionDate": "2026-01-15",
+      "hastaCertificateNumber": "HASTA-DEMO-00000",
+      "hastaCertificateUrl": "/certificates/SOL-2026-DEMO.pdf",
+      "testedSubstances": 200,
+      "status": "certified"
+    }
+  ]
+}

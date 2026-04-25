@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Athletes — Solus Sport</title>
+  <meta name="description" content="The athletes fuelling on Solus. Endurance triathlon, ultra-cycling, marathon and beyond." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+  <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --ink:   #040d1f;
+      --navy:  #002060;
+      --chalk: #F5F5F0;
+      --teal:  #17807E;
+      --amber: #CC6600;
+      --dim:   rgba(245,245,240,0.45);
+      --rule:  rgba(245,245,240,0.07);
+      --font:  'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font);
+      background: var(--ink);
+      color: var(--chalk);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ══════════ NAV ══════════ */
+    #nav {
+      position: fixed;
+      top: 20px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: inline-flex;
+      align-items: center;
+      gap: 32px;
+      padding: 0 24px;
+      height: 48px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+      white-space: nowrap;
+    }
+    .nav-logo { font-size: 11px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
+    .nav-logo em { color: var(--teal); font-style: normal; }
+    .nav-r { display: flex; align-items: center; gap: 28px; }
+    .nav-link { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.is-active { color: var(--chalk); }
+    .nav-shop { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--chalk); background: transparent; border: 1px solid rgba(245,245,240,0.22); border-radius: 9999px; padding: 8px 18px; cursor: pointer; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
+    .nav-shop:hover { background: rgba(245,245,240,0.07); border-color: rgba(245,245,240,0.45); }
+    .nav-burger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; width: 28px; }
+    .nav-burger span { display: block; width: 20px; height: 1.5px; background: var(--chalk); border-radius: 2px; transition: transform 0.22s ease, opacity 0.22s ease; transform-origin: center; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { transform: translateY(-6.5px) rotate(-45deg); }
+    #nav-mobile { display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 49; flex-direction: column; align-items: center; min-width: 220px; background: rgba(4,13,31,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 8px 0; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+    #nav-mobile.open { display: flex; }
+    .nm-link { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); text-decoration: none; padding: 14px 40px; width: 100%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color 0.2s; }
+    .nm-link:hover, .nm-link.is-active { color: var(--chalk); }
+    .nm-shop { color: var(--chalk); border-bottom: none; padding-top: 14px; }
+
+    /* ══════════ ATHLETES PAGE ══════════ */
+    main { flex: 1; }
+
+    .ath-hero { padding: 180px 80px 100px; max-width: 1200px; margin: 0 auto; }
+    .ath-eye  { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--teal); margin-bottom: 24px; }
+    .ath-h1   { font-size: clamp(40px, 6vw, 88px); font-weight: 700; letter-spacing: -0.025em; color: var(--chalk); line-height: 1.02; margin-bottom: 36px; max-width: 16ch; }
+    .ath-intro { font-size: clamp(15px, 1.4vw, 18px); font-weight: 300; line-height: 1.78; color: rgba(245,245,240,0.62); max-width: 56ch; }
+
+    .ath-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 80px 120px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px 56px;
+    }
+
+    .ath-card { display: flex; flex-direction: column; }
+    .ath-portrait {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: #0a1730;
+      overflow: hidden;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .ath-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; filter: contrast(0.95) saturate(0.78); }
+    .ath-portrait[data-no-image]::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(155deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0) 60%),
+        radial-gradient(ellipse at 30% 20%, rgba(23,128,126,0.12) 0%, rgba(0,0,0,0) 60%),
+        linear-gradient(180deg, #0c1d3c 0%, #04122b 100%);
+    }
+    .ath-portrait[data-no-image]::after {
+      content: 'PORTRAIT';
+      position: absolute;
+      bottom: 22px; left: 22px;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(245,245,240,0.18);
+    }
+
+    .ath-discipline { font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; }
+    .ath-name { font-size: clamp(24px, 2.6vw, 34px); font-weight: 700; letter-spacing: -0.015em; color: var(--chalk); line-height: 1.1; margin-bottom: 6px; }
+    .ath-credential { font-size: 13px; font-weight: 400; color: var(--dim); margin-bottom: 22px; letter-spacing: 0.02em; }
+    .ath-quote {
+      font-size: 16px; font-weight: 300;
+      line-height: 1.72;
+      color: rgba(245,245,240,0.78);
+      margin-bottom: 22px;
+      letter-spacing: -0.005em;
+    }
+    .ath-quote::before { content: '\201C'; color: var(--teal); margin-right: 4px; }
+    .ath-quote::after  { content: '\201D'; color: var(--teal); margin-left: 2px; }
+    .ath-location { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); padding-top: 18px; border-top: 1px solid var(--rule); }
+
+    .ath-empty { grid-column: 1 / -1; padding: 60px 0; font-size: 14px; color: var(--dim); text-align: center; }
+
+    /* ── PARTNER FOOTER STRIP ── */
+    .ath-cta {
+      max-width: 1200px;
+      margin: 0 auto 0;
+      padding: 80px 80px 120px;
+      border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: baseline; gap: 32px; flex-wrap: wrap;
+    }
+    .ath-cta-eye { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--teal); }
+    .ath-cta-line {
+      font-size: clamp(20px, 2vw, 26px); font-weight: 400; line-height: 1.5; color: var(--chalk); max-width: 60ch;
+    }
+    .ath-cta-line a { color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(23,128,126,0.4); padding-bottom: 1px; transition: color 0.2s, border-color 0.2s; }
+    .ath-cta-line a:hover { color: var(--chalk); border-bottom-color: var(--chalk); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.85s ease, transform 0.85s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; }
+
+    /* ══════════ FOOTER ══════════ */
+    footer { background: var(--navy); border-top: 1px solid var(--rule); padding: 52px 80px 44px; }
+    .footer-r { display: flex; align-items: center; justify-content: space-between; margin-bottom: 44px; flex-wrap: wrap; gap: 24px; }
+    .f-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
+    .f-logo em { color: var(--teal); font-style: normal; }
+    .f-nav { display: flex; gap: 32px; list-style: none; flex-wrap: wrap; }
+    .f-nav a { font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-nav a:hover { color: var(--chalk); }
+    .f-ig { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-ig:hover { color: var(--chalk); }
+    .f-btm { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid var(--rule); flex-wrap: wrap; gap: 12px; }
+    .f-copy { font-size: 11px; color: rgba(245,245,240,0.18); letter-spacing: 0.06em; }
+    .f-hasta { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .ath-hero { padding: 140px 28px 64px; }
+      .ath-grid { padding: 0 28px 80px; gap: 56px 32px; }
+      .ath-cta { padding: 60px 28px 100px; }
+    }
+    @media (max-width: 640px) {
+      .nav-r { display: none; }
+      .nav-burger { display: flex; }
+      .ath-hero { padding: 130px 22px 48px; }
+      .ath-grid { grid-template-columns: 1fr; padding: 0 22px 64px; gap: 48px; }
+      .ath-cta { padding: 56px 22px 80px; flex-direction: column; align-items: flex-start; gap: 18px; }
+      footer { padding: 40px 28px 32px; }
+      .footer-r { flex-direction: column; align-items: flex-start; }
+      .f-btm { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a class="nav-logo" href="/index.html"><em>S</em>olus Sport</a>
+  <div class="nav-r">
+    <a class="nav-link" href="/index.html#ratio">Science</a>
+    <a class="nav-link" href="/index.html#philosophy">Story</a>
+    <a class="nav-link is-active" href="/athletes.html">Athletes</a>
+    <a class="nav-link" href="/calculator.html">Calculator</a>
+    <a class="nav-shop" href="/index.html#shop">Shop</a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Open menu">
+    <span></span><span></span>
+  </button>
+</nav>
+<div id="nav-mobile" role="menu">
+  <a class="nm-link" href="/index.html#ratio">Science</a>
+  <a class="nm-link" href="/index.html#philosophy">Story</a>
+  <a class="nm-link is-active" href="/athletes.html">Athletes</a>
+  <a class="nm-link" href="/calculator.html">Calculator</a>
+  <a class="nm-link nm-shop" href="/index.html#shop">Shop</a>
+</div>
+
+<!-- ══ MAIN ══ -->
+<main>
+  <section class="ath-hero">
+    <p class="ath-eye reveal">Athletes</p>
+    <h1 class="ath-h1 reveal d1">Fuelling the athletes we respect.</h1>
+    <p class="ath-intro reveal d2">Solus is built for athletes training and racing at the edge of what's possible. These are some of the people using it.</p>
+  </section>
+
+  <section class="ath-grid" id="ath-grid" aria-live="polite">
+    <p class="ath-empty">Loading athletes&hellip;</p>
+  </section>
+
+  <section class="ath-cta">
+    <p class="ath-cta-eye">Partnerships</p>
+    <p class="ath-cta-line">
+      Interested in partnering with Solus?
+      <!-- TODO: Replace athletes@solussport.com with the real inbox once the domain is live and forwarding is set up. -->
+      Email <a href="mailto:athletes@solussport.com">athletes@solussport.com</a>.
+    </p>
+  </section>
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-r">
+    <a class="f-logo" href="/index.html"><em>S</em>olus Sport</a>
+    <ul class="f-nav">
+      <li><a href="/batch.html">Verify Batch</a></li>
+      <li><a href="#">Ingredients</a></li>
+      <li><a href="#">Shipping</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul>
+    <a class="f-ig" href="#">Instagram</a>
+  </div>
+  <div class="f-btm">
+    <span class="f-copy">&copy; 2026 Solus Sport Pty Ltd. Made in Queensland.</span>
+    <span class="f-hasta">HASTA Batch Certified</span>
+  </div>
+</footer>
+
+<script>
+  // Lenis smooth scroll
+  const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 1.4, smoothWheel: true });
+  function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  // Reveal observer
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  function observe(el) { io.observe(el); }
+  document.querySelectorAll('.reveal').forEach(observe);
+
+  // Mobile nav toggle
+  const burger = document.getElementById('nav-burger');
+  const mobileNav = document.getElementById('nav-mobile');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if (!burger.contains(e.target) && !mobileNav.contains(e.target) && mobileNav.classList.contains('open')) {
+      burger.classList.remove('open');
+      mobileNav.classList.remove('open');
+    }
+  });
+
+  // ── ATHLETE GRID ──────────────────────────────────────
+  const grid = document.getElementById('ath-grid');
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function renderCard(a, i) {
+    const delay = ['', 'd1', 'd2', 'd3'][i % 4];
+    const portraitInner = a.image
+      ? `<img src="${escapeHtml(a.image)}" alt="Portrait of ${escapeHtml(a.name)}" loading="lazy" onerror="this.parentElement.setAttribute('data-no-image',''); this.remove();" />`
+      : '';
+    const noImageAttr = a.image ? '' : ' data-no-image';
+    return `
+      <article class="ath-card reveal ${delay}">
+        <div class="ath-portrait"${noImageAttr}>${portraitInner}</div>
+        <p class="ath-discipline">${escapeHtml(a.discipline || '')}</p>
+        <h2 class="ath-name">${escapeHtml(a.name || '')}</h2>
+        <p class="ath-credential">${escapeHtml(a.credential || '')}</p>
+        <blockquote class="ath-quote">${escapeHtml(a.quote || '')}</blockquote>
+        <p class="ath-location">${escapeHtml(a.location || '')}</p>
+      </article>
+    `;
+  }
+
+  fetch('/data/athletes.json', { cache: 'no-cache' })
+    .then((r) => { if (!r.ok) throw new Error('no athletes'); return r.json(); })
+    .then((data) => {
+      const list = Array.isArray(data.athletes) ? data.athletes : [];
+      if (!list.length) {
+        grid.innerHTML = '<p class="ath-empty">More athletes joining soon.</p>';
+        return;
+      }
+      grid.innerHTML = list.map(renderCard).join('');
+      grid.querySelectorAll('.reveal').forEach(observe);
+    })
+    .catch(() => {
+      grid.innerHTML = '<p class="ath-empty">Athlete profiles temporarily unavailable.</p>';
+    });
+</script>
+
+</body>
+</html>

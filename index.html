@@ -924,6 +924,148 @@
       .card-desc     { font-size: 15px; }
       .phil-q        { font-size: clamp(20px, 5.5vw, 40px); }
     }
+
+    /* ══════════ PRODUCT INFO LINKS ══════════ */
+    .card-info { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 32px; }
+    .card-info-link {
+      font-family: var(--font);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--teal);
+      background: none; border: none; padding: 0;
+      cursor: pointer;
+      transition: color 0.2s, letter-spacing 0.2s;
+    }
+    .card-info-link::after { content: ' \2192'; opacity: 0.6; transition: opacity 0.2s; }
+    .card-info-link:hover { color: var(--chalk); letter-spacing: 0.28em; }
+    .card-info-link:hover::after { opacity: 1; }
+    .card-info-link:focus-visible { outline: 1px solid var(--teal); outline-offset: 4px; }
+
+    /* ══════════ CALC TEASER (shop section) ══════════ */
+    .calc-teaser {
+      display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      margin-top: 64px; padding: 32px 36px;
+      border: 1px solid var(--rule);
+      background: rgba(255,255,255,0.025);
+      text-decoration: none; color: inherit;
+      transition: border-color 0.25s, background 0.25s, transform 0.25s;
+    }
+    .calc-teaser:hover { border-color: rgba(245,245,240,0.18); background: rgba(255,255,255,0.04); }
+    .calc-teaser-l { display: flex; flex-direction: column; gap: 10px; max-width: 60ch; }
+    .calc-teaser-eye { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--teal); }
+    .calc-teaser-copy { font-size: 15px; font-weight: 300; line-height: 1.7; color: rgba(245,245,240,0.78); }
+    .calc-teaser-cta { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--chalk); white-space: nowrap; transition: letter-spacing 0.2s; }
+    .calc-teaser:hover .calc-teaser-cta { letter-spacing: 0.28em; color: var(--teal); }
+    @media (max-width: 760px) {
+      .calc-teaser { flex-direction: column; align-items: flex-start; padding: 24px 22px; gap: 18px; }
+    }
+
+    /* ══════════ MODAL ══════════ */
+    body.modal-lock { overflow: hidden; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(4,13,31,0.78);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px 20px;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+    .modal-panel {
+      background: var(--ink);
+      border: 1px solid rgba(245,245,240,0.12);
+      width: 100%; max-width: 720px;
+      max-height: calc(100vh - 64px);
+      overflow-y: auto;
+      padding: 56px 56px 64px;
+      position: relative;
+      transform: translateY(16px);
+      transition: transform 0.35s ease;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    }
+    .modal-overlay.open .modal-panel { transform: none; }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px;
+      width: 36px; height: 36px;
+      background: transparent;
+      border: 1px solid rgba(245,245,240,0.12);
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--chalk);
+      font-size: 18px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .modal-close:hover { background: rgba(245,245,240,0.06); border-color: rgba(245,245,240,0.32); }
+    .modal-close:focus-visible { outline: 1px solid var(--teal); outline-offset: 2px; }
+
+    .modal-eye { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+    .modal-h2  { font-size: clamp(28px, 3.4vw, 44px); font-weight: 700; letter-spacing: -0.02em; color: var(--chalk); line-height: 1.08; margin-bottom: 12px; }
+    .modal-sub { font-size: 14px; font-weight: 300; line-height: 1.7; color: rgba(245,245,240,0.55); margin-bottom: 40px; max-width: 560px; }
+    .modal-section { display: grid; grid-template-columns: 60px 1fr; gap: 28px; padding: 26px 0; border-top: 1px solid var(--rule); }
+    .modal-section:first-of-type { border-top: 1px solid rgba(245,245,240,0.12); }
+    .modal-num { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--teal); line-height: 1; padding-top: 2px; }
+    .modal-section-title { font-size: 16px; font-weight: 600; color: var(--chalk); margin-bottom: 14px; line-height: 1.35; letter-spacing: -0.005em; }
+    .modal-section-body { font-size: 14px; font-weight: 300; line-height: 1.78; color: rgba(245,245,240,0.7); }
+    .modal-section-body p { margin-bottom: 10px; }
+    .modal-section-body p:last-child { margin-bottom: 0; }
+    .modal-section-body strong { color: var(--chalk); font-weight: 500; }
+
+    @media (max-width: 640px) {
+      .modal-panel { padding: 44px 22px 36px; max-height: calc(100vh - 32px); }
+      .modal-section { grid-template-columns: 40px 1fr; gap: 16px; padding: 22px 0; }
+      .modal-num { font-size: 18px; }
+      .modal-h2  { margin-bottom: 8px; }
+      .modal-sub { margin-bottom: 28px; font-size: 13px; }
+      .modal-section-body { font-size: 15px; }
+    }
+
+    /* Ingredient & allergen list within modal body */
+    .modal-list { list-style: none; margin: 0; padding: 0; }
+    .modal-list li { padding: 8px 0 8px 16px; font-size: 14px; font-weight: 300; line-height: 1.7; color: rgba(245,245,240,0.7); border-bottom: 1px solid var(--rule); position: relative; }
+    .modal-list li:last-child { border-bottom: none; }
+    .modal-list li::before { content: ''; position: absolute; left: 0; top: 18px; width: 6px; height: 1px; background: var(--teal); }
+    .modal-todo { font-size: 12px; color: var(--amber); padding: 10px 12px; background: rgba(204,102,0,0.06); border-left: 2px solid var(--amber); margin-top: 12px; line-height: 1.55; }
+
+    /* Nutrition information panel — AU standard */
+    .nip {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(245,245,240,0.78);
+    }
+    .nip caption {
+      caption-side: top;
+      text-align: left;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dim);
+      padding-bottom: 12px;
+    }
+    .nip th, .nip td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--rule);
+      text-align: right;
+    }
+    .nip th:first-child, .nip td:first-child { text-align: left; color: var(--chalk); font-weight: 400; }
+    .nip thead th {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--dim);
+      border-bottom: 1px solid rgba(245,245,240,0.12);
+    }
+    .nip tr.nip-group td { color: var(--chalk); font-weight: 500; padding-top: 14px; }
+    .nip tr.nip-sub td:first-child { padding-left: 18px; color: rgba(245,245,240,0.55); }
+    .nip-foot { font-size: 12px; color: rgba(245,245,240,0.45); margin-top: 16px; line-height: 1.6; }
+
+    @media (max-width: 640px) {
+      .nip { font-size: 12px; }
+      .nip th, .nip td { padding: 8px 6px; }
+    }
   </style>
 </head>
 <body>
@@ -935,6 +1077,8 @@
   <div class="nav-r">
     <a class="nav-link" href="#ratio">Science</a>
     <a class="nav-link" href="#philosophy">Story</a>
+    <a class="nav-link" href="/athletes.html">Athletes</a>
+    <a class="nav-link" href="/calculator.html">Calculator</a>
     <a class="nav-shop" href="#shop">Shop</a>
   </div>
   <button class="nav-burger" id="nav-burger" aria-label="Open menu">
@@ -944,6 +1088,8 @@
 <div id="nav-mobile" role="menu">
   <a class="nm-link" href="#ratio">Science</a>
   <a class="nm-link" href="#philosophy">Story</a>
+  <a class="nm-link" href="/athletes.html">Athletes</a>
+  <a class="nm-link" href="/calculator.html">Calculator</a>
   <a class="nm-link nm-shop" href="#shop">Shop</a>
 </div>
 
@@ -1154,6 +1300,10 @@
       <p class="card-serves">25 &times; 90g serves &middot; Two 45g scoops included</p>
       <a class="btn-view-product" href="/product/carb-mix.html">View Product &rarr;</a>
       <p class="card-desc">For athletes training three to five sessions per week. The same two-ingredient formula, the same ratio, the same results. Identical to the Bulk tub in every way except size.</p>
+      <div class="card-info">
+        <button class="card-info-link" type="button" data-modal-open="how-to-use">How to Use</button>
+        <button class="card-info-link" type="button" data-modal-open="ingredients">Ingredients &amp; Allergens</button>
+      </div>
       <div class="card-price-row">
         <span class="card-price">$57.50</span>
         <span class="card-cur">AUD</span>
@@ -1171,6 +1321,10 @@
       <p class="card-serves">42 &times; 90g serves &middot; Two 45g scoops included</p>
       <a class="btn-view-product" href="/product/carb-mix.html">View Product &rarr;</a>
       <p class="card-desc">For athletes training daily or who prefer fewer orders. Best value per serve. The choice for high-volume training blocks, Ironman build phases, or fuelling multiple sessions per day.</p>
+      <div class="card-info">
+        <button class="card-info-link" type="button" data-modal-open="how-to-use">How to Use</button>
+        <button class="card-info-link" type="button" data-modal-open="ingredients">Ingredients &amp; Allergens</button>
+      </div>
       <div class="card-price-row">
         <span class="card-price">$95.00</span>
         <span class="card-cur">AUD</span>
@@ -1189,6 +1343,14 @@
     <div class="trust-item"><span class="trust-dot"></span>Free shipping over $120</div>
     <div class="trust-item"><span class="trust-dot"></span>Gluten free &middot; Vegan</div>
   </div>
+
+  <a class="calc-teaser reveal d3" href="/calculator.html">
+    <div class="calc-teaser-l">
+      <p class="calc-teaser-eye">Fuel &amp; savings</p>
+      <p class="calc-teaser-copy">The same science. A fraction of the cost. Calculate what you need &mdash; and what you'd save.</p>
+    </div>
+    <span class="calc-teaser-cta">Open calculator <span aria-hidden="true">&rarr;</span></span>
+  </a>
 </section>
 
 <!-- ══ FOOTER ══ -->
@@ -1196,6 +1358,7 @@
   <div class="footer-r">
     <a class="f-logo" href="#"><em>S</em>olus Sport</a>
     <ul class="f-nav">
+      <li><a href="/batch.html">Verify Batch</a></li>
       <li><a href="#">Ingredients</a></li>
       <li><a href="#">Shipping</a></li>
       <li><a href="#">Contact</a></li>
@@ -1209,6 +1372,169 @@
     <span class="f-hasta">HASTA Batch Certified</span>
   </div>
 </footer>
+
+<!-- ══ PRODUCT MODALS ══ -->
+<div class="modal-overlay" id="modal-how-to-use" role="dialog" aria-modal="true" aria-labelledby="modal-how-to-use-title" hidden>
+  <div class="modal-panel" role="document">
+    <button class="modal-close" type="button" aria-label="Close">&times;</button>
+    <p class="modal-eye">Solus Carb Mix</p>
+    <h2 class="modal-h2" id="modal-how-to-use-title">How to use.</h2>
+    <p class="modal-sub">A simple two-ingredient fuel. Mix it, sip it, train your gut to it.</p>
+
+    <div class="modal-section">
+      <span class="modal-num">01</span>
+      <div>
+        <h3 class="modal-section-title">Mixing</h3>
+        <div class="modal-section-body">
+          <p><strong>Standard serve.</strong> 1 scoop (45g) per 250&ndash;375ml water for a standard concentration.</p>
+          <p><strong>Double serve (90g/hr target).</strong> 2 scoops (90g) per 500&ndash;750ml water.</p>
+          <p>Shake vigorously for 20 seconds. The solution will be mildly sweet and slightly cloudy. No foam, no gel.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-num">02</span>
+      <div>
+        <h3 class="modal-section-title">Timing</h3>
+        <div class="modal-section-body">
+          <p><strong>Before.</strong> 30&ndash;60 minutes pre-session, start sipping.</p>
+          <p><strong>During.</strong> 60&ndash;90g per hour depending on intensity, duration, and gut tolerance.</p>
+          <p><strong>After.</strong> Within 30 minutes post-session if the next session is &lt;24 hours away.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-num">03</span>
+      <div>
+        <h3 class="modal-section-title">Gut training</h3>
+        <div class="modal-section-body">
+          <p>Start at 60g/hr and build to 90g/hr over 3&ndash;4 weeks.</p>
+          <p>Always train your gut with the exact fuel you'll race with.</p>
+          <p>Combine with 500&ndash;750ml water per hour minimum.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-num">04</span>
+      <div>
+        <h3 class="modal-section-title">Pairing with electrolytes</h3>
+        <div class="modal-section-body">
+          <p>Solus contains no sodium or electrolytes by design &mdash; it's pure carbohydrate fuel.</p>
+          <p>Add your preferred electrolyte tab or powder to the same bottle, or take electrolytes separately.</p>
+          <p>We recommend 400&ndash;1000mg sodium per hour depending on sweat rate and conditions.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-num">05</span>
+      <div>
+        <h3 class="modal-section-title">Storage</h3>
+        <div class="modal-section-body">
+          <p>Seal tightly after each use.</p>
+          <p>Store in a cool, dry place.</p>
+          <p>Shelf life: 24 months from production date (see batch number on base of tub).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ingredients" role="dialog" aria-modal="true" aria-labelledby="modal-ingredients-title" hidden>
+  <div class="modal-panel" role="document">
+    <button class="modal-close" type="button" aria-label="Close">&times;</button>
+    <p class="modal-eye">Solus Carb Mix</p>
+    <h2 class="modal-h2" id="modal-ingredients-title">Ingredients &amp; allergens.</h2>
+    <p class="modal-sub">Two ingredients, full traceability, batch-tested for sport.</p>
+
+    <div class="modal-section">
+      <span class="modal-num">01</span>
+      <div>
+        <h3 class="modal-section-title">Ingredients</h3>
+        <div class="modal-section-body">
+          <ul class="modal-list">
+            <li>Maltodextrin (from non-GMO corn)</li>
+            <li>Fructose</li>
+          </ul>
+          <p style="margin-top:14px;"><strong>That's it.</strong> No flavours, no colours, no preservatives, no sweeteners, no fillers.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-num">02</span>
+      <div>
+        <h3 class="modal-section-title">Allergens</h3>
+        <div class="modal-section-body">
+          <p><strong>Contains:</strong> none of the 14 major allergens.</p>
+          <!-- TODO: Replace this placeholder with the co-packer's confirmed cross-contact disclosure (e.g. "Manufactured in a facility that also processes milk and soy"). Source: confirm with manufacturer in writing before publication. -->
+          <p class="modal-todo"><strong>TODO:</strong> Manufactured in a facility that also processes: <em>[awaiting co-packer disclosure]</em>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-num">03</span>
+      <div>
+        <h3 class="modal-section-title">Certifications &amp; standards</h3>
+        <div class="modal-section-body">
+          <ul class="modal-list">
+            <li>HASTA Batch Certified &mdash; banned-substance testing against the WADA list</li>
+            <li>Gluten free</li>
+            <li>Vegan</li>
+            <li>Made in Queensland, Australia</li>
+            <li>Manufactured under HACCP food safety standards</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-num">04</span>
+      <div>
+        <h3 class="modal-section-title">Nutrition information</h3>
+        <div class="modal-section-body">
+          <!--
+            TODO: Replace the placeholder figures below with the lab-verified nutrition panel
+            once Seb has the certificate of analysis. Required values, AU NIP standard:
+              - Energy (kJ + kcal)
+              - Protein (g)
+              - Fat, total (g)
+              - Fat, saturated (g)
+              - Carbohydrate (g)
+              - Sugars (g)
+              - Sodium (mg)
+            Provide both PER SERVE (90g / 2 scoops) and PER 100g columns. Round to AU labelling rules.
+          -->
+          <table class="nip">
+            <caption>Per 90g serve (2 scoops) &middot; Servings per package: 25 (2,250g) / 42 (3,825g)</caption>
+            <thead>
+              <tr>
+                <th scope="col">Nutrient</th>
+                <th scope="col">Per serve (90g)</th>
+                <th scope="col">Per 100g</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="nip-group"><td>Energy</td><td>TBC kJ</td><td>TBC kJ</td></tr>
+              <tr class="nip-sub"><td>(kcal equivalent)</td><td>TBC kcal</td><td>TBC kcal</td></tr>
+              <tr><td>Protein</td><td>TBC g</td><td>TBC g</td></tr>
+              <tr class="nip-group"><td>Fat, total</td><td>TBC g</td><td>TBC g</td></tr>
+              <tr class="nip-sub"><td>&mdash; saturated</td><td>TBC g</td><td>TBC g</td></tr>
+              <tr class="nip-group"><td>Carbohydrate</td><td>TBC g</td><td>TBC g</td></tr>
+              <tr class="nip-sub"><td>&mdash; sugars</td><td>TBC g</td><td>TBC g</td></tr>
+              <tr><td>Sodium</td><td>TBC mg</td><td>TBC mg</td></tr>
+            </tbody>
+          </table>
+          <p class="nip-foot">Values to be confirmed against the lab-verified certificate of analysis. <span style="color:var(--amber);">[TODO &mdash; replace TBC]</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ══ GSAP ══ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -1477,6 +1803,93 @@
     var cta = document.getElementById('hero-cta');
     if (!cta) return;
     setTimeout(function() { cta.classList.add('visible'); }, 1500);
+  })();
+
+  // ── PRODUCT MODALS ──────────────────────────────────
+  (function() {
+    var modals = document.querySelectorAll('.modal-overlay');
+    if (!modals.length) return;
+    var lastFocused = null;
+    var openModal = null;
+
+    function focusables(panel) {
+      return Array.prototype.slice.call(
+        panel.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+      ).filter(function(el) { return !el.hasAttribute('disabled') && el.offsetParent !== null; });
+    }
+
+    function open(modal) {
+      if (openModal) return;
+      lastFocused = document.activeElement;
+      modal.hidden = false;
+      // Force reflow so the transition runs
+      void modal.offsetWidth;
+      modal.classList.add('open');
+      document.body.classList.add('modal-lock');
+      try { lenis && lenis.stop(); } catch (e) {}
+      openModal = modal;
+      var closeBtn = modal.querySelector('.modal-close');
+      if (closeBtn) {
+        // Defer past click-event tail and any focus restoration the browser does on the trigger.
+        setTimeout(function() {
+          if (modal.classList.contains('open')) closeBtn.focus({ preventScroll: true });
+        }, 80);
+      }
+    }
+
+    function close(modal) {
+      if (!modal) return;
+      modal.classList.remove('open');
+      document.body.classList.remove('modal-lock');
+      try { lenis && lenis.start(); } catch (e) {}
+      setTimeout(function() {
+        if (!modal.classList.contains('open')) modal.hidden = true;
+      }, 320);
+      if (lastFocused && typeof lastFocused.focus === 'function') {
+        lastFocused.focus();
+      }
+      openModal = null;
+    }
+
+    document.addEventListener('click', function(e) {
+      var trigger = e.target.closest('[data-modal-open]');
+      if (trigger) {
+        e.preventDefault();
+        var id = 'modal-' + trigger.getAttribute('data-modal-open');
+        var modal = document.getElementById(id);
+        if (modal) open(modal);
+        return;
+      }
+      if (e.target.classList && e.target.classList.contains('modal-overlay')) {
+        close(e.target);
+        return;
+      }
+      var closeBtn = e.target.closest('.modal-close');
+      if (closeBtn) {
+        var overlay = closeBtn.closest('.modal-overlay');
+        if (overlay) close(overlay);
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (!openModal) return;
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        e.preventDefault();
+        close(openModal);
+        return;
+      }
+      if (e.key === 'Tab') {
+        var panel = openModal.querySelector('.modal-panel');
+        var nodes = focusables(panel);
+        if (!nodes.length) return;
+        var first = nodes[0], last = nodes[nodes.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault(); first.focus();
+        }
+      }
+    });
   })();
 </script>
 

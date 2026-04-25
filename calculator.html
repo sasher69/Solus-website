@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Fuel &amp; Savings Calculator — Solus Sport</title>
+  <meta name="description" content="Calculate the fuel you need for your sessions — and what you'd save versus premium endurance brands." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+  <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --ink:   #040d1f;
+      --navy:  #002060;
+      --chalk: #F5F5F0;
+      --teal:  #17807E;
+      --amber: #CC6600;
+      --dim:   rgba(245,245,240,0.45);
+      --rule:  rgba(245,245,240,0.07);
+      --font:  'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font);
+      background: var(--ink);
+      color: var(--chalk);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ══════════ NAV ══════════ */
+    #nav { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 50; display: inline-flex; align-items: center; gap: 32px; padding: 0 24px; height: 48px; border-radius: 9999px; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06); white-space: nowrap; }
+    .nav-logo { font-size: 11px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
+    .nav-logo em { color: var(--teal); font-style: normal; }
+    .nav-r { display: flex; align-items: center; gap: 28px; }
+    .nav-link { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.is-active { color: var(--chalk); }
+    .nav-shop { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--chalk); background: transparent; border: 1px solid rgba(245,245,240,0.22); border-radius: 9999px; padding: 8px 18px; cursor: pointer; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
+    .nav-shop:hover { background: rgba(245,245,240,0.07); border-color: rgba(245,245,240,0.45); }
+    .nav-burger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; width: 28px; }
+    .nav-burger span { display: block; width: 20px; height: 1.5px; background: var(--chalk); border-radius: 2px; transition: transform 0.22s ease, opacity 0.22s ease; transform-origin: center; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { transform: translateY(-6.5px) rotate(-45deg); }
+    #nav-mobile { display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 49; flex-direction: column; align-items: center; min-width: 220px; background: rgba(4,13,31,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 8px 0; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+    #nav-mobile.open { display: flex; }
+    .nm-link { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); text-decoration: none; padding: 14px 40px; width: 100%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color 0.2s; }
+    .nm-link:hover, .nm-link.is-active { color: var(--chalk); }
+    .nm-shop { color: var(--chalk); border-bottom: none; padding-top: 14px; }
+
+    /* ══════════ CALCULATOR ══════════ */
+    main { flex: 1; }
+
+    .calc-hero { padding: 180px 80px 64px; max-width: 1200px; margin: 0 auto; }
+    .calc-eye { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--teal); margin-bottom: 24px; }
+    .calc-h1  { font-size: clamp(40px, 5.5vw, 76px); font-weight: 700; letter-spacing: -0.025em; color: var(--chalk); line-height: 1.04; margin-bottom: 32px; max-width: 18ch; }
+    .calc-intro { font-size: clamp(15px, 1.4vw, 18px); font-weight: 300; line-height: 1.78; color: rgba(245,245,240,0.62); max-width: 56ch; }
+
+    .calc-section { max-width: 1200px; margin: 0 auto; padding: 80px; border-top: 1px solid var(--rule); }
+    .calc-section-num { display: flex; align-items: baseline; gap: 18px; margin-bottom: 56px; }
+    .calc-section-num .n { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--teal); }
+    .calc-section-num .t { font-size: clamp(32px, 4vw, 56px); font-weight: 700; letter-spacing: -0.02em; color: var(--chalk); line-height: 1; }
+
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+
+    /* Inputs */
+    .calc-fields { display: flex; flex-direction: column; gap: 36px; }
+    .calc-field { display: flex; flex-direction: column; gap: 10px; }
+    .calc-field-row { display: flex; justify-content: space-between; align-items: baseline; }
+    .calc-field-label { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); }
+    .calc-field-value { font-size: 18px; font-weight: 500; color: var(--chalk); letter-spacing: -0.005em; tabular-nums: 1; font-variant-numeric: tabular-nums; }
+    .calc-field-value .unit { font-size: 12px; color: var(--dim); margin-left: 4px; letter-spacing: 0.04em; }
+
+    .calc-slider {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 2px;
+      background: rgba(245,245,240,0.18);
+      outline: none; cursor: pointer;
+      margin: 4px 0;
+    }
+    .calc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--teal);
+      border: 2px solid var(--ink);
+      box-shadow: 0 0 0 1px var(--teal);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .calc-slider::-webkit-slider-thumb:hover { transform: scale(1.1); box-shadow: 0 0 0 4px rgba(23,128,126,0.18); }
+    .calc-slider::-moz-range-thumb {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--teal); border: 2px solid var(--ink);
+      cursor: pointer;
+    }
+    .calc-slider:focus-visible { outline: 1px solid var(--teal); outline-offset: 4px; }
+    .calc-slider-range { display: flex; justify-content: space-between; font-size: 11px; color: rgba(245,245,240,0.32); letter-spacing: 0.04em; }
+
+    .calc-check { display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
+    .calc-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .calc-check-box {
+      width: 18px; height: 18px;
+      border: 1px solid rgba(245,245,240,0.32);
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+      flex-shrink: 0;
+    }
+    .calc-check input:checked + .calc-check-box {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+    .calc-check input:checked + .calc-check-box::after {
+      content: ''; width: 4px; height: 8px;
+      border-right: 1.5px solid #fff; border-bottom: 1.5px solid #fff;
+      transform: rotate(45deg) translateY(-1px);
+    }
+    .calc-check input:focus-visible + .calc-check-box { outline: 1px solid var(--teal); outline-offset: 2px; }
+    .calc-check-label { font-size: 13px; font-weight: 400; color: rgba(245,245,240,0.72); letter-spacing: 0.01em; }
+
+    .calc-input {
+      font-family: var(--font);
+      font-size: 16px; color: var(--chalk);
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(245,245,240,0.22);
+      padding: 10px 0;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .calc-input:focus { border-bottom-color: var(--teal); }
+
+    /* Outputs */
+    .calc-out { padding: 36px 36px 32px; border: 1px solid var(--rule); background: rgba(255,255,255,0.025); }
+    .calc-out-eye { font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--teal); margin-bottom: 24px; }
+    .calc-out-row { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0; border-top: 1px solid var(--rule); gap: 16px; }
+    .calc-out-row:first-of-type { border-top: 1px solid rgba(245,245,240,0.12); }
+    .calc-out-row.hero-out { padding: 22px 0 20px; border-top: 1px solid rgba(245,245,240,0.18); border-bottom: 1px solid rgba(245,245,240,0.18); margin-bottom: 12px; }
+    .calc-out-label { font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
+    .calc-out-val { font-size: 20px; font-weight: 600; color: var(--chalk); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; transition: opacity 0.2s; }
+    .calc-out-row.hero-out .calc-out-val { font-size: clamp(32px, 3.6vw, 44px); font-weight: 700; letter-spacing: -0.025em; }
+    .calc-out-val .unit { font-size: 12px; color: var(--dim); margin-left: 4px; font-weight: 400; letter-spacing: 0.02em; }
+    .calc-out-row.hero-out .calc-out-val .unit { font-size: 14px; }
+    .calc-out-pulse { animation: pulse 0.35s ease; }
+    @keyframes pulse { 0% { opacity: 0.45; } 100% { opacity: 1; } }
+
+    /* Bars */
+    .calc-bars { margin-top: 20px; display: flex; flex-direction: column; gap: 18px; }
+    .calc-bar { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .calc-bar-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+    .calc-bar-name { font-size: 12px; font-weight: 500; color: var(--chalk); letter-spacing: 0.04em; }
+    .calc-bar-name.solus { color: var(--teal); font-weight: 600; }
+    .calc-bar-cost { font-size: 13px; font-weight: 500; color: rgba(245,245,240,0.72); font-variant-numeric: tabular-nums; }
+    .calc-bar-track { width: 100%; height: 6px; background: rgba(245,245,240,0.06); position: relative; }
+    .calc-bar-fill { height: 100%; background: rgba(245,245,240,0.22); transition: width 0.5s cubic-bezier(0.2, 0, 0, 1); }
+    .calc-bar-fill.solus { background: var(--teal); }
+    .calc-bar-save { font-size: 11px; color: var(--teal); letter-spacing: 0.04em; font-weight: 500; }
+
+    .calc-disclaimer { font-size: 12px; line-height: 1.65; color: rgba(245,245,240,0.42); margin-top: 28px; max-width: 60ch; }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.85s ease, transform 0.85s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+
+    /* Footer */
+    footer { background: var(--navy); border-top: 1px solid var(--rule); padding: 52px 80px 44px; }
+    .footer-r { display: flex; align-items: center; justify-content: space-between; margin-bottom: 44px; flex-wrap: wrap; gap: 24px; }
+    .f-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
+    .f-logo em { color: var(--teal); font-style: normal; }
+    .f-nav { display: flex; gap: 32px; list-style: none; flex-wrap: wrap; }
+    .f-nav a { font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-nav a:hover { color: var(--chalk); }
+    .f-ig { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,240,0.28); text-decoration: none; transition: color 0.2s; }
+    .f-ig:hover { color: var(--chalk); }
+    .f-btm { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid var(--rule); flex-wrap: wrap; gap: 12px; }
+    .f-copy { font-size: 11px; color: rgba(245,245,240,0.18); letter-spacing: 0.06em; }
+    .f-hasta { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .calc-hero { padding: 140px 28px 48px; }
+      .calc-section { padding: 60px 28px; }
+      .calc-grid { grid-template-columns: 1fr; gap: 40px; }
+      .calc-section-num { margin-bottom: 36px; }
+    }
+    @media (max-width: 640px) {
+      .nav-r { display: none; }
+      .nav-burger { display: flex; }
+      .calc-hero { padding: 130px 22px 36px; }
+      .calc-section { padding: 48px 22px; }
+      .calc-out { padding: 26px 22px 24px; }
+      footer { padding: 40px 28px 32px; }
+      .footer-r { flex-direction: column; align-items: flex-start; }
+      .f-btm { flex-direction: column; align-items: flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .calc-bar-fill { transition: none; }
+      .calc-out-pulse { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a class="nav-logo" href="/index.html"><em>S</em>olus Sport</a>
+  <div class="nav-r">
+    <a class="nav-link" href="/index.html#ratio">Science</a>
+    <a class="nav-link" href="/index.html#philosophy">Story</a>
+    <a class="nav-link" href="/athletes.html">Athletes</a>
+    <a class="nav-link is-active" href="/calculator.html">Calculator</a>
+    <a class="nav-shop" href="/index.html#shop">Shop</a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Open menu">
+    <span></span><span></span>
+  </button>
+</nav>
+<div id="nav-mobile" role="menu">
+  <a class="nm-link" href="/index.html#ratio">Science</a>
+  <a class="nm-link" href="/index.html#philosophy">Story</a>
+  <a class="nm-link" href="/athletes.html">Athletes</a>
+  <a class="nm-link is-active" href="/calculator.html">Calculator</a>
+  <a class="nm-link nm-shop" href="/index.html#shop">Shop</a>
+</div>
+
+<!-- ══ MAIN ══ -->
+<main>
+  <section class="calc-hero">
+    <p class="calc-eye reveal">Fuel &amp; Savings</p>
+    <h1 class="calc-h1 reveal d1">The same science. A fraction of the cost.</h1>
+    <p class="calc-intro reveal d2">Calculate what you need &mdash; and what you'd save.</p>
+  </section>
+
+  <!-- SECTION A — FUEL CALCULATOR -->
+  <section class="calc-section">
+    <div class="calc-section-num reveal">
+      <span class="n">01 &mdash; 02</span>
+      <span class="t">Fuel calculator.</span>
+    </div>
+    <div class="calc-grid">
+      <form class="calc-fields reveal d1" id="calc-form-a" autocomplete="off" novalidate>
+        <div class="calc-field">
+          <div class="calc-field-row">
+            <label class="calc-field-label" for="calc-duration">Session duration</label>
+            <span class="calc-field-value" id="calc-duration-val">3.0 <span class="unit">hr</span></span>
+          </div>
+          <input class="calc-slider" type="range" id="calc-duration" min="0.5" max="15" step="0.25" value="3" />
+          <div class="calc-slider-range"><span>30 min</span><span>15 hr</span></div>
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-field-row">
+            <label class="calc-field-label" for="calc-cph">Carbs per hour</label>
+            <span class="calc-field-value" id="calc-cph-val">90 <span class="unit">g/hr</span></span>
+          </div>
+          <input class="calc-slider" type="range" id="calc-cph" min="30" max="120" step="5" value="90" />
+          <div class="calc-slider-range"><span>30 g</span><span>120 g</span></div>
+        </div>
+
+        <label class="calc-check">
+          <input type="checkbox" id="calc-pre" />
+          <span class="calc-check-box" aria-hidden="true"></span>
+          <span class="calc-check-label">Include pre-session fuelling (+30g)</span>
+        </label>
+      </form>
+
+      <div class="calc-out reveal d2" aria-live="polite">
+        <p class="calc-out-eye">Fuel needed</p>
+        <div class="calc-out-row hero-out">
+          <span class="calc-out-label">Total carbohydrate</span>
+          <span class="calc-out-val" id="out-total">270 <span class="unit">g</span></span>
+        </div>
+        <div class="calc-out-row">
+          <span class="calc-out-label">Solus scoops needed</span>
+          <span class="calc-out-val" id="out-scoops">6 <span class="unit">&times; 45g</span></span>
+        </div>
+        <div class="calc-out-row">
+          <span class="calc-out-label">Solus serves</span>
+          <span class="calc-out-val" id="out-serves">3 <span class="unit">&times; 90g</span></span>
+        </div>
+        <div class="calc-out-row">
+          <span class="calc-out-label">Product weight</span>
+          <span class="calc-out-val" id="out-grams">270 <span class="unit">g</span></span>
+        </div>
+        <div class="calc-out-row">
+          <span class="calc-out-label">Recommended fluid</span>
+          <span class="calc-out-val" id="out-fluid">1500&ndash;2250 <span class="unit">ml</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION B — COST COMPARISON -->
+  <section class="calc-section">
+    <div class="calc-section-num reveal">
+      <span class="n">02 &mdash; 02</span>
+      <span class="t">Annual cost comparison.</span>
+    </div>
+    <div class="calc-grid">
+      <form class="calc-fields reveal d1" id="calc-form-b" autocomplete="off" novalidate>
+        <div class="calc-field">
+          <div class="calc-field-row">
+            <label class="calc-field-label" for="calc-spw">Sessions per week</label>
+            <span class="calc-field-value" id="calc-spw-val">5 <span class="unit">/ wk</span></span>
+          </div>
+          <input class="calc-slider" type="range" id="calc-spw" min="1" max="14" step="1" value="5" />
+          <div class="calc-slider-range"><span>1</span><span>14</span></div>
+        </div>
+
+        <p style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(245,245,240,0.55);margin-top:4px;">
+          Duration and carbs-per-hour inherit from the calculator above. Adjust them and the savings update with you.
+        </p>
+      </form>
+
+      <div class="calc-out reveal d2" aria-live="polite">
+        <p class="calc-out-eye">Annual cost</p>
+
+        <div class="calc-bars">
+          <div class="calc-bar">
+            <div class="calc-bar-row">
+              <span class="calc-bar-name solus">Solus Sport</span>
+              <span class="calc-bar-cost" id="cost-solus">$&mdash;</span>
+            </div>
+            <div class="calc-bar-track"><div class="calc-bar-fill solus" id="bar-solus" style="width:0%"></div></div>
+          </div>
+
+          <div class="calc-bar">
+            <div class="calc-bar-row">
+              <span class="calc-bar-name">Premium gel/mix brand A</span>
+              <span class="calc-bar-cost" id="cost-a">$&mdash;</span>
+            </div>
+            <div class="calc-bar-track"><div class="calc-bar-fill" id="bar-a" style="width:0%"></div></div>
+            <span class="calc-bar-save" id="save-a">&nbsp;</span>
+          </div>
+
+          <div class="calc-bar">
+            <div class="calc-bar-row">
+              <span class="calc-bar-name">Premium powder brand B</span>
+              <span class="calc-bar-cost" id="cost-b">$&mdash;</span>
+            </div>
+            <div class="calc-bar-track"><div class="calc-bar-fill" id="bar-b" style="width:0%"></div></div>
+            <span class="calc-bar-save" id="save-b">&nbsp;</span>
+          </div>
+        </div>
+
+        <p class="calc-disclaimer">
+          Pricing comparisons based on publicly listed RRP of leading endurance carbohydrate products at equivalent carb-per-gram basis. Solus pricing based on Bulk 3,825g tub.
+          <!-- TODO: Refresh "Premium gel/mix brand A" ($0.065/g) and "Premium powder brand B" ($0.045/g) RRP figures once a year. Source competitor RRP from official AU stockists. Keep brand names neutral — do not reveal them publicly. -->
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-r">
+    <a class="f-logo" href="/index.html"><em>S</em>olus Sport</a>
+    <ul class="f-nav">
+      <li><a href="/batch.html">Verify Batch</a></li>
+      <li><a href="#">Ingredients</a></li>
+      <li><a href="#">Shipping</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul>
+    <a class="f-ig" href="#">Instagram</a>
+  </div>
+  <div class="f-btm">
+    <span class="f-copy">&copy; 2026 Solus Sport Pty Ltd. Made in Queensland.</span>
+    <span class="f-hasta">HASTA Batch Certified</span>
+  </div>
+</footer>
+
+<script>
+  // Lenis smooth scroll
+  const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 1.4, smoothWheel: true });
+  function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  // Reveal observer
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // Mobile nav
+  const burger = document.getElementById('nav-burger');
+  const mobileNav = document.getElementById('nav-mobile');
+  burger.addEventListener('click', () => { burger.classList.toggle('open'); mobileNav.classList.toggle('open'); });
+  document.addEventListener('click', (e) => {
+    if (!burger.contains(e.target) && !mobileNav.contains(e.target) && mobileNav.classList.contains('open')) {
+      burger.classList.remove('open'); mobileNav.classList.remove('open');
+    }
+  });
+
+  // ── CALCULATOR ────────────────────────────────────────
+  // Pricing constants (per gram of carbohydrate)
+  // TODO: Refresh annually from competitor RRPs.
+  const SOLUS_PRICE_PER_G = 95.00 / 3825;   // $0.02484
+  const COMP_A_PRICE_PER_G = 0.065;
+  const COMP_B_PRICE_PER_G = 0.045;
+  const WEEKS_PER_YEAR = 52;
+
+  const $ = (id) => document.getElementById(id);
+  const fmtNum = (n, dp = 0) => {
+    const r = Number(n).toFixed(dp);
+    return dp > 0 ? r.replace(/\.0+$/, '').replace(/(\.\d*?)0+$/, '$1') : r;
+  };
+  const fmtMoney = (n) => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const fmtMoneyRound = (n) => '$' + Math.round(n).toLocaleString('en-AU');
+
+  function pulse(el) {
+    el.classList.remove('calc-out-pulse');
+    void el.offsetWidth;
+    el.classList.add('calc-out-pulse');
+  }
+
+  function readState() {
+    return {
+      duration: parseFloat($('calc-duration').value),
+      cph:      parseFloat($('calc-cph').value),
+      pre:      $('calc-pre').checked,
+      spw:      parseInt($('calc-spw').value, 10),
+    };
+  }
+
+  function computeFuel(s) {
+    const total = s.duration * s.cph + (s.pre ? 30 : 0);
+    return {
+      total,
+      scoops: total / 45,
+      serves: total / 90,
+      grams:  total,
+      fluidMin: s.duration * 500,
+      fluidMax: s.duration * 750,
+    };
+  }
+
+  function computeCost(s) {
+    const annualGrams = s.spw * WEEKS_PER_YEAR * s.duration * s.cph;
+    return {
+      annualGrams,
+      solus: annualGrams * SOLUS_PRICE_PER_G,
+      a:     annualGrams * COMP_A_PRICE_PER_G,
+      b:     annualGrams * COMP_B_PRICE_PER_G,
+    };
+  }
+
+  function update() {
+    const s = readState();
+
+    // Header values
+    $('calc-duration-val').firstChild.textContent = fmtNum(s.duration, 2) + ' ';
+    $('calc-cph-val').firstChild.textContent = s.cph + ' ';
+    $('calc-spw-val').firstChild.textContent = s.spw + ' ';
+
+    // Section A
+    const f = computeFuel(s);
+    const elTotal = $('out-total'),  elScoops = $('out-scoops'),
+          elServes = $('out-serves'), elGrams = $('out-grams'),
+          elFluid = $('out-fluid');
+    elTotal.firstChild.textContent  = fmtNum(f.total, 0) + ' ';
+    elScoops.firstChild.textContent = fmtNum(f.scoops, 1) + ' ';
+    elServes.firstChild.textContent = fmtNum(f.serves, 1) + ' ';
+    elGrams.firstChild.textContent  = fmtNum(f.grams, 0) + ' ';
+    elFluid.firstChild.textContent  = fmtNum(f.fluidMin, 0) + '–' + fmtNum(f.fluidMax, 0) + ' ';
+    [elTotal, elScoops, elServes, elGrams, elFluid].forEach(pulse);
+
+    // Section B
+    const c = computeCost(s);
+    $('cost-solus').textContent = fmtMoneyRound(c.solus);
+    $('cost-a').textContent     = fmtMoneyRound(c.a);
+    $('cost-b').textContent     = fmtMoneyRound(c.b);
+
+    const max = Math.max(c.solus, c.a, c.b) || 1;
+    $('bar-solus').style.width = (c.solus / max * 100) + '%';
+    $('bar-a').style.width     = (c.a     / max * 100) + '%';
+    $('bar-b').style.width     = (c.b     / max * 100) + '%';
+
+    $('save-a').textContent = 'Save ' + fmtMoneyRound(c.a - c.solus) + ' a year vs. brand A';
+    $('save-b').textContent = 'Save ' + fmtMoneyRound(c.b - c.solus) + ' a year vs. brand B';
+  }
+
+  ['calc-duration', 'calc-cph', 'calc-pre', 'calc-spw'].forEach((id) => {
+    $(id).addEventListener('input', update);
+    $(id).addEventListener('change', update);
+  });
+  update();
+</script>
+
+</body>
+</html>

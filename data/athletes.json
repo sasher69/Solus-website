@@ -1,0 +1,23 @@
+{
+  "_comment": "TODO: Replace placeholder athletes with real partnered athletes once briefs and portraits are signed off. Keep portraits vertical 4:5, documentary tone, muted colour. Quotes must be approved in writing by the athlete. Image paths point to /athletes/<slug>.jpg — drop files into the /athletes/ folder.",
+  "athletes": [
+    {
+      "slug": "placeholder-one",
+      "name": "Athlete Name One",
+      "discipline": "Ironman triathlon",
+      "credential": "Kona qualifier 2025",
+      "location": "Brisbane, QLD",
+      "quote": "I trained on it for an entire build phase before I raced on it. By the time I hit the line in Cairns I'd done forty long sessions on the same fuel. Nothing surprised me.",
+      "image": "/athletes/placeholder-one.jpg"
+    },
+    {
+      "slug": "placeholder-two",
+      "name": "Athlete Name Two",
+      "discipline": "Ultra-endurance cycling",
+      "credential": "National road series winner",
+      "location": "Adelaide, SA",
+      "quote": "Two ingredients. That's the whole conversation. I stopped reading labels and started training.",
+      "image": "/athletes/placeholder-two.jpg"
+    }
+  ]
+}
