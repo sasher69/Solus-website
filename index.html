@@ -202,14 +202,32 @@
     .hero-scroll {
       height: 100vh;
       position: relative;
+      z-index: 1;
     }
+    /* Hero video pinned as fixed background — persists behind subsequent overlay sections. */
     .hero-sticky {
-      position: relative;
+      position: fixed;
+      top: 0; left: 0;
       width: 100%;
       height: 100vh;
       overflow: hidden;
       background: #0a0a0a;
+      z-index: 0;
+      transition: opacity 0.7s ease;
+      will-change: opacity;
     }
+    .hero-sticky.faded { opacity: 0; pointer-events: none; }
+    /* Solid fallback that fades in as the video fades out. */
+    .hero-bg-fade {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: #0a0a0a;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s ease;
+    }
+    .hero-bg-fade.visible { opacity: 1; }
     .hero-video {
       position: absolute;
       inset: 0;
@@ -248,9 +266,11 @@
       line-height: 1;
       opacity: 0;
       transform: translateY(8px);
-      transition: opacity 1s ease, transform 1s ease;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      will-change: opacity, transform;
     }
     .brand-name.visible { opacity: 1; transform: translateY(0); }
+    .brand-name.faded { opacity: 0; transform: translateY(-12px); }
 
     .hero-scroll-cue {
       position: absolute;
@@ -295,7 +315,9 @@
 
     /* ══════════ MARQUEE ══════════ */
     #ticker {
-      background: var(--navy);
+      position: relative;
+      z-index: 10;
+      background: rgba(10, 10, 10, 0.75);
       border-top: 1px solid rgba(255,255,255,0.04);
       border-bottom: 1px solid rgba(255,255,255,0.04);
       padding: 22px 0;
@@ -315,11 +337,14 @@
     @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
     /* ══════════ PINNED CHAPTERS ══════════ */
-    #chapters { height: 300vh; position: relative; }
+    #chapters { height: 300vh; position: relative; z-index: 10; }
     .chapters-sticky {
       position: sticky; top: 0; height: 100vh;
       display: grid; grid-template-columns: 1fr 1fr;
-      background: var(--ink); overflow: hidden;
+      background: rgba(10, 10, 10, 0.75); overflow: hidden;
+    }
+    .chapters-sticky, .chapters-sticky .ch-h, .chapters-sticky .ch-p {
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
     .ch-left {
       display: flex; align-items: center;
@@ -465,13 +490,14 @@
     /* ══════════ RATIO ══════════ */
     #ratio {
       min-height: 100vh;
-      background: var(--navy);
+      background: rgba(10, 10, 10, 0.75);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 120px 60px;
       text-align: center;
-      position: relative; overflow: hidden;
+      position: relative; z-index: 10; overflow: hidden;
       border-top: 1px solid rgba(255,255,255,0.04);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
     #ratio::before {
       content: '';
@@ -508,27 +534,33 @@
     .tc-path { font-size: 12px; color: var(--dim); }
 
     /* ══════════ RESEARCH ══════════ */
-    #research { background: #fff; color: #111; padding: 120px 80px; }
+    #research {
+      background: rgba(10, 10, 10, 0.75);
+      color: var(--chalk);
+      padding: 120px 80px;
+      position: relative; z-index: 10;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
     .res-top { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; margin-bottom: 80px; align-items: end; }
     .res-eye  { font-size: 11px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
-    .res-h2   { font-size: clamp(36px, 4vw, 58px); font-weight: 700; letter-spacing: -0.02em; color: var(--navy); line-height: 1.1; }
-    .res-intro { font-size: 16px; font-weight: 300; line-height: 1.78; color: #666; }
-    .res-studies { border-top: 1px solid #e5e5e5; }
+    .res-h2   { font-size: clamp(36px, 4vw, 58px); font-weight: 700; letter-spacing: -0.02em; color: var(--chalk); line-height: 1.1; }
+    .res-intro { font-size: 16px; font-weight: 300; line-height: 1.78; color: var(--dim); }
+    .res-studies { border-top: 1px solid rgba(255,255,255,0.10); }
     .study {
       display: grid; grid-template-columns: 100px 1fr 180px;
       gap: 48px; align-items: start;
-      padding: 44px 0; border-bottom: 1px solid #e5e5e5;
+      padding: 44px 0; border-bottom: 1px solid rgba(255,255,255,0.10);
     }
-    .s-year    { font-size: 52px; font-weight: 700; letter-spacing: -0.04em; color: var(--navy); line-height: 1; }
-    .s-title   { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 10px; line-height: 1.35; }
-    .s-body    { font-size: 14px; font-weight: 300; line-height: 1.75; color: #666; }
+    .s-year    { font-size: 52px; font-weight: 700; letter-spacing: -0.04em; color: var(--chalk); line-height: 1; }
+    .s-title   { font-size: 16px; font-weight: 600; color: var(--chalk); margin-bottom: 10px; line-height: 1.35; }
+    .s-body    { font-size: 14px; font-weight: 300; line-height: 1.75; color: var(--dim); }
     .s-finding { font-size: 13px; font-weight: 500; color: var(--teal); line-height: 1.55; text-align: right; padding-top: 4px; }
 
     /* ══════════ PHILOSOPHY ══════════ */
     #philosophy {
       background: var(--navy);
       padding: 160px 96px;
-      position: relative; overflow: hidden;
+      position: relative; z-index: 10; overflow: hidden;
     }
     #philosophy::before {
       content: '\201C';
@@ -545,7 +577,7 @@
     .phil-name { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,245,240,0.28); }
 
     /* ══════════ SHOP ══════════ */
-    #shop { background: var(--ink); padding: 120px 80px; border-top: 1px solid var(--rule); }
+    #shop { background: var(--ink); padding: 120px 80px; border-top: 1px solid var(--rule); position: relative; z-index: 10; }
     .shop-hdr { margin-bottom: 80px; }
     .shop-eye { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
     .shop-h2  { font-size: clamp(44px, 6vw, 88px); font-weight: 700; letter-spacing: -0.025em; color: var(--chalk); line-height: 1; }
@@ -615,7 +647,7 @@
     .trust-dot  { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
 
     /* ══════════ FOOTER ══════════ */
-    footer { background: var(--navy); border-top: 1px solid var(--rule); padding: 52px 80px 44px; }
+    footer { background: var(--navy); border-top: 1px solid var(--rule); padding: 52px 80px 44px; position: relative; z-index: 10; }
     .footer-r { display: flex; align-items: center; justify-content: space-between; margin-bottom: 44px; flex-wrap: wrap; gap: 24px; }
     .f-logo   { font-size: 12px; font-weight: 700; letter-spacing: 0.36em; text-transform: uppercase; color: var(--chalk); text-decoration: none; }
     .f-logo em { color: var(--teal); font-style: normal; }
@@ -640,6 +672,11 @@
     @media (max-width: 640px) {
       .nav-r { display: none; }
       .nav-burger { display: flex; }
+      /* Bump overlay opacity on mobile for stronger text legibility against video. */
+      .chapters-sticky { background: rgba(10, 10, 10, 0.85); }
+      #ratio { background: rgba(10, 10, 10, 0.85); }
+      #research { background: rgba(10, 10, 10, 0.85); }
+      #ticker { background: rgba(10, 10, 10, 0.85); }
     }
 
     @media (max-width: 960px) {
@@ -1168,9 +1205,12 @@
   <a class="nav-dd-link" role="menuitem" href="/contact.html">Contact</a>
 </div>
 
+<!-- Solid background that fades in as the hero video fades out. -->
+<div class="hero-bg-fade" id="hero-bg-fade" aria-hidden="true"></div>
+
 <!-- ══ HERO VIDEO ══ -->
 <section class="hero-scroll" id="hero-scroll">
-  <div class="hero-sticky">
+  <div class="hero-sticky" id="hero-sticky">
     <video
       id="video-forward"
       class="hero-video"
@@ -1635,6 +1675,8 @@
   const progressBar = document.getElementById('hero-progress-bar');
   const nav         = document.getElementById('nav');
   const heroScroll  = document.getElementById('hero-scroll');
+  const heroSticky  = document.getElementById('hero-sticky');
+  const heroBgFade  = document.getElementById('hero-bg-fade');
   const DURATION    = 6;
   // How far past the hero section the user must scroll before the
   // reverse is armed (px beyond the bottom of the hero section).
@@ -1643,9 +1685,7 @@
   // States: 'idle' | 'playing-forward' | 'free' | 'playing-reverse'
   let heroState       = 'idle';
   let hasScrolledPast = false;
-  let scrollClickCount = 0;
-  let lastClickTime    = 0;
-  const CLICK_GAP      = 200;
+  let forwardArmed    = false; // first scroll input arms the forward play
 
   function showForward() {
     vFwd.style.opacity = '1';
@@ -1666,34 +1706,32 @@
       progressBar.style.width = ((DURATION - vRev.currentTime) / DURATION * 100) + '%';
   });
 
-  // Forward video finished → transition to free state
+  // Forward video finished → transition to free state, hold final frame as bg
   vFwd.addEventListener('ended', () => {
     if (heroState !== 'playing-forward') return;
     heroState = 'free';
     progressBar.style.width = '100%';
   });
 
-  // Reverse video finished → back to idle with the 3-click gate re-armed
+  // Reverse video finished → back to idle, ready to play forward again
   vRev.addEventListener('ended', () => {
     if (heroState !== 'playing-reverse') return;
     heroState        = 'idle';
     hasScrolledPast  = false;
-    scrollClickCount = 0;
+    forwardArmed     = false;
     progressBar.style.width = '0%';
     showForward();
     vFwd.currentTime = 0;
-    lockScroll();
     setTimeout(() => scrollCue.classList.add('visible'), 400);
   });
 
   function startForward() {
+    if (heroState !== 'idle') return;
     heroState = 'playing-forward';
     scrollCue.classList.remove('visible');
     vFwd.currentTime = 0;
     showForward();
-    vFwd.play();
-    // Unlock immediately — video plays on its own, user is free to scroll
-    unlockScroll();
+    vFwd.play().catch(() => {});
   }
 
   function startReverse() {
@@ -1702,45 +1740,14 @@
     lenis.scrollTo(0, { immediate: true });
     vRev.currentTime = 0;
     showReverse();
-    vRev.play();
+    vRev.play().catch(() => {});
   }
 
-  // ── 3-click gate (locked phase only) ─────────────────
-  let touchStartY = 0;
-
-  function countDown() {
-    const now = Date.now();
-    if (now - lastClickTime < CLICK_GAP) return;
-    lastClickTime = now;
-    scrollClickCount++;
-    if (scrollClickCount >= 3) startForward();
-  }
-
-  function onWheelLocked(e) {
-    if (e.deltaY > 0) countDown();
-  }
-  function onTouchStart(e) { touchStartY = e.touches[0].clientY; }
-  function onTouchEnd(e) {
-    if (touchStartY - e.changedTouches[0].clientY > 30) countDown();
-  }
-
-  function lockScroll() {
-    lenis.stop();
-    window.removeEventListener('scroll',     onScrollFree);
-    window.removeEventListener('wheel',      onWheelLocked);
-    window.removeEventListener('touchstart', onTouchStart);
-    window.removeEventListener('touchend',   onTouchEnd);
-    window.addEventListener('wheel',      onWheelLocked, { passive: true });
-    window.addEventListener('touchstart', onTouchStart,  { passive: true });
-    window.addEventListener('touchend',   onTouchEnd,    { passive: true });
-  }
-
-  function unlockScroll() {
-    lenis.start();
-    window.removeEventListener('wheel',      onWheelLocked);
-    window.removeEventListener('touchstart', onTouchStart);
-    window.removeEventListener('touchend',   onTouchEnd);
-    window.addEventListener('scroll', onScrollFree, { passive: true });
+  // First scroll input on the hero arms forward playback. No lock.
+  function armForwardOnFirstInput() {
+    if (forwardArmed) return;
+    forwardArmed = true;
+    startForward();
   }
 
   function onScrollFree() {
@@ -1748,6 +1755,15 @@
     const heroH   = heroScroll.offsetHeight;
 
     nav.classList.toggle('scrolled', scrollY > heroH * 0.8);
+
+    // Any meaningful downward scroll while still on hero arms the video
+    if (scrollY > 4 && heroState === 'idle') armForwardOnFirstInput();
+
+    // Brand SOLUS text fades as the user moves past hero
+    const brandFade = scrollY > heroH * 0.35;
+    brandName.classList.toggle('faded', brandFade);
+
+    if (scrollY > heroH * 0.15) scrollCue.classList.remove('visible');
 
     // Arm the reverse once the user has genuinely scrolled past the hero
     if (scrollY > heroH + PAST_BUFFER) hasScrolledPast = true;
@@ -1760,7 +1776,10 @@
     vFwd.pause(); vFwd.currentTime = 0;
     vRev.pause(); vRev.currentTime = 0;
     showForward();
-    lockScroll();
+    window.addEventListener('scroll', onScrollFree, { passive: true });
+    // Wheel/touch on the hero before any scroll has registered also arms forward
+    window.addEventListener('wheel',     armForwardOnFirstInput, { passive: true, once: true });
+    window.addEventListener('touchmove', armForwardOnFirstInput, { passive: true, once: true });
     requestAnimationFrame(() => {
       brandName.classList.add('visible');
       setTimeout(() => scrollCue.classList.add('visible'), 700);
@@ -1777,19 +1796,46 @@
   vFwd.load(); vRev.load();
   checkReady();
 
+  // ── HERO BACKGROUND FADE-OUT (after the 3 overlay sections) ──
+  // The fixed hero video persists behind chapters, ratio, research.
+  // Once the user scrolls past the bottom of #research, fade the video
+  // out and the solid #0a0a0a layer in.
+  let heroBgFaded = false;
+  function updateHeroBgFade() {
+    const research = document.getElementById('research');
+    if (!research) return;
+    const rect    = research.getBoundingClientRect();
+    const vh      = window.innerHeight;
+    // Fade begins as research's bottom approaches the top of the viewport
+    // and completes just before it leaves.
+    const start   = vh * 0.55;   // bottom-of-research === 55% of viewport height
+    const end     = vh * 0.05;
+    let progress  = (start - rect.bottom) / (start - end);
+    progress      = Math.max(0, Math.min(1, progress));
+    const shouldFade = progress > 0.5;
+    if (shouldFade !== heroBgFaded) {
+      heroBgFaded = shouldFade;
+      heroSticky.classList.toggle('faded', shouldFade);
+      heroBgFade.classList.toggle('visible', shouldFade);
+    }
+  }
+
   // ── PINNED CHAPTERS ──────────────────────────────────
   const chapSection = document.getElementById('chapters');
   const panels = [document.getElementById('cp0'), document.getElementById('cp1'), document.getElementById('cp2')];
   const dots   = [document.getElementById('dot0'), document.getElementById('dot1'), document.getElementById('dot2')];
   let curChap = -1;
+  let chaptersLockActive  = false;     // currently holding the scroll
+  let chaptersLockConsumed = false;    // already triggered & released, never re-arm
+  let chaptersLockedIdx   = 0;         // panel index forced while locked
+  let chaptersLockClicks  = 0;
+  let chapTouchStartY     = 0;
+  let chapLastClickTime   = 0;
+  const CHAP_CLICK_GAP    = 220;
+
   panels[0].classList.add('active');
 
-  function updateChapters() {
-    if (!chapSection) return;
-    const top = chapSection.getBoundingClientRect().top;
-    const h   = chapSection.offsetHeight - window.innerHeight;
-    const p   = Math.max(0, Math.min(1, -top / h));
-    const idx = Math.min(2, Math.floor(p * 3));
+  function setChapter(idx) {
     if (idx === curChap) return;
     curChap = idx;
     panels.forEach((pn, i) => {
@@ -1800,8 +1846,95 @@
     dots.forEach((d, i) => d.classList.toggle('on', i === idx));
   }
 
+  function updateChapters() {
+    if (!chapSection) return;
+    if (chaptersLockActive) {
+      setChapter(chaptersLockedIdx);
+      return;
+    }
+    const top = chapSection.getBoundingClientRect().top;
+    const h   = chapSection.offsetHeight - window.innerHeight;
+    const p   = Math.max(0, Math.min(1, -top / h));
+    const idx = Math.min(2, Math.floor(p * 3));
+    setChapter(idx);
+  }
+
+  // Trigger: detect the frame where #chapters top crosses the top of the
+  // viewport going DOWN. Tracking the zero-crossing is robust against
+  // fast lenis frames that would skip a narrow positional window.
+  let prevChapTop = null;
+  function maybeArmChaptersLock() {
+    if (chaptersLockActive || chaptersLockConsumed || !chapSection) return;
+    const top  = chapSection.getBoundingClientRect().top;
+    const prev = prevChapTop;
+    prevChapTop = top;
+    if (prev === null) return;
+    if (top < prev && prev > 0 && top <= 8) {
+      armChaptersLock();
+    }
+  }
+
+  function armChaptersLock() {
+    chaptersLockActive  = true;
+    chaptersLockedIdx   = 0;
+    chaptersLockClicks  = 0;
+    setChapter(0);
+    // Pin the page exactly at the top of #chapters so the sticky panel is in view.
+    const targetY = window.scrollY + chapSection.getBoundingClientRect().top;
+    lenis.stop();
+    window.scrollTo(0, Math.round(targetY));
+    window.addEventListener('wheel',     onChapWheelLocked,  { passive: true });
+    window.addEventListener('touchstart', onChapTouchStart, { passive: true });
+    window.addEventListener('touchend',   onChapTouchEnd,   { passive: true });
+  }
+
+  function releaseChaptersLock() {
+    chaptersLockActive   = false;
+    chaptersLockConsumed = true;
+    window.removeEventListener('wheel',      onChapWheelLocked);
+    window.removeEventListener('touchstart', onChapTouchStart);
+    window.removeEventListener('touchend',   onChapTouchEnd);
+    lenis.start();
+    // Drop the user just past the chapters section so they don't have to
+    // re-scroll the 300vh sticky region.
+    const endY = chapSection.offsetTop + chapSection.offsetHeight - window.innerHeight + 1;
+    lenis.scrollTo(endY, { duration: 0.6 });
+  }
+
+  function chapCountDown(direction) {
+    const now = Date.now();
+    if (now - chapLastClickTime < CHAP_CLICK_GAP) return;
+    chapLastClickTime = now;
+    if (direction > 0) {
+      chaptersLockClicks++;
+      if (chaptersLockClicks >= 3) {
+        releaseChaptersLock();
+      } else {
+        chaptersLockedIdx = Math.min(2, chaptersLockClicks);
+        setChapter(chaptersLockedIdx);
+      }
+    } else if (chaptersLockClicks > 0) {
+      // Allow a step back through panels if the user scrolls up while locked
+      chaptersLockClicks = Math.max(0, chaptersLockClicks - 1);
+      chaptersLockedIdx  = chaptersLockClicks;
+      setChapter(chaptersLockedIdx);
+    }
+  }
+
+  function onChapWheelLocked(e) {
+    if (Math.abs(e.deltaY) < 4) return;
+    chapCountDown(e.deltaY > 0 ? 1 : -1);
+  }
+  function onChapTouchStart(e) { chapTouchStartY = e.touches[0].clientY; }
+  function onChapTouchEnd(e) {
+    const dy = chapTouchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(dy) > 30) chapCountDown(dy > 0 ? 1 : -1);
+  }
+
   (function raf() {
+    maybeArmChaptersLock();
     updateChapters();
+    updateHeroBgFade();
     requestAnimationFrame(raf);
   })();
 
