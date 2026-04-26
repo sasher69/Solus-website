@@ -1768,8 +1768,10 @@
     // Arm the reverse once the user has genuinely scrolled past the hero
     if (scrollY > heroH + PAST_BUFFER) hasScrolledPast = true;
 
-    // Trigger reverse: user has been past the hero and is back at the very top
-    if (hasScrolledPast && scrollY < 5 && heroState === 'free') startReverse();
+    // Trigger reverse: user scrolls back up to the start of the Two Ingredients
+    // section (first slide of chapters) rather than waiting for the very top.
+    const chapStart = chapSection ? chapSection.offsetTop : 0;
+    if (hasScrolledPast && scrollY <= chapStart && heroState === 'free') startReverse();
   }
 
   function setupHero() {
