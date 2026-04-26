@@ -1737,7 +1737,8 @@
   function startReverse() {
     if (heroState !== 'free') return;
     heroState = 'playing-reverse';
-    lenis.scrollTo(0, { immediate: true });
+    // No scroll snap — the hero video is fixed in the background, so the
+    // user keeps scrolling naturally toward the top while the rewind plays.
     vRev.currentTime = 0;
     showReverse();
     vRev.play().catch(() => {});
@@ -1750,14 +1751,17 @@
     startForward();
   }
 
+  let prevScrollY = 0;
   function onScrollFree() {
-    const scrollY = window.scrollY;
-    const heroH   = heroScroll.offsetHeight;
+    const scrollY       = window.scrollY;
+    const heroH         = heroScroll.offsetHeight;
+    const isScrollingUp = scrollY < prevScrollY;
+    prevScrollY = scrollY;
 
     nav.classList.toggle('scrolled', scrollY > heroH * 0.8);
 
     // Any meaningful downward scroll while still on hero arms the video
-    if (scrollY > 4 && heroState === 'idle') armForwardOnFirstInput();
+    if (scrollY > 4 && !isScrollingUp && heroState === 'idle') armForwardOnFirstInput();
 
     // Brand SOLUS text fades as the user moves past hero
     const brandFade = scrollY > heroH * 0.35;
@@ -1768,10 +1772,13 @@
     // Arm the reverse once the user has genuinely scrolled past the hero
     if (scrollY > heroH + PAST_BUFFER) hasScrolledPast = true;
 
-    // Trigger reverse: user scrolls back up to the start of the Two Ingredients
-    // section (first slide of chapters) rather than waiting for the very top.
+    // Trigger reverse only when scrolling UP back into the top of the Two
+    // Ingredients section. Direction guard prevents firing on a downward
+    // crossing of the same boundary.
     const chapStart = chapSection ? chapSection.offsetTop : 0;
-    if (hasScrolledPast && scrollY <= chapStart && heroState === 'free') startReverse();
+    if (hasScrolledPast && isScrollingUp && scrollY <= chapStart && heroState === 'free') {
+      startReverse();
+    }
   }
 
   function setupHero() {
